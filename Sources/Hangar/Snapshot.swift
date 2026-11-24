@@ -138,6 +138,12 @@ struct SnapshotPage {
         },
         SnapshotPage(name: "game-page-settings-mac") { model in
             model.sidebar = .allGames; select(model, "Hollow Knight"); model.gamePageTab = .settings
+            if let id = model.selectedGameID {
+                model.setOptions(id) {
+                    $0.arguments = "-windowed -novid"
+                    $0.variables = [EnvironmentVariable(name: "DXVK_HUD", value: "fps,frametimes")]
+                }
+            }
         },
         SnapshotPage(name: "game-page-settings-shared") { model in
             // A bottle with other games in it, none of them running.

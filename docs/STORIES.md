@@ -219,7 +219,13 @@ Depends: S-006
 Acceptance:
 - [unit] Arguments with spaces and quotes reach the game as typed.
 - [self] A variable set here reaches the launched process.
-Status: todo
+UX:
+- Flow: game page › Settings › Launch Options → type arguments, or "Add Variable" → NAME = value → kept as typed, used at the next Play; a Windows program: "Choose…" picks another exe in the bottle, "Reset" goes back
+- Surface: a section of the Settings tab; fields edited in place
+- States: no options: an empty Arguments field with a sample prompt; a Steam game on the Mac with options: the footer says Hangar opens the game itself; a shortcut shows "Moonlit Harbor.lnk (shortcut)"
+- Words: "Launch Options" / « Options de lancement », "Program" / « Programme », "Arguments", "Add Variable" / « Ajouter une variable », tooltip "Words passed to the game when it starts. Quote a word with spaces."
+- Access: Tab moves name → value → remove; the remove button reads "Remove Variable"
+Status: done
 
 ### S-014 Run through Wine or Game Porting Toolkit
 As the user, I pick a Wine or Game Porting Toolkit build as a game's runner and Hangar runs it in its own prefix.

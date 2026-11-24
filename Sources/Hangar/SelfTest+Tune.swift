@@ -60,6 +60,20 @@ extension SelfTest {
             model.setOptions(id) { $0.metalHUD = false }
         }
 
+        // S-013: arguments and a variable reach the sample game.
+        if let id = find("Starfall Arcade")?.id {
+            model.setOptions(id) {
+                $0.arguments = #"-windowed -name "Big Map""#
+                $0.variables = [EnvironmentVariable(name: "HANGAR_SELFTEST", value: "a b=c")]
+            }
+            let seen = await launched(model, id)
+            check("S-013 a variable set here reaches the launched process", seen.environment["HANGAR_SELFTEST"] == "a b=c", seen.environment["HANGAR_SELFTEST"] ?? "missing")
+            check("S-013 arguments reach the game as typed", seen.arguments == ["-windowed", "-name", "Big Map"], seen.arguments.joined(separator: "|"))
+            model.saveNow()
+            check("S-013 launch options are saved with the library", LibraryFile.load(from: Store.url).games.first { $0.id == id }?.options.variables.first?.name == "HANGAR_SELFTEST")
+            model.setOptions(id) { $0 = GameOptions() }
+        }
+
         // S-011
         if let vernal = find("Vernal Edge") {
             let mates = model.bottleMates(of: vernal).map(\.title)

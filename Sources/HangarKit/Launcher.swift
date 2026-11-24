@@ -10,6 +10,8 @@ public struct LaunchPlan: Sendable, Equatable {
     public var processHints: [String]
     /// Variables added to the launch's environment (the game's options).
     public var environment: [String: String] = [:]
+    /// For a Mac app opened by Launch Services: the arguments it gets.
+    public var appArguments: [String] = []
 }
 
 public enum LaunchError: Error, Sendable, Equatable {
@@ -26,6 +28,9 @@ public enum LaunchPlanner {
     public static func plan(for game: Game, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
         var plan = try basePlan(for: game, roots: roots)
         plan.environment = game.options.environment
+        if plan.executable == open, plan.arguments.count == 1, plan.arguments[0].hasSuffix(".app") {
+            plan.appArguments = game.options.argumentList
+        }
         return plan
     }
 
@@ -34,8 +39,9 @@ public enum LaunchPlanner {
         case .native:
             // A Steam game on the Mac starts through Steam, so Steam's overlay and cloud saves work.
             if game.source == .steam, let id = game.steamID {
-                // Steam can't pass an environment on; with one, Hangar opens the game's app itself.
-                if !game.options.environment.isEmpty, let app = macApp(in: URL(fileURLWithPath: game.path)) {
+                // Steam can't pass an environment or arguments on; with them, Hangar opens the game's app itself.
+                if !game.options.environment.isEmpty || !game.options.argumentList.isEmpty,
+                   let app = macApp(in: URL(fileURLWithPath: game.path)) {
                     return LaunchPlan(executable: open, arguments: [app.path], processHints: game.processHints)
                 }
                 return LaunchPlan(executable: open, arguments: ["steam://rungameid/\(id)"], processHints: game.processHints)
@@ -49,17 +55,27 @@ public enum LaunchPlanner {
                 // Through the bottle's Steam, which must be signed in.
                 return LaunchPlan(executable: wine,
                                   arguments: ["--bottle", bottle, "--no-wait", "--cx-app", CrossOverScanner.steamWindowsFolder + "/steam.exe",
-                                              "-silent", "-applaunch", id],
+                                              "-silent", "-applaunch", id] + game.options.argumentList,
                                   processHints: game.processHints)
+            }
+            let args = game.options.argumentList
+            if let exe = game.options.exe, !exe.isEmpty {
+                return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--cx-app", exe] + args,
+                                  processHints: game.processHints + [exeHint(exe)])
             }
             guard let exe = game.exe else { throw .filesMissing }
             if game.startsShortcut {
-                return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--start", exe], processHints: game.processHints)
+                return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--start", exe] + args, processHints: game.processHints)
             }
-            return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--cx-app", exe], processHints: game.processHints)
+            return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--cx-app", exe] + args, processHints: game.processHints)
         case .wine, .gamePortingToolkit, .macRunner:
             throw .runnerMissing
         }
+    }
+
+    /// The words that find a Windows program's process: its file name.
+    static func exeHint(_ exe: String) -> String {
+        exe.replacingOccurrences(of: "\\", with: "/").split(separator: "/").last.map(String.init) ?? exe
     }
 
     /// The game's .app in a Steam game's folder (Hollow Knight/hollow_knight.app).

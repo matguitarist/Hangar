@@ -94,23 +94,83 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
 public struct GameOptions: Codable, Sendable, Hashable {
     /// Metal's performance HUD over the game (MTL_HUD_ENABLED=1).
     public var metalHUD = false
+    /// Launch arguments as typed, split like a shell would ("-windowed -name 'Big Map'").
+    public var arguments = ""
+    /// Environment variables the person added.
+    public var variables: [EnvironmentVariable] = []
+    /// For a Windows program: another exe to run, as a Windows path.
+    public var exe: String?
 
-    public init(metalHUD: Bool = false) {
+    public init(metalHUD: Bool = false, arguments: String = "", variables: [EnvironmentVariable] = [], exe: String? = nil) {
         self.metalHUD = metalHUD
+        self.arguments = arguments
+        self.variables = variables
+        self.exe = exe
     }
 
-    enum CodingKeys: String, CodingKey { case metalHUD }
+    enum CodingKeys: String, CodingKey { case metalHUD, arguments, variables, exe }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         metalHUD = try c.decodeIfPresent(Bool.self, forKey: .metalHUD) ?? false
+        arguments = try c.decodeIfPresent(String.self, forKey: .arguments) ?? ""
+        variables = try c.decodeIfPresent([EnvironmentVariable].self, forKey: .variables) ?? []
+        exe = try c.decodeIfPresent(String.self, forKey: .exe)
     }
 
     /// The environment variables a launch adds.
     public var environment: [String: String] {
         var env: [String: String] = [:]
         if metalHUD { env["MTL_HUD_ENABLED"] = "1" }
+        for variable in variables {
+            let name = variable.name.trimmingCharacters(in: .whitespaces)
+            if !name.isEmpty { env[name] = variable.value }
+        }
         return env
+    }
+
+    /// The launch arguments, one per word.
+    public var argumentList: [String] { ShellWords.split(arguments) }
+}
+
+/// NAME=value for a launch.
+public struct EnvironmentVariable: Codable, Sendable, Hashable, Identifiable {
+    public var id = UUID()
+    public var name: String
+    public var value: String
+
+    public init(name: String, value: String) {
+        self.name = name
+        self.value = value
+    }
+}
+
+/// Splits typed launch arguments the way a shell does: spaces separate words,
+/// quotes keep spaces, a backslash keeps the next character.
+public enum ShellWords {
+    public static func split(_ text: String) -> [String] {
+        var words: [String] = []
+        var word = ""
+        var inWord = false
+        var quote: Character?
+        var escaped = false
+        for c in text {
+            if escaped { word.append(c); escaped = false; inWord = true; continue }
+            if c == "\\", quote != "'" { escaped = true; inWord = true; continue }
+            if let q = quote {
+                if c == q { quote = nil } else { word.append(c) }
+                continue
+            }
+            if c == "\"" || c == "'" { quote = c; inWord = true; continue }
+            if c.isWhitespace {
+                if inWord { words.append(word); word = ""; inWord = false }
+                continue
+            }
+            word.append(c)
+            inWord = true
+        }
+        if inWord { words.append(word) }
+        return words
     }
 }
 

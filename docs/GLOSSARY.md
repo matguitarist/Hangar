@@ -13,6 +13,7 @@ One name for each thing, in every button, menu, title, tooltip and error.
 | Bottle | A CrossOver bottle: a Windows setup where Windows games are installed | prefix (except for Wine runners), container | bouteille |
 | Prefix | A Wine or Game Porting Toolkit folder that holds a Windows setup | bottle | préfixe |
 | Windows game | A game that runs through a runner other than Mac | PC game, .exe | jeu Windows |
+| Launch options | A game's own program, arguments and environment variables | command line, flags | options de lancement |
 | Graphics | The way a Windows game's graphics reach Metal: Auto, D3DMetal, DXMT, DXVK, Wine | backend, renderer | graphismes |
 | Recipe | The known-good setup for a game: runner and settings | profile, preset, fix, config | recette |
 | Recommended setup | A recipe offered for a game on its page | best settings | configuration recommandée |

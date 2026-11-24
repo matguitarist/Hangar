@@ -18,6 +18,7 @@ struct GameSettingsView: View {
             } footer: {
                 Text(hudFooter).foregroundStyle(.secondary)
             }
+            LaunchOptionsSection(game: game)
         }
         .formStyle(.grouped)
         .id(model.settingsGeneration)

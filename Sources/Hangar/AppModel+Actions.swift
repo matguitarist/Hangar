@@ -36,6 +36,7 @@ extension AppModel {
             let configuration = NSWorkspace.OpenConfiguration()
             configuration.createsNewApplicationInstance = false
             configuration.environment = plan.environment
+            configuration.arguments = plan.appArguments
             NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: app), configuration: configuration) { app, error in
                 let pid = app?.processIdentifier
                 let message = error?.localizedDescription
