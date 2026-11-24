@@ -23,3 +23,14 @@ private let liveKey = ProcessInfo.processInfo.environment["HANGAR_LIVE_TGDB_KEY"
     print("LIVE pcgw:", data.entries.filter { $0.kind == .saves }.map(\.platform))
     print("LIVE steam:", steam.genres, steam.releaseText ?? "-", "| tgdb:", tgdb.developers, tgdb.publishers, tgdb.genres, tgdb.releaseDate.map { "\($0)" } ?? "-")
 }
+
+/// AppleGamingWiki for real: exact titles, a title written differently, and a game with no page.
+@Test(.enabled(if: liveKey != nil)) func liveAppleGamingWikiFindsPages() async {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarLiveAGW-\(UUID().uuidString)")
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let cache = CompatibilityCache(folder: folder, search: CompatibilityCache.networkSearch)
+    #expect(await cache.compatibility(for: "Baldur's Gate 3")?.entries.isEmpty == false)
+    #expect(await cache.compatibility(for: "Stardew Valley")?.entries.isEmpty == false)
+    #expect(await cache.compatibility(for: "HOLLOW KNIGHT")?.page == "Hollow_Knight")
+    #expect(await cache.compatibility(for: "Blue Prince") == nil)
+}

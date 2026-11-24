@@ -124,6 +124,43 @@ public enum AppleGamingWiki {
         return c.url!
     }
 
+    /// What the wiki's answer means: the page's source, nil when the wiki itself says it has no such page
+    /// (a 404 in wiki text), or an error for anything else. The site sometimes answers with its own
+    /// "Page Not Found" web page for pages that exist; that must not be kept as "no page".
+    static func source(status: Int, contentType: String?, data: Data) throws -> String? {
+        let type = contentType?.lowercased() ?? ""
+        switch status {
+        case 200 where !type.contains("text/html"): return String(decoding: data, as: UTF8.self)
+        case 404 where type.contains("text/x-wiki"): return nil
+        default: throw URLError(.badServerResponse)
+        }
+    }
+
+    /// The wiki's title search (opensearch), for a game whose page is written differently.
+    static func searchURL(_ title: String) -> URL {
+        var c = URLComponents(string: "https://www.applegamingwiki.com/w/api.php")!
+        c.queryItems = [URLQueryItem(name: "action", value: "opensearch"), URLQueryItem(name: "format", value: "json"),
+                        URLQueryItem(name: "limit", value: "10"), URLQueryItem(name: "redirects", value: "resolve"),
+                        URLQueryItem(name: "search", value: title)]
+        return c.url!
+    }
+
+    /// The titles in an opensearch answer: ["query", [titles], [descriptions], [urls]].
+    static func titles(fromSearch data: Data) -> [String] {
+        guard let array = try? JSONSerialization.jsonObject(with: data) as? [Any], array.count > 1 else { return [] }
+        return array[1] as? [String] ?? []
+    }
+
+    /// The same name apart from capitals, accents, punctuation and spaces: "DRAGON QUEST XI S: …" is "Dragon Quest XI S …",
+    /// but "Diablo II Resurrected" isn't "Diablo II".
+    public static func sameGame(_ a: String, _ b: String) -> Bool {
+        func key(_ s: String) -> String {
+            String(s.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil).unicodeScalars
+                .filter(CharacterSet.alphanumerics.contains).map(Character.init))
+        }
+        return !key(a).isEmpty && key(a) == key(b)
+    }
+
     /// "#REDIRECT [[Other page]]" → "Other_page".
     static func redirect(_ source: String) -> String? {
         guard source.uppercased().hasPrefix("#REDIRECT"), let open = source.range(of: "[["),
@@ -132,19 +169,25 @@ public enum AppleGamingWiki {
     }
 }
 
-/// AppleGamingWiki's verdicts, cached in a folder: used offline, asked again at most once a week.
+/// AppleGamingWiki's verdicts, cached in a folder: used offline, asked again at most once a week
+/// (a game with no page, the next day).
 public actor CompatibilityCache {
     /// Fetches a page's source, or nil when the wiki has no such page. Throws when offline.
     public typealias Fetch = @Sendable (String) async throws -> String?
+    /// The wiki's page titles for a search.
+    public typealias Search = @Sendable (String) async throws -> [String]
 
     let folder: URL
     let fetch: Fetch
+    let search: Search
     let now: @Sendable () -> Date
     public static let maxAge: TimeInterval = 7 * 86400
 
-    public init(folder: URL, fetch: @escaping Fetch = CompatibilityCache.network, now: @escaping @Sendable () -> Date = { Date() }) {
+    public init(folder: URL, fetch: @escaping Fetch = CompatibilityCache.network, search: @escaping Search = { _ in [] },
+                now: @escaping @Sendable () -> Date = { Date() }) {
         self.folder = folder
         self.fetch = fetch
+        self.search = search
         self.now = now
     }
 
@@ -153,10 +196,17 @@ public actor CompatibilityCache {
         var request = URLRequest(url: AppleGamingWiki.rawURL(page), timeoutInterval: 15)
         request.setValue("Hangar (macOS game library)", forHTTPHeaderField: "User-Agent")
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard let http = response as? HTTPURLResponse else { return nil }
-        if http.statusCode == 404 { return nil }
-        guard http.statusCode == 200 else { throw URLError(.badServerResponse) }
-        return String(decoding: data, as: UTF8.self)
+        let http = response as? HTTPURLResponse
+        return try AppleGamingWiki.source(status: http?.statusCode ?? 0, contentType: http?.value(forHTTPHeaderField: "Content-Type"), data: data)
+    }
+
+    /// The live wiki's title search.
+    public static let networkSearch: Search = { title in
+        var request = URLRequest(url: AppleGamingWiki.searchURL(title), timeoutInterval: 15)
+        request.setValue("Hangar (macOS game library)", forHTTPHeaderField: "User-Agent")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
+        return AppleGamingWiki.titles(fromSearch: data)
     }
 
     /// Page sources in a folder (Tests/Fixtures/AppleGamingWiki), for tests and snapshots.
@@ -170,9 +220,15 @@ public actor CompatibilityCache {
 
     /// The verdicts for a game, by its title. Nil when the wiki has no page for it, or offline with nothing cached.
     public func compatibility(for title: String) async -> Compatibility? {
-        await WebCacheFile<Compatibility>(url: file(title), maxAge: Self.maxAge).value(now: now()) {
+        await WebCacheFile<Compatibility>(url: file(title), maxAge: Self.maxAge).value(now: now()) { [search] in
             var page = AppleGamingWiki.pageName(title)
             var source = try await fetch(page)
+            // Not under its exact name: the wiki's search, only for the same name written differently.
+            if source == nil, let match = (try? await search(title))?.first(where: { AppleGamingWiki.sameGame($0, title) }),
+               AppleGamingWiki.pageName(match) != page {
+                page = AppleGamingWiki.pageName(match)
+                source = try await fetch(page)
+            }
             if let s = source, let target = AppleGamingWiki.redirect(s) {
                 page = target
                 source = try await fetch(page)

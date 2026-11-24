@@ -66,6 +66,40 @@ private final class Clock: @unchecked Sendable {
     #expect(wiki.calls.filter { $0 == "Pocket_Racer" }.count == 1)
 }
 
+// FIXLOG 2026-11-24: the site's "Page Not Found" web page isn't the wiki saying it has no page.
+@Test func onlyTheWikisOwnNotFoundMeansNoPage() throws {
+    let wikiText = Data("{{Compatibility/macOS}}".utf8)
+    #expect(try AppleGamingWiki.source(status: 200, contentType: "text/x-wiki; charset=UTF-8", data: wikiText) == "{{Compatibility/macOS}}")
+    #expect(try AppleGamingWiki.source(status: 404, contentType: "text/x-wiki; charset=UTF-8", data: Data()) == nil)
+    #expect(throws: URLError.self) { try AppleGamingWiki.source(status: 404, contentType: "text/html; charset=utf-8", data: Data("<title>Page Not Found</title>".utf8)) }
+    #expect(throws: URLError.self) { try AppleGamingWiki.source(status: 200, contentType: "text/html", data: Data("<html>".utf8)) }
+    #expect(throws: URLError.self) { try AppleGamingWiki.source(status: 503, contentType: "text/x-wiki", data: Data()) }
+}
+
+@Test func noPageIsAskedAgainTheNextDay() async {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarAGW-\(UUID().uuidString)")
+    let wiki = Wiki(), clock = Clock()
+    let cache = CompatibilityCache(folder: folder, fetch: { try wiki.fetch($0) }, now: { clock.now })
+    #expect(await cache.compatibility(for: "Pocket Racer") == nil)
+    clock.now += 2 * 86400
+    _ = await cache.compatibility(for: "Pocket Racer")
+    #expect(wiki.calls.filter { $0 == "Pocket_Racer" }.count == 2)
+}
+
+@Test func theWikisSearchFindsTheSameNameWrittenDifferently() async {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarAGW-\(UUID().uuidString)")
+    let wiki = Wiki()
+    let cache = CompatibilityCache(folder: folder, fetch: { try wiki.fetch($0) },
+                                   search: { query in query == "Hollow Knight™" ? ["Hollow Knight: Silksong", "Hollow Knight"] : ["Hollow Knight"] })
+    #expect(await cache.compatibility(for: "Hollow Knight™")?.page == "Hollow_Knight")
+    #expect(wiki.calls == ["Hollow_Knight™", "Hollow_Knight"])
+    // Another game in the results isn't taken for this one.
+    #expect(await cache.compatibility(for: "Hollow Knight Deluxe") == nil)
+    #expect(AppleGamingWiki.sameGame("Baldur's Gate 3", "Baldurs Gate 3"))
+    #expect(AppleGamingWiki.sameGame("DRAGON QUEST XI S: Echoes – Definitive Edition", "Dragon Quest XI S Echoes - Definitive Edition"))
+    #expect(!AppleGamingWiki.sameGame("Diablo II Resurrected", "Diablo II"))
+}
+
 @Test func aRedirectIsFollowedOnce() async {
     let folder = FileManager.default.temporaryDirectory.appending(path: "HangarAGW-\(UUID().uuidString)")
     let wiki = Wiki()

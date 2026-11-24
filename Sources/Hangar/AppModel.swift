@@ -141,7 +141,8 @@ final class AppModel {
     var running: [String: LaunchState] = [:] { didSet { syncMenu() } }
     var notices: [String: GameNotice] = [:]
     let covers: CoverCache
-    let compatibilityCache = CompatibilityCache(folder: Store.compatibilityFolder, fetch: Store.compatibilityFetch)
+    let compatibilityCache = CompatibilityCache(folder: Store.compatibilityFolder, fetch: Store.compatibilityFetch,
+                                                search: Store.compatibilitySearch)
     /// AppleGamingWiki's verdicts by game id: nil while loading, .some(nil) when the wiki has no page.
     var compatibility: [String: Compatibility?] = [:]
     let gameDataCache = GameDataCache(folder: Store.gameDataFolder, fetch: Store.gameDataFetch)

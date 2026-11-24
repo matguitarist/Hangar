@@ -140,6 +140,11 @@ enum Store {
         return CompatibilityCache.folder(URL(fileURLWithPath: fixtures).appending(path: "AppleGamingWiki"))
     }
 
+    /// A test run never searches the wiki.
+    static var compatibilitySearch: CompatibilityCache.Search {
+        isOverridden ? { @Sendable _ in [] } : CompatibilityCache.networkSearch
+    }
+
     /// PCGamingWiki's save paths, cached: PCGamingWiki/ next to the library, or <store>-run/pcgw in a test run.
     static var gameDataFolder: URL {
         isOverridden ? runFile("pcgw") : folder.appending(path: "PCGamingWiki")
