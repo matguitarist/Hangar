@@ -69,6 +69,12 @@ extension AppModel {
         settingsGeneration += 1
     }
 
+    /// "CrossOver, bottle Steam", or the Wine build the person chose.
+    func runnerLabel(_ game: Game) -> String {
+        guard let path = game.options.runner, game.runner == .crossOver, game.steamID == nil else { return game.runnerLabel }
+        return runners.first { $0.path == path }?.name ?? String(localized: "A runner that isn't installed anymore")
+    }
+
     /// Changes a game's own options (Settings tab): kept in the library, used at the next launch.
     func setOptions(_ id: String, _ change: (inout GameOptions) -> Void) {
         guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }

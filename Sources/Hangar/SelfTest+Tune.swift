@@ -74,6 +74,16 @@ extension SelfTest {
             model.setOptions(id) { $0 = GameOptions() }
         }
 
+        // S-014: Moonlit Harbor picks the sample Wine build.
+        if let harbor = find("Moonlit Harbor"), let wine = model.runners.first(where: { $0.kind == .wine }) {
+            model.setOptions(harbor.id) { $0.runner = wine.path }
+            let game = model.game(harbor.id)!
+            let plan = try? LaunchPlanner.plan(for: game, roots: model.roots)
+            check("S-014 a game can run through a Wine build", plan?.executable.path == wine.wine && model.runnerLabel(game) == "Wine Stable")
+            check("S-014 in a prefix of its own", plan?.environment["WINEPREFIX"]?.hasPrefix(model.roots.prefixes.path) == true)
+            model.setOptions(harbor.id) { $0.runner = nil }
+        }
+
         // S-011
         if let vernal = find("Vernal Edge") {
             let mates = model.bottleMates(of: vernal).map(\.title)

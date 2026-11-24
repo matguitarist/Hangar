@@ -135,8 +135,16 @@ struct SnapshotPage {
         },
         SnapshotPage(name: "game-page-settings") { model in
             model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
+            if let id = model.selectedGameID { model.setOptions(id) { $0.runner = nil } }
+        },
+        SnapshotPage(name: "game-page-settings-wine") { model in
+            model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
+            if let id = model.selectedGameID, let wine = model.runners.first(where: { $0.kind == .wine }) {
+                model.setOptions(id) { $0.runner = wine.path }
+            }
         },
         SnapshotPage(name: "game-page-settings-mac") { model in
+            if let id = model.library.games.first(where: { $0.title == "Moonlit Harbor" })?.id { model.setOptions(id) { $0.runner = nil } }
             model.sidebar = .allGames; select(model, "Hollow Knight"); model.gamePageTab = .settings
             if let id = model.selectedGameID {
                 model.setOptions(id) {

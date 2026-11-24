@@ -100,6 +100,9 @@ public struct GameOptions: Codable, Sendable, Hashable {
     public var variables: [EnvironmentVariable] = []
     /// For a Windows program: another exe to run, as a Windows path.
     public var exe: String?
+    /// For a Windows program: a Wine build or Game Porting Toolkit to run it with (its path on the
+    /// Runners page) instead of CrossOver. Nil runs it in its bottle.
+    public var runner: String?
 
     public init(metalHUD: Bool = false, arguments: String = "", variables: [EnvironmentVariable] = [], exe: String? = nil) {
         self.metalHUD = metalHUD
@@ -108,7 +111,7 @@ public struct GameOptions: Codable, Sendable, Hashable {
         self.exe = exe
     }
 
-    enum CodingKeys: String, CodingKey { case metalHUD, arguments, variables, exe }
+    enum CodingKeys: String, CodingKey { case metalHUD, arguments, variables, exe, runner }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -116,6 +119,7 @@ public struct GameOptions: Codable, Sendable, Hashable {
         arguments = try c.decodeIfPresent(String.self, forKey: .arguments) ?? ""
         variables = try c.decodeIfPresent([EnvironmentVariable].self, forKey: .variables) ?? []
         exe = try c.decodeIfPresent(String.self, forKey: .exe)
+        runner = try c.decodeIfPresent(String.self, forKey: .runner)
     }
 
     /// The environment variables a launch adds.

@@ -12,6 +12,8 @@ public struct LaunchPlan: Sendable, Equatable {
     public var environment: [String: String] = [:]
     /// For a Mac app opened by Launch Services: the arguments it gets.
     public var appArguments: [String] = []
+    /// Where the command runs (a Wine program's own folder).
+    public var workingDirectory: URL?
 }
 
 public enum LaunchError: Error, Sendable, Equatable {
@@ -27,7 +29,7 @@ public enum LaunchPlanner {
 
     public static func plan(for game: Game, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
         var plan = try basePlan(for: game, roots: roots)
-        plan.environment = game.options.environment
+        plan.environment.merge(game.options.environment) { $1 }
         if plan.executable == open, plan.arguments.count == 1, plan.arguments[0].hasSuffix(".app") {
             plan.appArguments = game.options.argumentList
         }
@@ -35,6 +37,9 @@ public enum LaunchPlanner {
     }
 
     static func basePlan(for game: Game, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
+        if let path = game.options.runner, game.runner == .crossOver, game.steamID == nil {
+            return try prefixPlan(for: game, runnerPath: path, roots: roots)
+        }
         switch game.runner {
         case .native:
             // A Steam game on the Mac starts through Steam, so Steam's overlay and cloud saves work.
@@ -71,6 +76,35 @@ public enum LaunchPlanner {
         case .wine, .gamePortingToolkit, .macRunner:
             throw .runnerMissing
         }
+    }
+
+    /// A Windows program run by a Wine build or Game Porting Toolkit in a prefix of its own.
+    static func prefixPlan(for game: Game, runnerPath: String, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
+        guard let runner = RunnerScanner.scan(roots).first(where: { $0.path == runnerPath && $0.runsPrefixes }),
+              let wine = runner.wine else { throw .runnerMissing }
+        let program: String
+        if let exe = game.options.exe, !exe.isEmpty, let bottle = game.bottle,
+           let mac = CrossOverScanner.macPath(exe, bottle: roots.bottles.appending(path: bottle)) {
+            program = mac.path
+        } else {
+            program = game.path
+        }
+        guard FileManager.default.fileExists(atPath: program) else { throw .filesMissing }
+        // A shortcut opens with Wine's start; an exe runs directly.
+        let command = program.lowercased().hasSuffix(".lnk") ? ["start", "/unix", program] : [program]
+        var plan = LaunchPlan(executable: URL(fileURLWithPath: wine), arguments: command + game.options.argumentList,
+                              processHints: game.processHints + [exeHint(program)])
+        plan.environment = ["WINEPREFIX": prefix(for: game, roots: roots).path, "WINEDEBUG": "-all"]
+        plan.workingDirectory = URL(fileURLWithPath: program).deletingLastPathComponent()
+        return plan
+    }
+
+    /// The game's own prefix: Prefixes/<title>-<short id>.
+    public static func prefix(for game: Game, roots: LibraryRoots) -> URL {
+        let safe = game.title.replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: "-")
+        var hash: UInt32 = 2166136261
+        for byte in game.id.utf8 { hash = (hash ^ UInt32(byte)) &* 16777619 }
+        return roots.prefixes.appending(path: "\(safe)-\(String(hash, radix: 16))")
     }
 
     /// The words that find a Windows program's process: its file name.

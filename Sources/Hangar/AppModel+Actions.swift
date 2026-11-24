@@ -47,6 +47,10 @@ extension AppModel {
             process.executableURL = plan.executable
             process.arguments = plan.arguments
             process.environment = ProcessInfo.processInfo.environment.merging(plan.environment) { $1 }
+            if let folder = plan.workingDirectory { process.currentDirectoryURL = folder }
+            if let prefix = plan.environment["WINEPREFIX"] {
+                try? FileManager.default.createDirectory(atPath: prefix, withIntermediateDirectories: true)
+            }
             process.standardOutput = FileHandle.nullDevice
             process.standardError = FileHandle.nullDevice
             do { try process.run() } catch { launched(id, pid: nil, error: error.localizedDescription) }

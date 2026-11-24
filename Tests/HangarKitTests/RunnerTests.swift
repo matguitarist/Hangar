@@ -34,3 +34,42 @@ import Testing
     roots.crossOverApp = nil
     #expect(!RunnerScanner.scan(roots).contains { $0.kind == .crossOver })
 }
+
+// S-014
+@Test func aWineBuildRunsAProgramInAPrefixOfItsOwn() throws {
+    let roots = try fixtureRoots()
+    let runners = RunnerScanner.scan(roots)
+    var harbor = try #require(LibraryScanner.scanNow(roots).first { $0.title == "Moonlit Harbor" })
+    let wine = try #require(runners.first { $0.kind == .wine })
+    harbor.options.runner = wine.path
+    harbor.options.arguments = "-windowed"
+    let plan = try LaunchPlanner.plan(for: harbor, roots: roots)
+    #expect(plan.executable.path == wine.wine)
+    #expect(plan.arguments == ["start", "/unix", harbor.path, "-windowed"])
+    #expect(plan.environment["WINEPREFIX"]?.hasPrefix(roots.prefixes.path + "/Moonlit Harbor-") == true)
+    #expect(plan.environment["WINEDEBUG"] == "-all")
+
+    // An exe chosen on the Settings tab runs directly, from its own folder.
+    harbor.options.exe = "C:/Program Files/Moonlit Harbor/MoonlitHarbor.exe"
+    let gptk = try #require(runners.first { $0.kind == .gamePortingToolkit })
+    harbor.options.runner = gptk.path
+    let exe = try LaunchPlanner.plan(for: harbor, roots: roots)
+    #expect(exe.executable.path.hasSuffix("Game Porting Toolkit.app/Contents/Resources/wine/bin/wine64"))
+    #expect(exe.arguments.first?.hasSuffix("drive_c/Program Files/Moonlit Harbor/MoonlitHarbor.exe") == true)
+    #expect(exe.workingDirectory?.lastPathComponent == "Moonlit Harbor")
+    #expect(exe.environment["WINEPREFIX"] == plan.environment["WINEPREFIX"])
+}
+
+@Test func aRunnerThatIsGoneSaysSo() throws {
+    let roots = try fixtureRoots()
+    var harbor = try #require(LibraryScanner.scanNow(roots).first { $0.title == "Moonlit Harbor" })
+    harbor.options.runner = "/Applications/Wine Gone.app"
+    #expect(throws: LaunchError.runnerMissing) { try LaunchPlanner.plan(for: harbor, roots: roots) }
+}
+
+@Test func steamGamesInABottleKeepCrossOver() throws {
+    let roots = try fixtureRoots()
+    var vernal = try #require(LibraryScanner.scanNow(roots).first { $0.title == "Vernal Edge" })
+    vernal.options.runner = RunnerScanner.scan(roots).first { $0.kind == .wine }?.path
+    #expect(throws: LaunchError.crossOverMissing) { try LaunchPlanner.plan(for: vernal, roots: roots) }
+}

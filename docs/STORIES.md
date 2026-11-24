@@ -233,8 +233,14 @@ Screens: game-page-settings, runners
 Depends: S-009
 Acceptance:
 - [unit] The launch command and environment for a Gcenx build and a GPTK build.
-- [live] A small DX11 game runs through the GPTK build on this Mac.
-Status: todo
+- [live] A small DX11 game runs through the GPTK build on this Mac. Not run: Game Porting Toolkit isn't installed on this Mac.
+UX:
+- Flow: game page › Settings › Runner → pick "Wine Stable 10.0" or "Game Porting Toolkit 3.0" → the next Play runs the game's files from the bottle in Hangar's own prefix (Application Support/Hangar/Prefixes); "CrossOver, bottle Classics" goes back
+- Surface: a picker at the top of the Settings tab; the bottle section hides while another runner is chosen, since it doesn't apply
+- States: no Wine build: only CrossOver, with "Install a Wine build or Game Porting Toolkit to run this game outside CrossOver."; the chosen runner removed: "Not installed anymore", and Play says "Its runner isn't installed anymore."; Steam games in a bottle keep CrossOver (they need the bottle's Steam)
+- Words: "Runner" / « Lanceur », "CrossOver, bottle Classics", footer "Runs in a prefix of its own, from the game's files in the bottle Classics. The bottle's settings don't apply."
+- Access: a standard picker with its label; the Overview's Runner row names the chosen runner
+Status: done
 
 
 ## M3 Recipes (0.3.0)

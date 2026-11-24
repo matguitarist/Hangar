@@ -52,7 +52,7 @@ struct GamePage: View {
             banners(game)
             Section {
                 LabeledContent("Source", value: game.sourceLabel)
-                LabeledContent("Runner", value: game.runnerLabel)
+                LabeledContent("Runner", value: model.runnerLabel(game))
                 LabeledContent("Location") {
                     Text(game.path)
                         .lineLimit(1)

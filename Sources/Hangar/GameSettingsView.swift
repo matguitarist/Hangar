@@ -8,7 +8,10 @@ struct GameSettingsView: View {
 
     var body: some View {
         Form {
-            if let settings = model.bottleSettings(for: game), let bottle = game.bottle {
+            if game.runner == .crossOver, game.steamID == nil {
+                RunnerSection(game: game)
+            }
+            if game.options.runner == nil, let settings = model.bottleSettings(for: game), let bottle = game.bottle {
                 BottleSettingsSection(game: game, bottle: bottle, settings: settings)
             }
             Section {
@@ -38,6 +41,36 @@ extension GameSettingsView {
             return String(localized: "Shows the next time the game starts. Steam can't pass the HUD on, so Hangar opens the game itself, without Steam's overlay.")
         }
         return String(localized: "Shows the next time the game starts.")
+    }
+}
+
+/// CrossOver in the game's bottle, or a Wine build or Game Porting Toolkit in a prefix of its own.
+private struct RunnerSection: View {
+    @Environment(AppModel.self) private var model
+    let game: Game
+
+    var body: some View {
+        let others = model.runners.filter(\.runsPrefixes)
+        Section {
+            Picker("Runner", selection: Binding(get: { game.options.runner }, set: { path in model.setOptions(game.id) { $0.runner = path } })) {
+                Text("CrossOver, bottle \(game.bottle ?? "")").tag(String?.none)
+                ForEach(others) { runner in
+                    Text(runner.version.map { "\(runner.name) \($0)" } ?? runner.name).tag(Optional(runner.path))
+                }
+                if let path = game.options.runner, !others.contains(where: { $0.path == path }) {
+                    Text("Not installed anymore").tag(Optional(path))
+                }
+            }
+            .help(String(localized: "What runs this game"))
+        } footer: {
+            if game.options.runner != nil {
+                Text("Runs in a prefix of its own, from the game's files in the bottle \(game.bottle ?? ""). The bottle's settings don't apply.")
+                    .foregroundStyle(.secondary)
+            } else if others.isEmpty {
+                Text("Install a Wine build or Game Porting Toolkit to run this game outside CrossOver.")
+                    .foregroundStyle(.secondary)
+            }
+        }
     }
 }
 

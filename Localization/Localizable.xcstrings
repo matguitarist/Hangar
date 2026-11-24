@@ -81,6 +81,16 @@
         }
       }
     },
+    "A runner that isn't installed anymore": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un lanceur qui n’est plus installé"
+          }
+        }
+      }
+    },
     "AVX for Rosetta": {
       "localizations": {
         "fr": {
@@ -751,6 +761,16 @@
         }
       }
     },
+    "Install a Wine build or Game Porting Toolkit to run this game outside CrossOver.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installez une version de Wine ou Game Porting Toolkit pour lancer ce jeu hors de CrossOver."
+          }
+        }
+      }
+    },
     "It has no bottle.": {
       "localizations": {
         "fr": {
@@ -1071,6 +1091,16 @@
         }
       }
     },
+    "Not installed anymore": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "N’est plus installé"
+          }
+        }
+      }
+    },
     "Not played yet": {
       "localizations": {
         "fr": {
@@ -1367,6 +1397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "S’exécute dans CrossOver, bouteille %@"
+          }
+        }
+      }
+    },
+    "Runs in a prefix of its own, from the game's files in the bottle %@. The bottle's settings don't apply.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’exécute dans son propre préfixe, à partir des fichiers du jeu dans la bouteille %@. Les réglages de la bouteille ne s’appliquent pas."
           }
         }
       }
@@ -1747,6 +1787,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce que fait Hangar, comme trouver et lancer des jeux, est écrit ici."
+          }
+        }
+      }
+    },
+    "What runs this game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce qui lance ce jeu"
           }
         }
       }

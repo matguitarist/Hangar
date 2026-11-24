@@ -14,8 +14,12 @@ public struct LibraryRoots: Sendable {
     public var ownBundleID: String?
     /// Homebrew's opt folders, where Apple's Game Porting Toolkit installs.
     public var toolFolders: [URL]
+    /// Where Hangar keeps the Wine prefixes of games run by a Wine build or Game Porting Toolkit.
+    public var prefixes: URL
 
-    public init(steam: URL, bottles: URL, crossOverApp: URL?, appFolders: [URL], ownBundleID: String? = nil, toolFolders: [URL] = []) {
+    public init(steam: URL, bottles: URL, crossOverApp: URL?, appFolders: [URL], ownBundleID: String? = nil, toolFolders: [URL] = [],
+                prefixes: URL? = nil) {
+        self.prefixes = prefixes ?? bottles.deletingLastPathComponent().appending(path: "Prefixes")
         self.steam = steam
         self.bottles = bottles
         self.crossOverApp = crossOverApp
@@ -38,7 +42,8 @@ public struct LibraryRoots: Sendable {
             crossOverApp: app,
             appFolders: [URL(fileURLWithPath: "/Applications"), home.appending(path: "Applications")],
             ownBundleID: ownBundleID,
-            toolFolders: [URL(fileURLWithPath: "/usr/local/opt"), URL(fileURLWithPath: "/opt/homebrew/opt")])
+            toolFolders: [URL(fileURLWithPath: "/usr/local/opt"), URL(fileURLWithPath: "/opt/homebrew/opt")],
+            prefixes: support.appending(path: "Hangar/Prefixes"))
     }
 
     /// CrossOver's wine command, which runs a program in a bottle.
