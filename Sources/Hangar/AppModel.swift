@@ -54,7 +54,7 @@ extension Game {
     }
 
     /// The store page, for Steam games.
-    var storeURL: URL? { steamID.flatMap { URL(string: "https://store.steampowered.com/app/\($0)/") } }
+    var storeURL: URL? { GameLinks.store(steamID: steamID) }
 }
 
 
@@ -107,6 +107,8 @@ final class AppModel {
     @ObservationIgnored lazy var recipes: RecipeManifest = loadRecipes()
     /// Runners that updated, with the games that last worked on the old version.
     var runnerUpdates: [RunnerUpdateNotice] = []
+    /// Snapshot mode only: open the game page scrolled to its end.
+    var scrollGamePageToEnd = false
     /// The game whose setup is about to be shared (the confirmation is open).
     var sharingRecipe: String?
     /// In a test run, links and copies are recorded here instead of opening the browser or touching the clipboard.

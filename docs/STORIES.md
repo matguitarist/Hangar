@@ -329,7 +329,13 @@ Screens: game-page
 Depends: S-007
 Acceptance:
 - [unit] Links are built from the store id or the title.
-Status: todo
+UX:
+- Flow: game page › Overview › "On the Web" (last section) → click a site → its page opens in the browser: the game's own page from the Steam id (or the AppleGamingWiki page Hangar found), else a search by title
+- Surface: a section at the end of the Overview (links are information, not actions that change anything)
+- States: no Steam id: four searches, no store row; a search shows a magnifying glass, a page an arrow out
+- Words: site names as they are ("AppleGamingWiki", "PCGamingWiki", "CodeWeavers", "ProtonDB", "Steam"); "On the Web" / « Sur le Web »; tooltip "Open the page of Hollow Knight on ProtonDB" / « Ouvrir la page de Hollow Knight sur ProtonDB »
+- Access: each row is one button; VoiceOver adds "Opens the game's page" or "Searches by title"
+Status: done
 
 
 ## M4 Saves and crashes (0.4.0)

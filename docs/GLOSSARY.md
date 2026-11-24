@@ -17,6 +17,7 @@ One name for each thing, in every button, menu, title, tooltip and error.
 | Graphics | The way a Windows game's graphics reach Metal: Auto, D3DMetal, DXMT, DXVK, Wine | backend, renderer | graphismes |
 | Runs on a Mac | AppleGamingWiki's verdict for each way to play a game on a Mac | compatibility, rating | Fonctionne sur Mac |
 | Recommended Setup | A recipe as the game page shows it | recipe, fix | Configuration recommandée |
+| On the Web | The game's pages on the wikis, CodeWeavers, ProtonDB and its store | links, resources | Sur le Web |
 | Recipe | The known-good setup for a game: runner and settings | profile, preset, fix, config | recette |
 | Recommended setup | A recipe offered for a game on its page | best settings | configuration recommandée |
 | Snapshot | A saved copy of a game's settings and bottle files, to roll back to | backup (that's for saves), restore point | instantané |

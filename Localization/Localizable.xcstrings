@@ -1451,6 +1451,16 @@
         }
       }
     },
+    "On the Web": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur le Web"
+          }
+        }
+      }
+    },
     "Open Steam": {
       "localizations": {
         "fr": {
@@ -1467,6 +1477,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir la page du magasin"
+          }
+        }
+      }
+    },
+    "Open the page of %@ on %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir la page de %1$@ sur %2$@"
+          }
+        }
+      }
+    },
+    "Opens the game's page": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre la page du jeu"
           }
         }
       }
@@ -1871,6 +1901,16 @@
         }
       }
     },
+    "Search %@ for %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chercher %2$@ sur %1$@"
+          }
+        }
+      }
+    },
     "Search AppleGamingWiki": {
       "localizations": {
         "fr": {
@@ -1887,6 +1927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rechercher des jeux"
+          }
+        }
+      }
+    },
+    "Searches by title": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cherche par titre"
           }
         }
       }

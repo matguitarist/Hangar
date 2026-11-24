@@ -64,8 +64,11 @@ struct GamePage: View {
                 LabeledContent("Playtime", value: playtime(game))
                 LabeledContent("Last played", value: game.lastPlayed.map { $0.formatted(.relative(presentation: .named)) } ?? String(localized: "Never"))
             }
+            LinksSection(game: game)
         }
         .formStyle(.grouped)
+        // Snapshot mode shows the end of the page.
+        .defaultScrollAnchor(model.scrollGamePageToEnd ? .bottom : .top)
         .gridArea("game-page", inset: 0)
     }
 

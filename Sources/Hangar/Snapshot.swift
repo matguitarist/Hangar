@@ -173,7 +173,14 @@ struct SnapshotPage {
             }
             model.runnerUpdates = [RunnerUpdateNotice(update: RunnerUpdate(name: "CrossOver", path: "/Applications/CrossOver.app", old: "26.2", new: "26.3"), snapshots: snapshots)]
         },
+        SnapshotPage(name: "game-page-links") { model in
+            model.runnerUpdates = []
+            model.showsGamePage = true
+            model.sidebar = .allGames; select(model, "Hollow Knight")
+            model.scrollGamePageToEnd = true
+        },
         SnapshotPage(name: "share-recipe") { model in
+            model.scrollGamePageToEnd = false
             model.runnerUpdates = []
             model.showsGamePage = true
             model.sidebar = .allGames; select(model, "Kynseed")
