@@ -504,10 +504,58 @@ UX:
 Status: done
 
 ### S-027 Shortcuts actions
-As the user, I launch a game, or back up its saves, from Shortcuts and Spotlight.
+As the user, I launch a game, stop it, see what's running, or back up its saves, from Shortcuts, Spotlight and Siri.
+Depends: S-006, S-022
+Acceptance:
+- [self] The "Play Game" intent launches the sample game; "Back Up Saves" makes a backup; "Running Games" lists it.
+- [unit] The game entity finds games by name with the same search as the library ("bg3").
+- [build] The App Shortcuts show in Shortcuts after a build (`Metadata.appintents` in the app).
+UX:
+- Flow: Shortcuts › Hangar → "Play Game" (pick a game) → Hangar opens in the background and the game starts; Spotlight: type "Play Hollow Knight"
+- Surface: App Intents only; no window opens unless the game can't start, then the game page shows why
+- Words: "Play Game" / « Jouer à un jeu », "Stop Game" / « Arrêter un jeu », "Back Up Saves" / « Sauvegarder les parties », "Running Games" / « Jeux en cours », "Play \(game) in Hangar" / « Jouer à \(game) dans Hangar »
+- Access: every action has a description in English and French
+Status: todo
+
+### S-035 An app icon
+As the user, I see Hangar's own icon in the Dock, the Finder, the menu bar panel and the About window, in every look (light, dark, clear, tinted).
+Acceptance:
+- [build] `Icon/AppIcon.icon` exists; `build.sh` compiles it into `Assets.car` and `AppIcon.icns` in the app.
+- [manual] `tools/icon_review.sh` shows the icon in every look, readable at 16 pt.
+UX:
+- Look: a hangar arch over a gamepad, on the accent; one glyph, no words
+Status: todo
+
+### S-036 Games installed by Heroic
+As the user, I see the Epic, GOG and side-loaded games I installed with Heroic in the library, under a "Heroic" source, and launch them through Heroic.
+Screens: library, game-page
+Depends: S-001
+Acceptance:
+- [unit] Reads Heroic's installed games: Epic (`legendaryConfig/legendary/installed.json`), GOG (`gog_store/installed.json`, titles from the library cache or `goggame-*.info`) and side-loaded apps (`sideload_apps/library.json`), DLC left out.
+- [unit] Each game launches with `heroic://launch?appName=…&runner=…`, so Heroic's Wine settings stay in charge; running follows the game's own process (its install folder).
+- [unit] Heroic not installed or nothing installed: no games and no source, no error.
+- [self] The sample Heroic games show under Heroic with their store badge.
+UX:
+- Flow: same scan as S-001 → Heroic games join the grid → sidebar source "Heroic"; Play opens Heroic, which starts the game
+- Surface: same grid; tile subtitle "Heroic · Epic", "Heroic · GOG", "Heroic"; a "Windows" badge for Windows games; game page Runner "Heroic"
+- States: Heroic not installed: the source isn't shown; Heroic removed after a scan: "Heroic isn't installed." on Play; the game's Settings tab shows only the HUD and launch options it can pass on: "Heroic keeps this game's Wine settings. Change them in Heroic." with "Open in Heroic"
+- Words: "Heroic" source, "Heroic · Epic", "Heroic · GOG", "Heroic isn't installed." / « Heroic n’est pas installé. », "Heroic keeps this game's Wine settings. Change them in Heroic." / « Heroic garde les réglages Wine de ce jeu. Modifiez-les dans Heroic. », "Open in Heroic" / « Ouvrir dans Heroic »
+- Access: as S-001
+Status: todo
+
+### S-037 Sign in to Steam before launching
+As the user, when I play a Steam game whose bottle's Steam is signed out, Hangar tells me at once instead of waiting two minutes for a game that never starts.
+Screens: game-page-sign-in
 Depends: S-006
 Acceptance:
-- [self] The "Launch Game" intent launches the sample game.
+- [self] Play on a game in a signed-out bottle doesn't launch; the page asks to sign in, with "Open Steam".
+- [self] "Play Anyway" launches as before (the sign-in check can be wrong after Steam changes its files).
+- [unit] Signed in means `loginusers.vdf` remembers an account and `config.vdf` or `connection_log.txt` doesn't say the last session signed out.
+UX:
+- Flow: Play → the page says "Sign in to Steam in the bottle Steam first. Vernal Edge waits for a sign-in that Steam hides." → "Open Steam" signs in → Play again; "Play Anyway" launches
+- Surface: the game page's notice (inline), as S-006
+- Words: "Sign in to Steam in the bottle \(bottle) first." / « Connectez-vous d’abord à Steam dans la bouteille \(bottle). », "\(game) would wait for a sign-in that Steam hides." / « \(game) attendrait une connexion que Steam cache. », "Play Anyway" / « Jouer quand même »
+- Access: the notice is text with a symbol and two buttons
 Status: todo
 
 
@@ -519,6 +567,13 @@ Screens: couch
 Depends: S-005
 Acceptance:
 - [snap] Couch mode in light and dark.
+- [self] View › Couch Mode opens it; Escape closes it; arrow keys move and Return plays.
+UX:
+- Flow: View › Couch Mode (⌃⌘F) or the toolbar's TV button → the window goes full screen: a row "Continue Playing" (recent) above "All Games" as large covers, the selected one grows with its title, playtime and Play → Return plays; Escape or B leaves
+- Surface: a full-screen view over the main window (not a new window), dark background from the selected cover
+- States: empty library: "No games yet" with "Leave Couch Mode"; a game running: its tile says "Running" and the action is "Stop…"
+- Words: "Couch Mode" / « Mode canapé », "Continue Playing" / « Reprendre », "Leave Couch Mode" / « Quitter le mode canapé »
+- Access: everything works with the keyboard; text is at least title size; VoiceOver reads each cover like the grid
 Status: todo
 
 ### S-029 Play with a controller
@@ -527,17 +582,154 @@ Screens: couch
 Depends: S-028
 Acceptance:
 - [self] Simulated controller input moves the selection and launches.
+- [unit] The D-pad and left stick map to moves with a repeat delay; A plays, B leaves, Y shows details, menu button opens couch mode.
 - [manual] A DualSense and an Xbox pad both work.
+UX:
+- Flow: a controller connects → "Controller connected" for a moment → D-pad moves, A plays, Y shows the game's details, B goes back; the Home/menu button opens couch mode from anywhere in Hangar; when the game quits, Hangar comes to the front in couch mode
+- Surface: couch mode; a hint bar at the bottom with the buttons of the connected controller ("Ⓐ Play  Ⓑ Back  Ⓨ Details")
+- Words: "Play" / « Jouer », "Back" / « Retour », "Details" / « Détails », "Controller connected" / « Manette connectée »
+- Access: the hint bar names buttons in text, not only glyphs
 Status: todo
 
+### S-041 Steam achievements
+As the user, I see how many of a Steam game's achievements I unlocked on its page and in couch mode.
+Screens: game-page
+Depends: S-007
+Acceptance:
+- [unit] Reads `appcache/stats/UserGameStatsSchema_<app>.bin` (names and bits) and `UserGameStats_<user>_<app>.bin` (unlocked bits and times) from Steam's binary KeyValues; a missing or unreadable file means no section.
+- [self] The sample game shows "12 of 40 achievements" and the last three unlocked.
+UX:
+- Flow: game page › Overview › Achievements → "12 of 40" with a bar and the last ones unlocked with their date
+- Surface: a section of the Overview, only for Steam games with a stats file; in couch mode the count under the title
+- Honest: "From Steam's files on this Mac, updated when Steam runs."
+- Words: "Achievements" / « Succès », "\(n) of \(total) unlocked" / « \(n) sur \(total) débloqués »
+- Access: the bar has its numbers as text
+Status: todo
+
+## M7 Look after the library (0.7.0)
+
+### S-038 Frame cap
+As the user, I cap a Windows game's frame rate (30, 40, 60 or the display's rate), for a cooler, quieter Mac and longer battery life.
+Screens: game-page-settings
+Depends: S-010, S-025
+Acceptance:
+- [unit] With DXVK, the cap launches with `DXVK_FRAME_RATE=<n>`; with D3DMetal, DXMT or Wine's own, the picker is off and says why.
+- [unit] The battery profile can have its own cap.
+- [manual] Metal HUD shows the cap on a DXVK game. Not run yet: needs a person at the Mac.
+UX:
+- Flow: game page › Settings › Frame Rate → "Limit" picker: Off, 30, 40, 60, Display (120) → next launch; On Battery adds "Limit the frame rate to" the same picker
+- Surface: a section of the Settings tab
+- States: graphics not DXVK: picker disabled, footer "Only DXVK games can be capped. Set Graphics to DXVK to use it."; a Mac game: no section
+- Words: "Frame Rate" / « Fréquence d’images », "Limit" / « Limite », "Off" / « Aucune », "Display (\(hz) Hz)" / « Écran (\(hz) Hz) »
+- Access: the picker has hover help
+Status: todo
+
+### S-039 Storage
+As the user, I see how much space each game, bottle, prefix, snapshot set and save backup set takes, largest first, and free space from there.
+Screens: storage
+Depends: S-017, S-022
+Acceptance:
+- [unit] Sizes are allocated sizes on disk, computed off the main thread; a bottle counts once even with several games in it.
+- [unit] Prefixes in Hangar/Prefixes that no game uses are "Unused".
+- [self] The sample library's sizes add up; "Delete Old Snapshots" keeps the newest and the labeled ones.
+UX:
+- Flow: sidebar › Storage → a bar of the totals by kind → the list, largest first: name, kind, size, "Show in Finder"; unused prefixes with "Move to Trash…"; snapshots and save backups with "Delete Old…" (keeps the newest three and the ones that worked)
+- Surface: sidebar page "Storage" (a place people come back to); confirmation dialogs for anything that deletes
+- States: measuring "Measuring…" in the toolbar past half a second; nothing to free: no buttons
+- Words: "Storage" / « Stockage », "Games" / « Jeux », "Bottles" / « Bouteilles », "Prefixes" / « Préfixes », "Snapshots" / « Instantanés », "Save Backups" / « Sauvegardes de parties », "Unused" / « Inutilisé », "Move to Trash…" / « Placer dans la corbeille… », "Delete Old Snapshots…" / « Supprimer les anciens instantanés… »
+- Access: the bar's numbers are in the list as text
+Status: todo
+
+### S-040 Settings put back after a CrossOver update
+As the user, when a CrossOver update changed my bottles' settings, Hangar shows what changed and puts my settings back in one click.
+Screens: library-runner-update
+Depends: S-017, S-018
+Acceptance:
+- [unit] After a runner update, each bottle's settings are compared with the last snapshot Hangar took; differences are listed per bottle.
+- [self] A bottle changed under Hangar shows in the update banner; "Put Back" restores the snapshot's settings and takes a snapshot first.
+UX:
+- Flow: CrossOver updates → the S-018 banner adds "CrossOver changed the settings of the bottle Steam: Graphics D3DMetal → Auto." → "Put Back My Settings" → done, Undo
+- Surface: inside the runner update banner on All Games
+- Words: "CrossOver changed the settings of the bottle \(bottle):" / « CrossOver a modifié les réglages de la bouteille \(bottle) : », "Put Back My Settings" / « Rétablir mes réglages »
+- Access: each change is text
+Status: todo
+
+### S-042 Library health
+As the user, I see in one place what needs me: games whose files moved, bottles Hangar can't read, Steam signed out in a bottle, recipes older than the runner, and games without a save backup.
+Screens: health
+Depends: S-007, S-018, S-022
+Acceptance:
+- [unit] Each check is a rule over the library with its own fix action.
+- [self] The sample library shows the unreadable bottle Empty and the game without a backup.
+UX:
+- Flow: sidebar › Health (badge with the number of problems) → grouped list, each with its fix: "Locate…", "Open in CrossOver", "Open Steam", "Back Up Now"
+- Surface: sidebar page "Health", always shown, with "Everything looks good" when there is nothing to fix
+- Words: "Health" / « État », "Everything looks good" / « Tout va bien », "Files moved" / « Fichiers déplacés », "Bottles Hangar can't read" / « Bouteilles illisibles », "Signed out of Steam" / « Déconnecté de Steam », "Never backed up" / « Jamais sauvegardé », "Back Up Now" / « Sauvegarder maintenant »
+- Access: each group is a section with a header; each fix a labeled button
+Status: todo
+
+### S-043 Smart filters
+As the user, I filter any page to games I never played, haven't played in six months, Windows or Mac games, or games with a native Mac version.
+Screens: library-filter
+Depends: S-008, S-033
+Acceptance:
+- [unit] Each filter is a rule; filters combine with search and sort.
+- [self] "Never Played" shows only games without playtime.
+UX:
+- Flow: toolbar "Filter" menu (or View › Filter) → pick one → the grid filters and the toolbar button shows it's on → "Show All" clears
+- Surface: a toolbar menu with a checkmark; the empty state "No games match this filter" with "Show All"
+- Words: "Filter" / « Filtrer », "Show All" / « Tout afficher », "Never Played" / « Jamais joués », "Not Played in 6 Months" / « Pas joués depuis 6 mois », "Windows Games" / « Jeux Windows », "Mac Games" / « Jeux Mac », "Has a Mac Version" / « Version Mac disponible »
+- Access: the filter state is read by VoiceOver on the toolbar button
+Status: todo
+
+### S-044 Playtime over time
+As the user, I see when I played a game: a chart of hours per week on its page, and a list of sessions.
+Screens: game-page-playtime
+Depends: S-006
+Acceptance:
+- [unit] Each finished launch adds a session (start, length); old libraries without sessions open with none.
+- [unit] Sessions group by week for the last twelve weeks.
+- [self] A launch adds a session.
+UX:
+- Flow: game page › Overview › Playtime → a bar chart of hours per week, the last 12 weeks → "Sessions" disclosure lists them
+- Surface: a section of the Overview, shown after the first session
+- Words: "Playtime" / « Temps de jeu », "Hours per week" / « Heures par semaine », "Sessions" / « Sessions »
+- Access: the chart has an audio graph and a summary "3 h this week, 12 h in 12 weeks"
+Status: todo
+
+### S-045 How the last launch went
+As the user, I see on each tile and game page whether the last launch worked, crashed or didn't start, and how many times I launched it.
+Screens: library, game-page
+Depends: S-006, S-024
+Acceptance:
+- [unit] Each launch's result is kept with the game: played, quit right away, crashed, didn't start; with a count.
+- [self] A game that quits at once shows "Quit right away" on its tile.
+UX:
+- Flow: launch → the result is kept → the tile shows a small warning symbol when the last launch failed; the page says "Last launch: crashed after 4 s · 12 launches"
+- Surface: the tile's corner (symbol with hover help), the game page's details section
+- Words: "Last launch" / « Dernier lancement », "Worked" / « A fonctionné », "Crashed" / « A planté », "Didn't start" / « N’a pas démarré », "Quit right away" / « S’est fermé aussitôt », "\(n) launches" / « \(n) lancements »
+- Access: the symbol has hover help and is read by VoiceOver; never color alone
+Status: todo
+
+### S-046 Export and import the library
+As the user, I export my library (playtime, collections, covers I chose, game settings) to a file and import it on another Mac or after a reinstall.
+Screens: settings-library
+Depends: S-008
+Acceptance:
+- [unit] Import merges by game id: playtime adds the higher value, collections join by name, settings and covers come from the file only where the game has none; games not on this Mac go to Removed Games.
+- [self] Export then import into an empty test store gives back the collections and playtime.
+UX:
+- Flow: File › Export Library… → save panel "Hangar Library.hangarlibrary" (JSON, custom covers inside) → File › Import Library… → open panel → "Imported 42 games and 3 collections." with Undo
+- Surface: File menu; Settings › Library has both buttons too
+- Words: "Export Library…" / « Exporter la bibliothèque… », "Import Library…" / « Importer une bibliothèque… », "Imported \(n) games and \(c) collections." / « \(n) jeux et \(c) collections importés. »
+- Access: menu commands, standard panels
+Status: todo
 
 ## Later
 
-- Import Epic and GOG games installed by Heroic.
 - Open a game in MacRunner (needs a URL scheme or CLI from MacRunner).
-- Frame cap for D3DMetal and DXMT games (needs a test).
+- Frame cap for D3DMetal and DXMT games (needs a test; DXVK is S-038).
 - HDR for Windows games (needs a test).
-- Steam achievements read from `appcache/stats` (needs a probe).
 - Game Mode for Windows games through a wrapper app (opt-in, needs a test).
 - ReShade on the DXVK path.
 - Parallels as a runner.
