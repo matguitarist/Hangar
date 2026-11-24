@@ -382,7 +382,7 @@ UX:
 - States: no backups "No backups yet. Hangar makes one each time you play."; game running: Restore disabled with "Quit the game first"
 - Words: "Backups…" / « Sauvegardes… », "Restore" / « Restaurer », "Show in Finder" / « Afficher dans le Finder »
 - Access: the list is keyboard navigable; Return restores the selection after the confirmation
-Status: todo
+Status: done
 
 ### S-024 Why a game crashed
 As the user, when a Windows game quits within a minute or with an error, Hangar shows a plain reason ("Missing Visual C++ 2022 runtime", "This game needs DXVK") and the fix, with the full Wine log in LogKit's viewer.

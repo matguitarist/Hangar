@@ -91,6 +91,26 @@
         }
       }
     },
+    "%lld files": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld fichiers"
+          }
+        }
+      }
+    },
+    "1 file": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 fichier"
+          }
+        }
+      }
+    },
     "1 left": {
       "localizations": {
         "fr": {
@@ -327,6 +347,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mises à jour automatiques"
+          }
+        }
+      }
+    },
+    "Backed up by you": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegardée par vous"
+          }
+        }
+      }
+    },
+    "Backups…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegardes…"
+          }
+        }
+      }
+    },
+    "Before a restore": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avant une restauration"
           }
         }
       }
@@ -921,6 +971,16 @@
         }
       }
     },
+    "Hangar backs up the current saves first, so you can come back to them.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar sauvegarde d’abord les parties actuelles, pour que vous puissiez y revenir."
+          }
+        }
+      }
+    },
     "Hangar can't find the game's folder in its bottle. Choose its program in Settings › Launch Options, then try again.": {
       "localizations": {
         "fr": {
@@ -971,6 +1031,16 @@
         }
       }
     },
+    "Hangar copies the saves each time you play, and keeps the last ten copies.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar copie les sauvegardes chaque fois que vous jouez et garde les dix dernières copies."
+          }
+        }
+      }
+    },
     "Hangar couldn't copy the bottle. %@": {
       "localizations": {
         "fr": {
@@ -987,6 +1057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hangar cherche dans Steam, les bouteilles CrossOver et les dossiers Applications. Ajoutez un jeu vous-même, ou indiquez à Hangar où se trouve Steam."
+          }
+        }
+      }
+    },
+    "Hangar makes one each time you play.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar en fait une chaque fois que vous jouez."
           }
         }
       }
@@ -1361,6 +1441,16 @@
         }
       }
     },
+    "No Backups Yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune sauvegarde pour l’instant"
+          }
+        }
+      }
+    },
     "No Games Found": {
       "localizations": {
         "fr": {
@@ -1691,12 +1781,32 @@
         }
       }
     },
+    "Put these saves back": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remettre ces sauvegardes"
+          }
+        }
+      }
+    },
     "Quit the game (⌘.)": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Quitter le jeu (⌘.)"
+          }
+        }
+      }
+    },
+    "Quit the game first": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quittez d’abord le jeu"
           }
         }
       }
@@ -1871,6 +1981,16 @@
         }
       }
     },
+    "Restore the saves from %@?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurer les sauvegardes du %@ ?"
+          }
+        }
+      }
+    },
     "Restore the snapshot from %@?": {
       "localizations": {
         "fr": {
@@ -1981,6 +2101,16 @@
         }
       }
     },
+    "Save Backups of %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegardes de %@"
+          }
+        }
+      }
+    },
     "Saved before every change and every launch.": {
       "localizations": {
         "fr": {
@@ -2037,6 +2167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cherche par titre"
+          }
+        }
+      }
+    },
+    "See the save backups and restore one": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir les sauvegardes et en restaurer une"
           }
         }
       }

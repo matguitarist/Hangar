@@ -49,6 +49,19 @@ extension SelfTest {
                   && model.saveBackups.root.lastPathComponent == "icloud-save-backups")
             model.backupsInICloud = false
             check("S-022 and they come back when turned off", model.backupList(starfall.id).count == 2)
+
+            // S-023: back to the save from before "level 4".
+            try? Data("level 5\n".utf8).write(to: save)
+            if let old = backups.last {
+                await model.restoreBackup(old, gameID: starfall.id)
+                let now = try? String(contentsOf: save, encoding: .utf8)
+                check("S-023 restore puts the old save back", now == "level 3\n", now ?? "missing")
+                let after = model.backupList(starfall.id)
+                check("S-023 the current save shows as a new backup", after.count == 3 && after.first?.reason == .beforeRestore)
+                let kept = after.first.flatMap { try? String(contentsOf: model.saveBackups.location(of: $0, gameID: starfall.id)
+                    .appending(path: "items/0/Saves/profile.sav"), encoding: .utf8) }
+                check("S-023 that backup holds the save that was replaced", kept == "level 5\n", kept ?? "missing")
+            }
         }
     }
 }

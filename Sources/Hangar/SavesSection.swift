@@ -28,9 +28,14 @@ struct SavesSection: View {
                     row(location)
                 }
                 if let last = model.backupList(game.id).first {
-                    Text("Last backup: \(last.date.formatted(.relative(presentation: .named)))")
-                        .foregroundStyle(.secondary)
-                        .help(last.date.formatted(date: .complete, time: .shortened))
+                    LabeledContent {
+                        Button("Backups…") { model.showsBackups = game.id }
+                            .fixedSize()
+                            .help(String(localized: "See the save backups and restore one"))
+                    } label: {
+                        Text("Last backup: \(last.date.formatted(.relative(presentation: .named)))")
+                            .help(last.date.formatted(date: .complete, time: .shortened))
+                    }
                 }
             }
         } header: {

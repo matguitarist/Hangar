@@ -23,6 +23,9 @@ struct ContentView: View {
         .sheet(isPresented: Binding(get: { model.previewingRecipe != nil }, set: { if !$0 { model.previewingRecipe = nil } })) {
             if let id = model.previewingRecipe { RecipeSheet(gameID: id) }
         }
+        .sheet(isPresented: Binding(get: { model.showsBackups != nil }, set: { if !$0 { model.showsBackups = nil } })) {
+            if let id = model.showsBackups { BackupsSheet(gameID: id) }
+        }
         .sheet(isPresented: Binding(get: { model.showsSnapshots != nil }, set: { if !$0 { model.showsSnapshots = nil } })) {
             if let id = model.showsSnapshots { SnapshotsSheet(gameID: id) }
         }

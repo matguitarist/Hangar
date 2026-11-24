@@ -122,6 +122,8 @@ final class AppModel {
     var launchSnapshots: [String: SettingsSnapshot] = [:]
     /// The game whose Snapshots sheet is open.
     var showsSnapshots: String?
+    /// The game whose Save Backups sheet is open (S-023).
+    var showsBackups: String?
     /// Bumped when snapshots change, so lists read them again.
     var snapshotGeneration = 0
     var searchText = ""

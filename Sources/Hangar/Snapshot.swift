@@ -41,11 +41,12 @@ enum Snapshot {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
                 for page in SnapshotPage.all where only?.contains(page.name) ?? true {
                     page.show(model)
-                    try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview", "share-recipe"].contains(page.name) ? 1.2 : 0.8))
+                    try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview", "share-recipe", "backups"].contains(page.name) ? 1.2 : 0.8))
                     capture(to: "\(dir)/\(page.name)-\(mode).png")
-                    if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil {
+                    if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil || model.showsBackups != nil {
                         model.addRequest = nil
                         model.showsSnapshots = nil
+                        model.showsBackups = nil
                         model.previewingRecipe = nil
                         try? await Task.sleep(for: .seconds(0.5))
                     }
@@ -189,6 +190,18 @@ struct SnapshotPage {
                 let saves = model.roots.home.appending(path: "Library/Application Support/unity.Team Cherry.Hollow Knight")
                 _ = try? model.saveBackups.backUp(id, saves: [saves], reason: .launch, now: Date().addingTimeInterval(-26 * 3600))
                 model.backupGeneration += 1
+            }
+        },
+        SnapshotPage(name: "backups") { model in
+            model.scrollGamePageToEnd = false
+            if let id = model.selectedGameID, let saves = model.backupList(id).first?.items.first.map({ URL(fileURLWithPath: $0.source) }) {
+                // A second, older backup, taken before a restore.
+                if model.backupList(id).count < 2 {
+                    try? Data("older".utf8).write(to: saves.appending(path: "user2.dat"))
+                    _ = try? model.saveBackups.backUp(id, saves: [saves], reason: .beforeRestore, now: Date().addingTimeInterval(-5 * 86400))
+                    model.backupGeneration += 1
+                }
+                model.showsBackups = id
             }
         },
         SnapshotPage(name: "share-recipe") { model in

@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import HangarKit
 
@@ -33,6 +34,29 @@ extension AppModel {
             log.post(.error, "Can't back up the saves of \(game.title): \(error.localizedDescription)", source: "Saves")
             return nil
         }
+    }
+
+    /// Puts a backup's saves back, after backing up the current ones. Not while the game runs.
+    func restoreBackup(_ backup: SaveBackup, gameID: String) async {
+        guard running[gameID] == nil, let game = game(gameID) else { return }
+        await backUpSaves(gameID, reason: .beforeRestore)
+        let store = saveBackups
+        let result = await Task.detached { Result { try store.restore(backup, gameID: gameID) } }.value
+        switch result {
+        case .success:
+            log.post(.info, "Restored the saves of \(game.title) from \(backup.date.formatted())", source: "Saves")
+        case let .failure(error):
+            log.post(.error, "Can't restore the saves of \(game.title): \(error.localizedDescription)", source: "Saves")
+        }
+        backupGeneration += 1
+        await loadSaveLocations(gameID, force: true)
+    }
+
+    /// Show in Finder for a backup's folder. A test run records it instead.
+    func showBackup(_ backup: SaveBackup, gameID: String) {
+        let folder = saveBackups.location(of: backup, gameID: gameID)
+        if Store.isOverridden { openedURLs.append(folder); return }
+        NSWorkspace.shared.activateFileViewerSelecting([folder])
     }
 
     func moveBackups(from old: SaveBackupStore) {
