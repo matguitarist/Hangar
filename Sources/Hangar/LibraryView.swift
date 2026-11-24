@@ -105,6 +105,18 @@ struct LibraryView: View {
                 Label("Sort By", systemImage: "arrow.up.arrow.down")
             }
             .help(String(localized: "Sort games"))
+            Menu {
+                Picker("Filter", selection: Binding(get: { model.filter }, set: { model.filter = $0 })) {
+                    Text("Show All").tag(GameFilter?.none)
+                    Divider()
+                    ForEach(GameFilter.allCases, id: \.self) { Text($0.title).tag(GameFilter?.some($0)) }
+                }
+                .pickerStyle(.inline)
+            } label: {
+                Label("Filter", systemImage: model.filter == nil ? "line.3.horizontal.decrease" : "line.3.horizontal.decrease.circle.fill")
+            }
+            .help(model.filter.map { String(localized: "Filter: \($0.title)") } ?? String(localized: "Filter games"))
+            .accessibilityValue(model.filter?.title ?? String(localized: "Show All"))
             Button { model.enterCouchMode() } label: { Label("Couch Mode", systemImage: "sofa") }
                 .help(String(localized: "Large covers for the sofa, with a controller or the keyboard (⇧⌘C)"))
             Button { GamePanels.addGame(model) } label: { Label("Add Game", systemImage: "plus") }
@@ -121,6 +133,14 @@ struct LibraryView: View {
                     Label(String(localized: "No games match “\(query)”"), systemImage: "magnifyingglass")
                 } actions: {
                     Button("Clear Search") { model.searchText = "" }
+                }
+            } else if let filter = model.filter {
+                ContentUnavailableView {
+                    Label("No games match this filter", systemImage: "line.3.horizontal.decrease.circle")
+                } description: {
+                    Text(filter.title)
+                } actions: {
+                    Button("Show All") { model.filter = nil }
                 }
             } else if case .collection = item {
                 ContentUnavailableView("Drag games here to add them", systemImage: "rectangle.stack")

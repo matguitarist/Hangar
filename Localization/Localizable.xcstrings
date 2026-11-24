@@ -4700,6 +4700,106 @@
           }
         }
       }
+    },
+    "Filter": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtrer"
+          }
+        }
+      }
+    },
+    "Show All": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout afficher"
+          }
+        }
+      }
+    },
+    "Never Played": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jamais joués"
+          }
+        }
+      }
+    },
+    "Not Played in 6 Months": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas joués depuis 6 mois"
+          }
+        }
+      }
+    },
+    "Windows Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeux Windows"
+          }
+        }
+      }
+    },
+    "Mac Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeux Mac"
+          }
+        }
+      }
+    },
+    "Has a Mac Version": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version Mac disponible"
+          }
+        }
+      }
+    },
+    "Filter: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtre : %@"
+          }
+        }
+      }
+    },
+    "Filter games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtrer les jeux"
+          }
+        }
+      }
+    },
+    "No games match this filter": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu ne correspond à ce filtre"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

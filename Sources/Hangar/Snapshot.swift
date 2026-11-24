@@ -370,7 +370,15 @@ struct SnapshotPage {
             model.sidebar = .runners
             model.runners = []
         },
+        SnapshotPage(name: "library-filter") { model in
+            model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false; model.runnerUpdates = []
+            model.filter = .neverPlayed
+        },
+        SnapshotPage(name: "library-filter-empty") { model in
+            model.sidebar = .source(.heroic); model.filter = .mac
+        },
         SnapshotPage(name: "health") { model in
+            model.filter = nil
             model.sidebar = .health
         },
         SnapshotPage(name: "storage") { model in

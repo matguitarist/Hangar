@@ -681,7 +681,7 @@ UX:
 - Surface: a toolbar menu with a checkmark; the empty state "No games match this filter" with "Show All"
 - Words: "Filter" / « Filtrer », "Show All" / « Tout afficher », "Never Played" / « Jamais joués », "Not Played in 6 Months" / « Pas joués depuis 6 mois », "Windows Games" / « Jeux Windows », "Mac Games" / « Jeux Mac », "Has a Mac Version" / « Version Mac disponible »
 - Access: the filter state is read by VoiceOver on the toolbar button
-Status: todo
+Status: done
 
 ### S-044 Playtime over time
 As the user, I see when I played a game: a chart of hours per week on its page, and a list of sessions.

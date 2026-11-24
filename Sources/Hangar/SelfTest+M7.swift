@@ -9,6 +9,24 @@ extension SelfTest {
         await storageChecks(model)
         await driftChecks(model)
         await healthChecks(model)
+        filterChecks(model)
+    }
+
+    /// S-043: Never Played shows only games without playtime, and combines with search.
+    static func filterChecks(_ model: AppModel) {
+        model.searchText = ""
+        model.filter = .neverPlayed
+        let never = model.games(for: .allGames)
+        check("S-043 Never Played shows only games without playtime",
+              !never.isEmpty && never.allSatisfy { $0.playtime == 0 && $0.lastPlayed == nil } && never.count < model.library.games.count,
+              never.map(\.title).joined(separator: ", "))
+        model.searchText = "zzz-no-match"
+        check("S-043 a filter combines with search", model.games(for: .allGames).isEmpty)
+        model.searchText = ""
+        model.filter = .windows
+        check("S-043 Windows Games shows only Windows games", model.games(for: .allGames).allSatisfy(\.isWindows))
+        model.filter = nil
+        check("S-043 Show All shows every game", model.games(for: .allGames).count == model.library.games.count)
     }
 
     /// S-042: the sample library's unreadable bottle and a game with saves and no backup show on Health; Back Up Now clears it.

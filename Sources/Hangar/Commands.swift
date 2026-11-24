@@ -12,6 +12,7 @@ final class MenuState: ObservableObject {
     @Published var hasStorePage = false
     @Published var hasCustomCover = false
     @Published var sort: GameSort = .name
+    @Published var filter: GameFilter?
     @Published var isFetchingDetails = false
 }
 
@@ -54,6 +55,11 @@ struct HangarCommands: Commands {
             }
             Picker("Sort By", selection: Binding(get: { menu.sort }, set: { model.sort = $0 })) {
                 ForEach(GameSort.allCases, id: \.self) { Text($0.title).tag($0) }
+            }
+            Picker("Filter", selection: Binding(get: { menu.filter }, set: { model.filter = $0 })) {
+                Text("Show All").tag(GameFilter?.none)
+                Divider()
+                ForEach(GameFilter.allCases, id: \.self) { Text($0.title).tag(GameFilter?.some($0)) }
             }
             Divider()
             Button("Couch Mode") { if model.couchMode { model.leaveCouchMode() } else { model.enterCouchMode() } }

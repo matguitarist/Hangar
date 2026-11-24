@@ -141,6 +141,13 @@ final class AppModel {
     var sort: GameSort = GameSort(rawValue: UserDefaults.standard.string(forKey: "library.sort") ?? "") ?? .name {
         didSet { if !Store.isOverridden { UserDefaults.standard.set(sort.rawValue, forKey: "library.sort") }; syncMenu() }
     }
+    /// The smart filter on every page (S-043); nil shows all. Not kept across launches, so no game stays hidden by surprise.
+    var filter: GameFilter? {
+        didSet {
+            syncMenu()
+            if filter == .hasMacVersion { Task { await loadMacVersions() } }
+        }
+    }
     var renamingCollection: UUID?
     /// Couch mode (S-028): the full-screen view, its selection, and whether the selected game's details are open.
     var couchMode = false
@@ -324,7 +331,11 @@ final class AppModel {
             all = library.games.filter { ids.contains($0.id) }
         }
         let query = searchText.trimmingCharacters(in: .whitespaces)
-        return sort.sorted(query.isEmpty ? all : all.filter { GameSearch.matches(query, title: $0.title) })
+        let searched = query.isEmpty ? all : all.filter { GameSearch.matches(query, title: $0.title) }
+        guard let filter else { return sort.sorted(searched) }
+        let now = Date()
+        let mac = filter == .hasMacVersion ? macVersionIDs : []
+        return sort.sorted(searched.filter { filter.matches($0, now: now, macVersions: mac) })
     }
 
     func pageTitle(_ item: SidebarItem) -> String {
@@ -391,6 +402,7 @@ final class AppModel {
         menu.hasStorePage = game?.storeURL != nil
         menu.hasCustomCover = game?.customCover != nil
         menu.sort = sort
+        menu.filter = filter
         menu.isFetchingDetails = detailsTask != nil
     }
 }
