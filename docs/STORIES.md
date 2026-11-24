@@ -347,7 +347,13 @@ Depends: S-007
 Acceptance:
 - [unit] PCGamingWiki's save paths for Windows and Mac turn into real paths (`%USERPROFILE%` inside the bottle, `~/Library`).
 - [self] Show in Finder opens the sample game's save folder.
-Status: todo
+UX:
+- Flow: game page › Overview › "Saves" (after the game's details) → each row names Saves or Settings and the folder → "Show in Finder" opens it (the nearest folder that exists when the game hasn't saved yet)
+- Surface: a section of the Overview, like "Runs on a Mac"; read from PCGamingWiki once a month and cached
+- States: loading past half a second "Checking PCGamingWiki…"; no page "PCGamingWiki has no page for this game yet."; no paths "PCGamingWiki doesn't say where this game saves."; not saved yet "Not on this Mac yet"; registry keys are left out
+- Words: "Saves" / « Sauvegardes », "Show in Finder" / « Afficher dans le Finder », "Not on this Mac yet" / « Pas encore sur ce Mac », "From PCGamingWiki" / « Selon PCGamingWiki »
+- Access: each row is a label, its path, and one button; the full path is in the tooltip
+Status: done
 
 ### S-022 Back up saves before each launch
 As the user, Hangar copies a game's saves before it launches, keeps the last ten copies, and can keep them in iCloud Drive.
@@ -356,6 +362,12 @@ Depends: S-021
 Acceptance:
 - [unit] Keeps ten copies and removes older ones; a copy is skipped when nothing changed.
 - [self] Launching the sample game makes one backup.
+UX:
+- Flow: Play → Hangar copies the saves (a moment, before the game starts) → the Saves section shows "Last backup: today at 14:02" and "Backups…"; Settings › Library › Save Backups › "Keep save backups in iCloud Drive"
+- Surface: inline under the save rows; one toggle in Settings
+- States: nothing to back up (no saves yet): no line; unchanged since the last copy: no new copy; a copy that fails: logged, the game still starts
+- Words: "Last backup: %@" / « Dernière sauvegarde : %@ », "Keep save backups in iCloud Drive" / « Garder les sauvegardes dans iCloud Drive », "Save Backups" / « Sauvegardes des parties »
+- Access: the toggle has its label read; the line is plain text
 Status: todo
 
 ### S-023 Restore a save
@@ -364,6 +376,12 @@ Screens: saves
 Depends: S-022
 Acceptance:
 - [self] Restore puts the old save back and the current one shows as a new backup.
+UX:
+- Flow: Saves section › "Backups…" → a sheet lists backups newest first (date, size, files) → select one → "Restore" → confirmation "Restore the saves from 12 Nov at 20:14? Hangar backs up the current saves first." → done, the sheet shows the new backup on top
+- Surface: a sheet (a list to choose from, then one action); a confirmation dialog because it replaces files
+- States: no backups "No backups yet. Hangar makes one each time you play."; game running: Restore disabled with "Quit the game first"
+- Words: "Backups…" / « Sauvegardes… », "Restore" / « Restaurer », "Show in Finder" / « Afficher dans le Finder »
+- Access: the list is keyboard navigable; Return restores the selection after the confirmation
 Status: todo
 
 ### S-024 Why a game crashed
@@ -373,6 +391,30 @@ Depends: S-006
 Acceptance:
 - [unit] Known Wine log lines map to reasons: missing DLLs, missing runtimes, unsupported DirectX features, out of memory.
 - [self] A sample crash log shows its reason and the fix button.
+UX:
+- Flow: a Windows game quits within a minute → the game page shows "Hollow Knight quit: Missing Visual C++ 2022 runtime" with the fix ("Install it in CrossOver" or "Use DXVK") and "Show Log" → the Wine log opens in the Log viewer
+- Surface: the existing notice section at the top of the game page; the log opens on the Log page (LogKit's viewer)
+- States: no known reason "Hangar didn't find why. The Wine log may tell." with "Show Log"; a fix that changes settings takes a snapshot first (S-017)
+- Words: "Show Log" / « Afficher le journal », reasons in plain words, no Wine jargon in the first line
+- Access: the reason is the label's text; buttons have hover help
+Status: todo
+
+
+### S-031 Game details from the web
+As the user, I see what a game is about on its page: a short description, developer, publisher, release date and genres, from the Steam store for Steam games and from TheGamesDB (with my free API key) for the others, in French when the store has it.
+Screens: game-page, settings-library
+Depends: S-007, S-030
+Acceptance:
+- [unit] Steam's appdetails answer becomes details: plain-text description, developers, publishers, release date and genres, asked in the app's language.
+- [unit] TheGamesDB's best match for a title on PC (or Mac for a Mac game), with genre, developer and publisher names from its lists, fetched at most once a month.
+- [unit] Details are cached on disk, asked again at most once a month, and the cache answers offline.
+- [self] The sample game's details show from the sample answers; the TheGamesDB key is kept in the Keychain (in memory in a test run), and clearing it forgets it.
+UX:
+- Flow: game page › Overview › "About" (under the header) → the description (four lines, "More" shows the rest) → Developer, Publisher, Released, Genres; Settings › Library › Game Details → paste the TheGamesDB key → details fill in without a restart
+- Surface: a section of the Overview; one secure field and a link in Settings › Library
+- States: loading: nothing (the section appears when details arrive); nothing found or offline with no cache: no section; no key: Steam games only
+- Words: "About" / « À propos », "Developer" / « Développeur », "Publisher" / « Éditeur », "Released" / « Sortie », "Genres" / « Genres », "More" / « Plus », "Less" / « Moins », "From the Steam store" / « Selon le magasin Steam », "From TheGamesDB" / « Selon TheGamesDB », "Game Details" / « Détails des jeux », "TheGamesDB API Key" / « Clé d’API TheGamesDB », "Request a key on the TheGamesDB forums" / « Demander une clé sur les forums de TheGamesDB »
+- Access: the description is selectable text; rows are label and value
 Status: todo
 
 

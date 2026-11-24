@@ -451,6 +451,16 @@
         }
       }
     },
+    "Checking PCGamingWiki…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérification sur PCGamingWiki…"
+          }
+        }
+      }
+    },
     "Choose": {
       "localizations": {
         "fr": {
@@ -777,6 +787,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Selon AppleGamingWiki"
+          }
+        }
+      }
+    },
+    "From PCGamingWiki": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon PCGamingWiki"
           }
         }
       }
@@ -1431,6 +1451,16 @@
         }
       }
     },
+    "Not on this Mac yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore sur ce Mac"
+          }
+        }
+      }
+    },
     "Not played yet": {
       "localizations": {
         "fr": {
@@ -1517,6 +1547,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aperçu"
+          }
+        }
+      }
+    },
+    "PCGamingWiki doesn't say where this game saves.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PCGamingWiki n’indique pas où ce jeu sauvegarde."
+          }
+        }
+      }
+    },
+    "PCGamingWiki has no page for this game yet.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PCGamingWiki n’a pas encore de page pour ce jeu."
           }
         }
       }
@@ -1897,6 +1947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enregistrés avant chaque changement et chaque lancement."
+          }
+        }
+      }
+    },
+    "Saves": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegardes"
           }
         }
       }

@@ -1,0 +1,21 @@
+{{Infobox game
+|cover        = Hollow Knight cover.jpg
+|steam appid  = 367520
+}}
+
+==Game data==
+===Configuration file(s) location===
+{{Game data|
+{{Game data/config|Windows|{{p|hkcu}}\Software\Team Cherry\Hollow Knight\|{{p|game}}\hollow_knight_Data\Config.ini}}
+{{Game data/config|Microsoft Store|{{p|programdata}}\Packages\TeamCherry.15373CD61C66B_y4jvztpgccj42\SystemAppData\wgs}}
+{{Game data/config|OS X|{{p|osxhome}}/Library/Preferences/unity.Team Cherry.Hollow Knight.plist}}
+{{Game data/config|Linux|{{p|xdgconfighome}}/unity3d/Team Cherry/Hollow Knight/prefs|{{p|game}}/hollow_knight_Data/Config.ini}}
+}}
+
+===Save game data location===
+{{Game data|
+{{Game data/saves|Windows|{{p|userprofile}}\AppData\LocalLow\Team Cherry\Hollow Knight\*.dat | {{p|userprofile}}\AppData\LocalLow\Team Cherry\Hollow Knight\*.bak}}
+{{Game data/saves|Microsoft Store|{{p|programdata}}\Packages\TeamCherry.15373CD61C66B_y4jvztpgccj42\SystemAppData\wgs}}
+{{Game data/saves|OS X|{{p|osxhome}}/Library/Application Support/unity.Team Cherry.Hollow Knight/}}
+{{Game data/saves|Linux|{{p|xdgconfighome}}/unity3d/Team Cherry/Hollow Knight/*.dat}}
+}}

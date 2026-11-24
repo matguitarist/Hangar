@@ -37,6 +37,7 @@ enum SelfTest {
             check("the log line reaches the log file", text.contains("Self-test line"))
             await libraryChecks(model)
             await tuneChecks(model)
+            await savesChecks(model)
 
             print(failures == 0 ? "SELFTEST PASS \(count) checks" : "SELFTEST FAIL \(failures) of \(count) checks")
             finish(code: failures == 0 ? 0 : 1)

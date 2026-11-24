@@ -140,6 +140,11 @@ final class AppModel {
     let compatibilityCache = CompatibilityCache(folder: Store.compatibilityFolder, fetch: Store.compatibilityFetch)
     /// AppleGamingWiki's verdicts by game id: nil while loading, .some(nil) when the wiki has no page.
     var compatibility: [String: Compatibility?] = [:]
+    let gameDataCache = GameDataCache(folder: Store.gameDataFolder, fetch: Store.gameDataFetch)
+    /// Where each game saves, by game id: nil while loading, .some(nil) when PCGamingWiki has no page.
+    var saveLocations: [String: [SaveLocation]?] = [:]
+    /// The wiki page the save paths came from, by game id.
+    var saveDataPages: [String: URL] = [:]
     /// Bumped when covers can change everywhere (a new SteamGridDB key), so tiles look again.
     var coverGeneration = 0
     /// The SteamGridDB API key (Settings › Library), kept in the Keychain.

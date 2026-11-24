@@ -1,0 +1,15 @@
+{{Infobox game
+|steam appid  = 1546710
+}}
+
+==Game data==
+===Configuration file(s) location===
+{{Game data|
+{{Game data/config|Windows|{{p|localappdata}}\VernalEdge\Saved\Config\Windows\}}
+}}
+
+===Save game data location===
+{{Game data|
+{{Game data/saves|Windows|{{p|localappdata}}\VernalEdge\Saved\SaveGames\<ref>Checked by the fixture's author.</ref>}}
+{{Game data/saves|Steam|{{p|steam}}\userdata\{{p|uid}}\1546710\remote\}}
+}}

@@ -64,11 +64,14 @@ struct GamePage: View {
                 LabeledContent("Playtime", value: playtime(game))
                 LabeledContent("Last played", value: game.lastPlayed.map { $0.formatted(.relative(presentation: .named)) } ?? String(localized: "Never"))
             }
+            SavesSection(game: game)
             LinksSection(game: game)
         }
         .formStyle(.grouped)
         // Snapshot mode shows the end of the page.
         .defaultScrollAnchor(model.scrollGamePageToEnd ? .bottom : .top)
+        // Sections that load later (verdicts, saves) keep the end in view.
+        .defaultScrollAnchor(model.scrollGamePageToEnd ? .bottom : nil, for: .sizeChanges)
         // Another game opens at the top of its page, not where the last one was scrolled to.
         .id(game.id)
         .gridArea("game-page", inset: 0)

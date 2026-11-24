@@ -133,6 +133,18 @@ enum Store {
         return CompatibilityCache.folder(URL(fileURLWithPath: fixtures).appending(path: "AppleGamingWiki"))
     }
 
+    /// PCGamingWiki's save paths, cached: PCGamingWiki/ next to the library, or <store>-run/pcgw in a test run.
+    static var gameDataFolder: URL {
+        isOverridden ? runFile("pcgw") : folder.appending(path: "PCGamingWiki")
+    }
+
+    /// A test run never asks the wiki: it reads the sample pages (APP_FIXTURES/PCGamingWiki), or nothing.
+    static var gameDataFetch: GameDataCache.Fetch {
+        guard isOverridden else { return GameDataCache.network }
+        let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] ?? "/nonexistent"
+        return GameDataCache.folder(URL(fileURLWithPath: fixtures).appending(path: "PCGamingWiki"))
+    }
+
     /// Where scans look. A test run never reads this Mac's games: it scans the sample library
     /// (APP_FIXTURES, copied to <store>-run/fixtures in /tmp) or nothing.
     static func roots(steamFolder: String?) -> LibraryRoots {

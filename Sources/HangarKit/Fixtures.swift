@@ -24,6 +24,7 @@ public enum FixtureLibrary {
         LibraryRoots(steam: folder.appending(path: "Steam"), bottles: folder.appending(path: "Bottles"),
                      crossOverApp: folder.appending(path: "Applications/CrossOver.app"),
                      appFolders: [folder.appending(path: "Applications")], ownBundleID: "com.mathieuares.hangar",
-                     toolFolders: [folder.appending(path: "opt")], prefixes: folder.appending(path: "Prefixes"))
+                     toolFolders: [folder.appending(path: "opt")], prefixes: folder.appending(path: "Prefixes"),
+                     home: folder.appending(path: "Home"))
     }
 }
