@@ -1,0 +1,8 @@
+{{Infobox game
+}}
+
+==Game data==
+===Save game data location===
+{{Game data|
+{{Game data/saves|OS X|{{p|osxhome}}/Library/Application Support/Starfall Arcade/Saves/}}
+}}

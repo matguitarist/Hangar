@@ -31,5 +31,24 @@ extension SelfTest {
             check("S-021 a Mac game's saves are found in the home folder", saves?.exists == true
                   && saves?.folder.lastPathComponent == "unity.Team Cherry.Hollow Knight", saves?.path ?? "none")
         }
+
+        // S-022: Starfall Arcade was played several times by the checks before, its saves never changing.
+        if let starfall = find("Starfall Arcade") {
+            check("S-022 launching the sample game made one backup, and unchanged saves made no more",
+                  model.backupList(starfall.id).count == 1, "\(model.backupList(starfall.id).count) backups")
+            let save = model.roots.home.appending(path: "Library/Application Support/Starfall Arcade/Saves/profile.sav")
+            try? Data("level 4\n".utf8).write(to: save)
+            _ = await launched(model, starfall.id)
+            let backups = model.backupList(starfall.id)
+            check("S-022 a launch after the saves changed makes a new backup", backups.count == 2, "\(backups.count) backups")
+            let stored = backups.first.map { model.saveBackups.location(of: $0, gameID: starfall.id) }
+            let copy = stored.flatMap { try? String(contentsOf: $0.appending(path: "items/0/Saves/profile.sav"), encoding: .utf8) }
+            check("S-022 the backup holds the save as it was before the game started", copy == "level 4\n", copy ?? "missing")
+            model.backupsInICloud = true
+            check("S-022 iCloud Drive keeps the backups when turned on", model.backupList(starfall.id).count == 2
+                  && model.saveBackups.root.lastPathComponent == "icloud-save-backups")
+            model.backupsInICloud = false
+            check("S-022 and they come back when turned off", model.backupList(starfall.id).count == 2)
+        }
     }
 }

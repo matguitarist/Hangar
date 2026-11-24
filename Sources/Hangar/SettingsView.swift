@@ -114,6 +114,14 @@ struct LibrarySettings: View {
                 .foregroundStyle(.secondary)
         }
         Section {
+            Toggle("Keep save backups in iCloud Drive", isOn: $model.backupsInICloud)
+        } header: {
+            Text("Save Backups")
+        } footer: {
+            Text("Hangar copies a game's saves each time you play it and keeps the last ten copies. In iCloud Drive, they're also on your other Macs.")
+                .foregroundStyle(.secondary)
+        }
+        Section {
             if model.library.removed.isEmpty {
                 Text("No removed games.").foregroundStyle(.secondary)
             }

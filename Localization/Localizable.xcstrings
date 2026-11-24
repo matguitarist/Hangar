@@ -941,6 +941,16 @@
         }
       }
     },
+    "Hangar copies a game's saves each time you play it and keeps the last ten copies. In iCloud Drive, they're also on your other Macs.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar copie les sauvegardes d’un jeu chaque fois que vous y jouez et garde les dix dernières copies. Dans iCloud Drive, elles sont aussi sur vos autres Mac."
+          }
+        }
+      }
+    },
     "Hangar copies the bottle %@ and moves %@ to the copy. The other games stay in the bottle %@ as they are.": {
       "localizations": {
         "fr": {
@@ -1081,6 +1091,16 @@
         }
       }
     },
+    "Keep save backups in iCloud Drive": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garder les sauvegardes dans iCloud Drive"
+          }
+        }
+      }
+    },
     "Label the settings it started with, to come back to them later": {
       "localizations": {
         "fr": {
@@ -1097,6 +1117,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Langue"
+          }
+        }
+      }
+    },
+    "Last backup: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière sauvegarde : %@"
           }
         }
       }
@@ -1937,6 +1967,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fonctionne sur Mac"
+          }
+        }
+      }
+    },
+    "Save Backups": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegardes des parties"
           }
         }
       }

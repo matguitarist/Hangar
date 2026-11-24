@@ -368,7 +368,7 @@ UX:
 - States: nothing to back up (no saves yet): no line; unchanged since the last copy: no new copy; a copy that fails: logged, the game still starts
 - Words: "Last backup: %@" / « Dernière sauvegarde : %@ », "Keep save backups in iCloud Drive" / « Garder les sauvegardes dans iCloud Drive », "Save Backups" / « Sauvegardes des parties »
 - Access: the toggle has its label read; the line is plain text
-Status: todo
+Status: done
 
 ### S-023 Restore a save
 As the user, I pick a backup and restore it; Hangar backs up the current saves first.

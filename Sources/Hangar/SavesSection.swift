@@ -27,6 +27,11 @@ struct SavesSection: View {
                 ForEach(locations) { location in
                     row(location)
                 }
+                if let last = model.backupList(game.id).first {
+                    Text("Last backup: \(last.date.formatted(.relative(presentation: .named)))")
+                        .foregroundStyle(.secondary)
+                        .help(last.date.formatted(date: .complete, time: .shortened))
+                }
             }
         } header: {
             Text("Saves")

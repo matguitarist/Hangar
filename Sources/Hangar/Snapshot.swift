@@ -180,6 +180,17 @@ struct SnapshotPage {
             model.sidebar = .allGames; select(model, "Hollow Knight")
             model.scrollGamePageToEnd = true
         },
+        SnapshotPage(name: "game-page-saves") { model in
+            model.runnerUpdates = []
+            model.showsGamePage = true
+            model.sidebar = .allGames; select(model, "Hollow Knight")
+            model.scrollGamePageToEnd = true
+            if let id = model.selectedGameID, model.backupList(id).isEmpty {
+                let saves = model.roots.home.appending(path: "Library/Application Support/unity.Team Cherry.Hollow Knight")
+                _ = try? model.saveBackups.backUp(id, saves: [saves], reason: .launch, now: Date().addingTimeInterval(-26 * 3600))
+                model.backupGeneration += 1
+            }
+        },
         SnapshotPage(name: "share-recipe") { model in
             model.scrollGamePageToEnd = false
             model.runnerUpdates = []

@@ -145,6 +145,14 @@ enum Store {
         return GameDataCache.folder(URL(fileURLWithPath: fixtures).appending(path: "PCGamingWiki"))
     }
 
+    /// Save backups (S-022): Save Backups/ next to the library, or Hangar/Save Backups in iCloud Drive.
+    /// A test run keeps both in <store>-run.
+    static func saveBackupsFolder(iCloud: Bool) -> URL {
+        if isOverridden { return runFile(iCloud ? "icloud-save-backups" : "save-backups") }
+        guard iCloud else { return folder.appending(path: "Save Backups") }
+        return URL.libraryDirectory.appending(path: "Mobile Documents/com~apple~CloudDocs/Hangar/Save Backups")
+    }
+
     /// Where scans look. A test run never reads this Mac's games: it scans the sample library
     /// (APP_FIXTURES, copied to <store>-run/fixtures in /tmp) or nothing.
     static func roots(steamFolder: String?) -> LibraryRoots {

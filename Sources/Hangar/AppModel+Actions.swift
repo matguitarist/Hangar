@@ -32,6 +32,16 @@ extension AppModel {
         if !plan.environment.isEmpty {
             log.post(.info, "With \(plan.environment.keys.sorted().joined(separator: ", "))", source: "Launch")
         }
+        // The saves are copied before the game can change them (S-022).
+        Task {
+            await backUpSaves(id, reason: .launch)
+            guard running[id] != nil else { return }
+            launch(id, plan: plan)
+        }
+    }
+
+    /// Starts the launch command, once the saves are backed up.
+    private func launch(_ id: String, plan: LaunchPlan) {
         if plan.executable.path == "/usr/bin/open", plan.arguments.count == 1, let app = plan.arguments.first, app.hasSuffix(".app") {
             // A Mac app: open it through Launch Services, which gives its process id at once.
             let configuration = NSWorkspace.OpenConfiguration()

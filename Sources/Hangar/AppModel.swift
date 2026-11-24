@@ -145,6 +145,16 @@ final class AppModel {
     var saveLocations: [String: [SaveLocation]?] = [:]
     /// The wiki page the save paths came from, by game id.
     var saveDataPages: [String: URL] = [:]
+    /// Bumped when save backups change, so the Saves section and the Backups sheet read them again.
+    var backupGeneration = 0
+    /// Settings › Library: keep save backups in iCloud Drive. Turning it on or off moves them.
+    var backupsInICloud: Bool = UserDefaults.standard.bool(forKey: "saves.iCloud") {
+        didSet {
+            guard backupsInICloud != oldValue else { return }
+            if !Store.isOverridden { UserDefaults.standard.set(backupsInICloud, forKey: "saves.iCloud") }
+            moveBackups(from: SaveBackupStore(root: Store.saveBackupsFolder(iCloud: oldValue)))
+        }
+    }
     /// Bumped when covers can change everywhere (a new SteamGridDB key), so tiles look again.
     var coverGeneration = 0
     /// The SteamGridDB API key (Settings › Library), kept in the Keychain.
