@@ -359,6 +359,13 @@ struct SnapshotPage {
             model.sidebar = .runners
             model.runners = []
         },
+        SnapshotPage(name: "storage") { model in
+            let old = model.roots.prefixes.appending(path: "Old Game-1a2b")
+            try? FileManager.default.createDirectory(at: old.appending(path: "drive_c"), withIntermediateDirectories: true)
+            try? Data(repeating: 7, count: 3_000_000).write(to: old.appending(path: "drive_c/big.bin"))
+            model.storageItems = nil
+            model.sidebar = .storage
+        },
         SnapshotPage(name: "log") { model in
             model.sidebar = .log
         },

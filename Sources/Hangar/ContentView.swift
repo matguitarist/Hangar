@@ -69,6 +69,8 @@ struct ContentView: View {
                 .navigationTitle("Log")
         case .runners:
             RunnersPage()
+        case .storage:
+            StoragePage()
         default:
             LibraryView(item: item)
         }

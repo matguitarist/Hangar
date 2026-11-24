@@ -639,7 +639,7 @@ UX:
 - States: measuring "Measuring…" in the toolbar past half a second; nothing to free: no buttons
 - Words: "Storage" / « Stockage », "Games" / « Jeux », "Bottles" / « Bouteilles », "Prefixes" / « Préfixes », "Snapshots" / « Instantanés », "Save Backups" / « Sauvegardes de parties », "Unused" / « Inutilisé », "Move to Trash…" / « Placer dans la corbeille… », "Delete Old Snapshots…" / « Supprimer les anciens instantanés… »
 - Access: the bar's numbers are in the list as text
-Status: todo
+Status: done
 
 ### S-040 Settings put back after a CrossOver update
 As the user, when a CrossOver update changed my bottles' settings, Hangar shows what changed and puts my settings back in one click.

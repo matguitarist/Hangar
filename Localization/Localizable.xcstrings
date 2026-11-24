@@ -2726,7 +2726,7 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sauvegardes des parties"
+            "value": "Sauvegardes de parties"
           }
         }
       }
@@ -4277,6 +4277,216 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sur batterie, à la place de la limite du jeu"
+          }
+        }
+      }
+    },
+    "Storage": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stockage"
+          }
+        }
+      }
+    },
+    "Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeux"
+          }
+        }
+      }
+    },
+    "Prefixes": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préfixes"
+          }
+        }
+      }
+    },
+    "On Disk": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur le disque"
+          }
+        }
+      }
+    },
+    "Measuring…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesure…"
+          }
+        }
+      }
+    },
+    "Measure Again": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesurer à nouveau"
+          }
+        }
+      }
+    },
+    "Measure again": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesurer à nouveau"
+          }
+        }
+      }
+    },
+    "Move %@ to the Trash?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placer %@ dans la corbeille?"
+          }
+        }
+      }
+    },
+    "Move to Trash": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placer dans la corbeille"
+          }
+        }
+      }
+    },
+    "No game in the library runs in this prefix anymore.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu de la bibliothèque ne s’exécute plus dans ce préfixe."
+          }
+        }
+      }
+    },
+    "Delete old snapshots?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les anciens instantanés?"
+          }
+        }
+      }
+    },
+    "Delete old save backups?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les anciennes sauvegardes de parties?"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
+          }
+        }
+      }
+    },
+    "Each game keeps its three newest snapshots and the ones that worked.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chaque jeu garde ses trois instantanés les plus récents et ceux qui ont fonctionné."
+          }
+        }
+      }
+    },
+    "Each game keeps its three newest save backups.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chaque jeu garde ses trois sauvegardes de parties les plus récentes."
+          }
+        }
+      }
+    },
+    "Move to Trash…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placer dans la corbeille…"
+          }
+        }
+      }
+    },
+    "Delete Old Snapshots…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les anciens instantanés…"
+          }
+        }
+      }
+    },
+    "Delete Old Backups…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les anciennes sauvegardes…"
+          }
+        }
+      }
+    },
+    "Unused": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inutilisé"
+          }
+        }
+      }
+    },
+    "Size": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taille"
+          }
+        }
+      }
+    },
+    "Kind": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
           }
         }
       }

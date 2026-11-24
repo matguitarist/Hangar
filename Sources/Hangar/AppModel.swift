@@ -8,7 +8,7 @@ import SwiftUI
 
 /// The sidebar pages.
 enum SidebarItem: Hashable {
-    case running, allGames, source(GameSource), bottle(String), collection(UUID), runners, log
+    case running, allGames, source(GameSource), bottle(String), collection(UUID), runners, storage, log
 }
 
 extension GameSource {
@@ -149,6 +149,9 @@ final class AppModel {
     @ObservationIgnored var couchMadeFullScreen = false
     /// Steam achievements by game id (S-041): nil while not read, .some(nil) when Steam has none on this Mac.
     var achievementCache: [String: AchievementSummary?] = [:]
+    /// The Storage page (S-039): what it measured, and whether it's measuring.
+    var storageItems: [StorageItem]?
+    var measuringStorage = false
     /// Game controllers (S-029).
     let controllers = ControllerCenter()
     var addRequest: AddRequest?
@@ -308,7 +311,7 @@ final class AppModel {
     func games(for item: SidebarItem) -> [Game] {
         let all: [Game]
         switch item {
-        case .allGames, .log, .runners: all = library.games
+        case .allGames, .log, .runners, .storage: all = library.games
         case .running: all = library.games.filter { running[$0.id] != nil }
         case let .source(source): all = library.games.filter { $0.source == source }
         case let .bottle(name): all = library.games.filter { $0.bottle == name && $0.source == .crossOver }
@@ -328,6 +331,7 @@ final class AppModel {
         case let .bottle(name): name
         case let .collection(id): library.collections.first { $0.id == id }?.name ?? ""
         case .runners: String(localized: "Runners")
+        case .storage: String(localized: "Storage")
         case .log: String(localized: "Log")
         }
     }

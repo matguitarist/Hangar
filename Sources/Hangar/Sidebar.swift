@@ -78,6 +78,8 @@ struct Sidebar: View {
                 Label("Runners", systemImage: "gearshape.2")
                     .badge(model.runners.count)
                     .tag(SidebarItem.runners)
+                Label("Storage", systemImage: "internaldrive")
+                    .tag(SidebarItem.storage)
                 Label("Log", systemImage: "doc.text.magnifyingglass")
                     .tag(SidebarItem.log)
             }
