@@ -132,6 +132,21 @@ extension SelfTest {
                 check("S-017 restoring saves the broken settings first", model.snapshotList(kynseed.id).first?.reason == .restore)
             }
         }
+        // S-016: apply the sample recipe to Moonlit Harbor (bottle Classics), then Undo.
+        if let harbor = find("Moonlit Harbor"), let name = harbor.bottle {
+            let bottle = model.bottleURL(name)
+            let files = ["cxbottle.conf", "user.reg", "system.reg"]
+            let before = files.map { try? Data(contentsOf: bottle.appending(path: $0)) }
+            let copy = bottle.appending(path: "drive_c/Program Files/Moonlit Harbor/data/readme-copy.txt")
+            check("S-016 Moonlit Harbor has a recipe", model.recipe(for: harbor)?.id == "moonlit-harbor")
+            check("S-016 bad manifest entries are skipped", model.recipes.skipped.count == 5, "\(model.recipes.skipped)")
+            model.applyRecipe(harbor.id)
+            check("S-016 applying changes the bottle", model.bottleSettings(for: harbor)?.graphics == .dxmt
+                  && FileManager.default.fileExists(atPath: copy.path) && model.game(harbor.id)?.options.arguments == "-windowed -skipintro")
+            model.undoRecipe(harbor.id)
+            check("S-016 Undo puts every file back", files.map { try? Data(contentsOf: bottle.appending(path: $0)) } == before
+                  && !FileManager.default.fileExists(atPath: copy.path) && model.game(harbor.id)?.options.arguments.isEmpty == true)
+        }
         if let starfall = find("Starfall Arcade") {
             model.play(starfall.id)
             let launch = model.launchSnapshots[starfall.id]

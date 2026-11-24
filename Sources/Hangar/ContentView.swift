@@ -20,6 +20,9 @@ struct ContentView: View {
         .sheet(item: $model.addRequest) { request in
             AddGameSheet(request: request)
         }
+        .sheet(isPresented: Binding(get: { model.previewingRecipe != nil }, set: { if !$0 { model.previewingRecipe = nil } })) {
+            if let id = model.previewingRecipe { RecipeSheet(gameID: id) }
+        }
         .sheet(isPresented: Binding(get: { model.showsSnapshots != nil }, set: { if !$0 { model.showsSnapshots = nil } })) {
             if let id = model.showsSnapshots { SnapshotsSheet(gameID: id) }
         }

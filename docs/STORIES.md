@@ -269,7 +269,13 @@ Acceptance:
 - [unit] A recipe's env vars, backend, DLL copies, registry keys, DLL overrides and launch args turn into a list of changes.
 - [self] Applying the sample recipe changes the bottle; Undo puts every file back.
 - [unit] The manifest is checked against its schema; a bad entry is skipped, not fatal.
-Status: todo
+UX:
+- Flow: a CrossOver game with a recipe shows "Recommended Setup" on its Overview (notes, "Tested with CrossOver 26.3") → "Review Changes…" → sheet lists every change in plain words → "Apply Setup" saves a snapshot, writes the bottle and the launch options → the section reads "Applied" with "Undo", which puts every file back
+- Surface: a section of the game page; a sheet "Apply the Recommended Setup to Moonlit Harbor?" (one short task that finishes or cancels)
+- States: no recipe: no section; a shared bottle: the warning names the other games; a game in the bottle running, or a file the recipe needs missing: the reason in red with the fix, "Apply Setup" dimmed; a bad manifest entry: skipped and named on the Log page
+- Words: "Recommended Setup" / « Configuration recommandée », "Review Changes…" / « Voir les changements… », "Apply Setup" / « Appliquer la configuration », "Undo" / « Annuler »; changes as "Turn on MSync", "Load dinput8.dll as native,builtin"
+- Access: Return applies, Escape cancels; the error has a symbol, not color alone
+Status: done
 
 ### S-017 Snapshot before every change, and roll back
 As the user, Hangar saves a game's settings and bottle files before any change, and when a game breaks I pick an earlier snapshot ("worked on 12 Nov") and restore it.

@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "recipes": [
+    {
+      "id": "moonlit-harbor",
+      "title": "Moonlit Harbor",
+      "match": {
+        "exe": "MoonlitHarbor.exe",
+        "title": "Moonlit Harbor"
+      },
+      "graphics": "dxmt",
+      "msync": true,
+      "highResolution": true,
+      "env": {
+        "DXMT_LOG_LEVEL": "none"
+      },
+      "arguments": "-windowed -skipintro",
+      "dllOverrides": {
+        "dinput8": "native,builtin"
+      },
+      "registry": [
+        {
+          "hive": "user",
+          "key": "Software\\Moonlit Harbor\\Settings",
+          "name": "Fullscreen",
+          "dword": 0
+        }
+      ],
+      "copies": [
+        {
+          "from": "@game/readme.txt",
+          "to": "@game/data/readme-copy.txt"
+        }
+      ],
+      "notes": "Runs smoothly with DXMT. The intro video stutters, so the recipe skips it.",
+      "tested": "CrossOver 26.3",
+      "source": "Hangar sample"
+    },
+    {
+      "id": "",
+      "title": "No id",
+      "match": {
+        "title": "X"
+      }
+    },
+    {
+      "id": "bad-hive",
+      "title": "Bad",
+      "match": {
+        "title": "X"
+      },
+      "registry": [
+        {
+          "hive": "machine",
+          "key": "K",
+          "name": "N",
+          "value": "v"
+        }
+      ]
+    },
+    {
+      "id": "bad-copy",
+      "title": "Bad",
+      "match": {
+        "title": "X"
+      },
+      "copies": [
+        {
+          "from": "/etc/passwd",
+          "to": "@game/../../x"
+        }
+      ]
+    },
+    {
+      "id": "bad-type",
+      "title": 42,
+      "match": {}
+    },
+    {
+      "id": "no-match",
+      "title": "No match",
+      "match": {}
+    }
+  ]
+}

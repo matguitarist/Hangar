@@ -261,6 +261,36 @@
         }
       }
     },
+    "Applied": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquée"
+          }
+        }
+      }
+    },
+    "Apply Setup": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquer la configuration"
+          }
+        }
+      }
+    },
+    "Apply the Recommended Setup to %@?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquer la configuration recommandée à %@ ?"
+          }
+        }
+      }
+    },
     "Arguments": {
       "localizations": {
         "fr": {
@@ -507,6 +537,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Collections"
+          }
+        }
+      }
+    },
+    "Copy %@ to %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier %1$@ vers %2$@"
           }
         }
       }
@@ -811,12 +851,32 @@
         }
       }
     },
+    "Graphics: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Graphismes : %@"
+          }
+        }
+      }
+    },
     "Hangar": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Hangar"
+          }
+        }
+      }
+    },
+    "Hangar can't find the game's folder in its bottle. Choose its program in Settings › Launch Options, then try again.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar ne trouve pas le dossier du jeu dans sa bouteille. Choisissez son programme dans Réglages › Options de lancement, puis réessayez."
           }
         }
       }
@@ -867,6 +927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hangar enregistre les réglages et les fichiers de bouteille d’un jeu avant chaque changement et chaque lancement."
+          }
+        }
+      }
+    },
+    "Hangar saves a snapshot first, so Undo puts everything back.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar enregistre d’abord un instantané : Annuler remet tout en place."
           }
         }
       }
@@ -991,6 +1061,16 @@
         }
       }
     },
+    "Launch arguments: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arguments de lancement : %@"
+          }
+        }
+      }
+    },
     "Lets D3DMetal games upscale with MetalFX.": {
       "localizations": {
         "fr": {
@@ -1007,6 +1087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bibliothèque"
+          }
+        }
+      }
+    },
+    "Load %@.dll as %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger %1$@.dll en %2$@"
           }
         }
       }
@@ -1441,12 +1531,32 @@
         }
       }
     },
+    "Put back the settings and files the recipe changed": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remettre les réglages et les fichiers modifiés par la recette"
+          }
+        }
+      }
+    },
     "Quit the game (⌘.)": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Quitter le jeu (⌘.)"
+          }
+        }
+      }
+    },
+    "Quit the games in the bottle %@ first.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quittez d’abord les jeux de la bouteille %@."
           }
         }
       }
@@ -1471,6 +1581,16 @@
         }
       }
     },
+    "Recommended Setup": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configuration recommandée"
+          }
+        }
+      }
+    },
     "Refresh": {
       "localizations": {
         "fr": {
@@ -1487,6 +1607,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Actualiser la bibliothèque"
+          }
+        }
+      }
+    },
+    "Registry: %@ › %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registre : %1$@ › %2$@"
           }
         }
       }
@@ -1611,6 +1741,16 @@
         }
       }
     },
+    "Review Changes…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir les changements…"
+          }
+        }
+      }
+    },
     "Runner": {
       "localizations": {
         "fr": {
@@ -1711,12 +1851,32 @@
         }
       }
     },
+    "See what the recommended setup changes before applying it": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir ce que change la configuration recommandée avant de l’appliquer"
+          }
+        }
+      }
+    },
     "Select a game to see its details": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Sélectionnez un jeu pour voir ses détails"
+          }
+        }
+      }
+    },
+    "Set the variable %@ to %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Régler la variable %1$@ sur %2$@"
           }
         }
       }
@@ -1991,6 +2151,36 @@
         }
       }
     },
+    "Tested with": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testée avec"
+          }
+        }
+      }
+    },
+    "The bottle %@ also holds %@: it gets these settings too.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La bouteille %1$@ contient aussi %2$@ : ce jeu recevra aussi ces réglages."
+          }
+        }
+      }
+    },
+    "The bottle %@ also holds %lld other games: they get these settings too.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La bouteille %1$@ contient aussi %2$lld autres jeux : ils recevront aussi ces réglages."
+          }
+        }
+      }
+    },
     "The first one is saved the next time you change a setting or play.": {
       "localizations": {
         "fr": {
@@ -2031,6 +2221,16 @@
         }
       }
     },
+    "The recipe needs %@, which isn't in the bottle.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La recette a besoin de %@, qui n’est pas dans la bouteille."
+          }
+        }
+      }
+    },
     "These settings change the bottle %@, for every game in it.": {
       "localizations": {
         "fr": {
@@ -2047,6 +2247,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce fichier n’est pas un programme Windows."
+          }
+        }
+      }
+    },
+    "Turn off %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désactiver %@"
+          }
+        }
+      }
+    },
+    "Turn on %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer %@"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         }
       }

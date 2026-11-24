@@ -103,6 +103,12 @@ final class AppModel {
     var copyingBottle: String?
     var confirmingOwnBottle: String?
     let snapshots = SnapshotStore(folder: Store.snapshotsFolder)
+    /// Known-good setups, read once from the manifest.
+    @ObservationIgnored lazy var recipes: RecipeManifest = loadRecipes()
+    /// The game whose recipe preview is open.
+    var previewingRecipe: String?
+    /// The snapshot taken before a recipe was applied, by game id: Undo restores it.
+    var recipeUndo: [String: SettingsSnapshot] = [:]
     /// The snapshot taken when a game last started, by game id.
     var launchSnapshots: [String: SettingsSnapshot] = [:]
     /// The game whose Snapshots sheet is open.

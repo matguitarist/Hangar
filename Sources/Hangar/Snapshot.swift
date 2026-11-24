@@ -41,11 +41,12 @@ enum Snapshot {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
                 for page in SnapshotPage.all where only?.contains(page.name) ?? true {
                     page.show(model)
-                    try? await Task.sleep(for: .seconds(["add-game", "snapshots"].contains(page.name) ? 1.2 : 0.8))
+                    try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview"].contains(page.name) ? 1.2 : 0.8))
                     capture(to: "\(dir)/\(page.name)-\(mode).png")
-                    if model.addRequest != nil || model.showsSnapshots != nil {
+                    if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil {
                         model.addRequest = nil
                         model.showsSnapshots = nil
+                        model.previewingRecipe = nil
                         try? await Task.sleep(for: .seconds(0.5))
                     }
                 }
@@ -162,7 +163,15 @@ struct SnapshotPage {
             model.running = [:]
             model.sidebar = .allGames; select(model, "Vernal Edge"); model.gamePageTab = .settings
         },
+        SnapshotPage(name: "game-page-recipe") { model in
+            model.sidebar = .allGames; select(model, "Moonlit Harbor")
+        },
+        SnapshotPage(name: "recipe-preview") { model in
+            model.sidebar = .allGames; select(model, "Moonlit Harbor")
+            model.previewingRecipe = model.selectedGameID
+        },
         SnapshotPage(name: "game-page-worked") { model in
+            model.previewingRecipe = nil
             model.sidebar = .allGames; select(model, "Hollow Knight")
             if let id = model.selectedGameID { model.notices[id] = .askWorked }
         },

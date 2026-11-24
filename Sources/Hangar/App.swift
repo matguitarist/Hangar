@@ -104,6 +104,12 @@ enum Store {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-snapshots") : folder.appending(path: "Snapshots")
     }
 
+    /// The recipe manifest: the bundled one, or in a test run the sample (APP_FIXTURES/recipes.json).
+    static var recipesURL: URL? {
+        guard isOverridden else { return Bundle.main.url(forResource: "recipes", withExtension: "json") }
+        return ProcessInfo.processInfo.environment["APP_FIXTURES"].map { URL(fileURLWithPath: $0).appending(path: "recipes.json") }
+    }
+
     /// AppleGamingWiki's verdicts, cached: Compatibility/ next to the library, or <store>-agw in a test run.
     static var compatibilityFolder: URL {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-agw") : folder.appending(path: "Compatibility")
