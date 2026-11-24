@@ -6,6 +6,7 @@ extension SelfTest {
     static func m7Checks(_ model: AppModel) async {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }
         sessionChecks(model)
+        lastLaunchChecks(model)
         await frameCapChecks(model)
         await storageChecks(model)
         await driftChecks(model)
@@ -22,6 +23,17 @@ extension SelfTest {
               "\(game.sessions.count) sessions, playtime \(game.playtime)")
         check("S-044 the session is saved with the game",
               LibraryFile.load(from: Store.url).games.first { $0.id == game.id }?.sessions.isEmpty == false || { model.saveNow(); return LibraryFile.load(from: Store.url).games.first { $0.id == game.id }?.sessions.isEmpty == false }())
+    }
+
+    /// S-045: Pocket Racer quit at once in the S-006 checks; Starfall Arcade worked.
+    static func lastLaunchChecks(_ model: AppModel) {
+        let racer = model.library.games.first { $0.title == "Pocket Racer" }
+        let starfall = model.library.games.first { $0.title == "Starfall Arcade" }
+        check("S-045 a game that quits at once keeps Quit right away", racer?.lastLaunch?.outcome == .quitRightAway,
+              String(describing: racer?.lastLaunch))
+        check("S-045 its tile says Quit right away", racer?.lastLaunch.map { $0.outcome.failed && $0.outcome.title == String(localized: "Quit right away") } == true)
+        check("S-045 launches are counted", (racer?.launches ?? 0) >= 1 && (starfall?.launches ?? 0) >= 1, "\(racer?.launches ?? 0), \(starfall?.launches ?? 0)")
+        check("S-045 a game stopped by the person worked", starfall?.lastLaunch?.outcome == .worked, String(describing: starfall?.lastLaunch))
     }
 
     /// S-043: Never Played shows only games without playtime, and combines with search.

@@ -387,6 +387,16 @@ struct SnapshotPage {
             }
             model.scrollGamePageToEnd = true
         },
+        SnapshotPage(name: "library-last-launch") { model in
+            model.scrollGamePageToEnd = false
+            model.sidebar = .allGames; select(model, "Pocket Racer"); model.gamePageTab = .overview; model.showsGamePage = true
+            for (title, outcome, played) in [("Pocket Racer", LaunchRecord.Outcome.quitRightAway, 1.0), ("Moonlit Harbor", .crashed, 4.0), ("Kynseed", .worked, 3600.0)] {
+                if let index = model.library.games.firstIndex(where: { $0.title == title }) {
+                    for _ in 0..<11 { model.library.games[index].record(.worked, played: 1800) }
+                    model.library.games[index].record(outcome, played: played)
+                }
+            }
+        },
         SnapshotPage(name: "library-filter") { model in
             model.scrollGamePageToEnd = false
             model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false; model.runnerUpdates = []

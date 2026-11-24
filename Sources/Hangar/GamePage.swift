@@ -65,6 +65,18 @@ struct GamePage: View {
                 }
                 LabeledContent("Playtime", value: playtime(game))
                 LabeledContent("Last played", value: game.lastPlayed.map { $0.formatted(.relative(presentation: .named)) } ?? String(localized: "Never"))
+                if let last = game.lastLaunch {
+                    LabeledContent("Last launch") {
+                        HStack(spacing: Space.xs) {
+                            if last.outcome.failed {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .symbolRenderingMode(.multicolor)
+                                    .accessibilityHidden(true)
+                            }
+                            Text(last.summary(launches: game.launches))
+                        }
+                    }
+                }
             }
             PlaytimeSection(game: game)
             AchievementsSection(game: game)

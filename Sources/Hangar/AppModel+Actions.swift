@@ -31,6 +31,7 @@ extension AppModel {
             case .heroicMissing: String(localized: "Heroic isn't installed.")
             }
             notices[id] = .didntStart(reason)
+            recordLaunch(id, .didntStart)
             log.post(.error, "\(game.title) didn't start: \(reason)", source: "Launch")
             return
         }
@@ -97,6 +98,7 @@ extension AppModel {
         if let error {
             running[id] = nil
             notices[id] = .didntStart(error)
+            recordLaunch(id, .didntStart)
             log.post(.error, "\(game(id)?.title ?? id) didn't start: \(error)", source: "Launch")
             return
         }
@@ -104,6 +106,7 @@ extension AppModel {
             // Launch Services had no app to give back: it opened and quit before it could.
             running[id] = nil
             notices[id] = .quitRightAway
+            recordLaunch(id, .quitRightAway)
             log.post(.warning, "\(game(id)?.title ?? id) quit right away", source: "Launch")
             return
         }
@@ -149,6 +152,7 @@ extension AppModel {
             case .didntStart:
                 running[id] = nil
                 notices[id] = .didntStart(String(localized: "Its window never opened."))
+                recordLaunch(id, .didntStart)
                 log.post(.error, "\(game.title) didn't start in time", source: "Launch")
             case nil:
                 if state != running[id] { running[id] = state }
@@ -177,14 +181,23 @@ extension AppModel {
             // A Windows game that quit within a minute: its Wine log may say why (S-024).
             log.post(.warning, "\(title) quit after \(Int(played)) seconds", source: "Launch")
             readCrash(id)
+            recordLaunch(id, .crashed, played: played, at: now)
         } else if quitRightAway {
             notices[id] = .quitRightAway
+            recordLaunch(id, .quitRightAway, played: played, at: now)
             log.post(.warning, "\(title) quit after \(Int(played)) seconds", source: "Launch")
         } else {
             log.post(.info, "\(title) quit after \(Int(played)) seconds", source: "Launch")
+            recordLaunch(id, .worked, played: played, at: now)
             // A real session: ask whether it worked, to label the snapshot taken at launch.
             if played >= 60 { notices[id] = .askWorked }
         }
+    }
+
+    /// Keeps how the launch went with the game (S-045).
+    func recordLaunch(_ id: String, _ outcome: LaunchRecord.Outcome, played: TimeInterval = 0, at date: Date = Date()) {
+        guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }
+        library.games[index].record(outcome, at: date, played: played)
     }
 
     private func announceRunning(_ id: String) {

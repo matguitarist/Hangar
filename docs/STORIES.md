@@ -710,7 +710,7 @@ UX:
 - Surface: the tile's corner (symbol with hover help), the game page's details section
 - Words: "Last launch" / « Dernier lancement », "Worked" / « A fonctionné », "Crashed" / « A planté », "Didn't start" / « N’a pas démarré », "Quit right away" / « S’est fermé aussitôt », "\(n) launches" / « \(n) lancements »
 - Access: the symbol has hover help and is read by VoiceOver; never color alone
-Status: todo
+Status: done
 
 ### S-046 Export and import the library
 As the user, I export my library (playtime, collections, covers I chose, game settings) to a file and import it on another Mac or after a reinstall.

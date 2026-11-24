@@ -4860,6 +4860,86 @@
           }
         }
       }
+    },
+    "Worked": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fonctionné"
+          }
+        }
+      }
+    },
+    "Crashed": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A planté"
+          }
+        }
+      }
+    },
+    "Didn't start": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "N’a pas démarré"
+          }
+        }
+      }
+    },
+    "Quit right away": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’est fermé aussitôt"
+          }
+        }
+      }
+    },
+    "Last launch": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernier lancement"
+          }
+        }
+      }
+    },
+    "Last launch: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernier lancement : %@"
+          }
+        }
+      }
+    },
+    "Crashed after %lld s": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A planté après %lld s"
+          }
+        }
+      }
+    },
+    "%@ · %lld launches": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld lancements"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

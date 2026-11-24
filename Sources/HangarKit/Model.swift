@@ -48,6 +48,9 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
     public var lastPlayed: Date?
     /// Each time it was played from Hangar, oldest first (S-044).
     public var sessions: [PlaySession] = []
+    /// How the last launch went, and how many launches there were (S-045).
+    public var lastLaunch: LaunchRecord?
+    public var launches = 0
     /// An image the person chose, or nil for the automatic cover.
     public var customCover: String?
     public var added: Date = Date(timeIntervalSince1970: 0)
@@ -72,7 +75,7 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case id, title, source, runner, steamID, path, exe, startsShortcut, bottle, processHints
-        case playtime, lastPlayed, customCover, added, options, heroic, sessions
+        case playtime, lastPlayed, customCover, added, options, heroic, sessions, lastLaunch, launches
     }
 
     public init(from decoder: Decoder) throws {
@@ -94,6 +97,8 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
         options = try c.decodeIfPresent(GameOptions.self, forKey: .options) ?? GameOptions()
         heroic = try c.decodeIfPresent(HeroicGame.self, forKey: .heroic)
         sessions = try c.decodeIfPresent([PlaySession].self, forKey: .sessions) ?? []
+        lastLaunch = try c.decodeIfPresent(LaunchRecord.self, forKey: .lastLaunch)
+        launches = try c.decodeIfPresent(Int.self, forKey: .launches) ?? 0
     }
 
     /// A Windows game (one that runs through a runner other than Mac).
@@ -265,6 +270,8 @@ public struct LibraryFile: Codable, Sendable, Equatable {
                 game.playtime = previous.playtime
                 game.lastPlayed = previous.lastPlayed
                 game.sessions = previous.sessions
+                game.lastLaunch = previous.lastLaunch
+                game.launches = previous.launches
                 game.customCover = previous.customCover
                 game.added = previous.added
                 game.options = previous.options
@@ -306,6 +313,8 @@ public struct LibraryFile: Codable, Sendable, Equatable {
         games[index].playtime = old.playtime
         games[index].lastPlayed = old.lastPlayed
         games[index].sessions = old.sessions
+        games[index].lastLaunch = old.lastLaunch
+        games[index].launches = old.launches
         games[index].customCover = old.customCover
         games[index].options = old.options
         games[index].added = old.added

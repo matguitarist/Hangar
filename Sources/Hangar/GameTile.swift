@@ -12,6 +12,7 @@ struct GameTile: View {
         VStack(alignment: .leading, spacing: Space.sm) {
             GameCover(game: game)
                 .overlay(alignment: .topTrailing) { runningBadge }
+                .overlay(alignment: .topLeading) { lastLaunchBadge }
                 .overlay(alignment: .bottomLeading) {
                     if game.isWindows {
                         Text("Windows")
@@ -45,6 +46,20 @@ struct GameTile: View {
         .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
     }
 
+    /// S-045: a warning when the last launch didn't work, with what happened in its help.
+    @ViewBuilder
+    private var lastLaunchBadge: some View {
+        if let last = game.lastLaunch, last.outcome.failed, model.running[game.id] == nil {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .symbolRenderingMode(.multicolor)
+                .font(.callout)
+                .padding(Space.xs + 2)
+                .background(.regularMaterial, in: Circle())
+                .padding(Space.sm)
+                .help(String(localized: "Last launch: \(last.outcome.title)"))
+        }
+    }
+
     private var subtitle: String {
         game.playtime > 0 ? "\(game.sourceLabel) · \(PlaytimeText.short(game.playtime))" : game.sourceLabel
     }
@@ -54,6 +69,7 @@ struct GameTile: View {
         if game.isHeroic, game.isWindows { parts.append(String(localized: "Windows game, runs in Heroic")) } else if game.isWindows { parts.append(String(localized: "Windows game, bottle \(game.bottle ?? "")")) }
         if game.playtime > 0 { parts.append(String(localized: "played \(PlaytimeText.short(game.playtime))")) }
         if model.running[game.id] != nil { parts.append(String(localized: "Running")) }
+        if let last = game.lastLaunch, last.outcome.failed { parts.append(String(localized: "Last launch: \(last.outcome.title)")) }
         return parts.joined(separator: ", ")
     }
 
