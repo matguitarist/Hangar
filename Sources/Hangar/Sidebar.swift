@@ -82,6 +82,13 @@ struct Sidebar: View {
                     .tag(SidebarItem.log)
             }
         }
+        // The sidebar keeps each row's height from its first layout. A scan that adds a note
+        // (a library on an unplugged drive) or bottles makes rows taller, so lay the list out again.
+        .id(rowShape)
+    }
+
+    private var rowShape: [String] {
+        [model.steamNote ?? ""] + model.bottles.map { $0 + (model.bottleNote($0) ?? "") }
     }
 
     private func count(_ source: GameSource) -> Int {
