@@ -29,9 +29,22 @@ extension AppModel {
         return result
     }
 
+    /// Looks for the game on the Mac App Store, in the person's country (S-033).
+    func loadAppStore(_ id: String, force: Bool = false) async {
+        guard force || appStoreApps[id] == nil, let game = game(id) else { return }
+        let app = await detailsCache.appStore(title: game.title, country: MacAppStore.country(Locale.current.region?.identifier), force: force)
+        appStoreApps[id] = .some(app)
+    }
+
+    /// "Native: Mac version" when a store sells one, and where it says so: Steam, the Mac App Store, or both.
+    func macVersions(_ game: Game) -> (steam: Bool, appStore: MacAppStore.App?) {
+        ((details[game.id] ?? nil)?.hasMacVersion == true, appStoreApps[game.id] ?? nil)
+    }
+
     /// Game › Refresh Details: asks the Steam store or TheGamesDB again for one game.
     func refreshDetails(_ id: String) {
         Task {
+            if appStoreApps[id] != nil { await loadAppStore(id, force: true) }
             let found = await loadDetails(id, force: true)
             log.post(found == nil ? .warning : .info, "\(found == nil ? "No details found" : "Refreshed the details") for \(game(id)?.title ?? id)", source: "Details")
         }

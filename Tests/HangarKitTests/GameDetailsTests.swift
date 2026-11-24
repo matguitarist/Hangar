@@ -97,6 +97,28 @@ private func temporaryFolder() -> URL {
     #expect(Date().timeIntervalSince(start) >= 0.39)
 }
 
+// S-033
+@Test func steamSaysWhetherThereIsAMacVersion() async {
+    let folder = temporaryFolder()
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let cache = GameDetailsCache(folder: folder, fetch: GameDetailsCache.folder(answers), steamSpacing: 0)
+    #expect(await cache.details(steamID: "367520", language: "english")?.hasMacVersion == true)
+    #expect(GameDetails(source: .theGamesDB, summary: "x").hasMacVersion == nil)
+}
+
+@Test func theMacAppStoreFindsOnlyAnAppOfTheSameName() async {
+    let folder = temporaryFolder()
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let cache = GameDetailsCache(folder: folder, fetch: GameDetailsCache.folder(answers), steamSpacing: 0)
+    let app = await cache.appStore(title: "Starfall Arcade", country: "us")
+    #expect(app?.name == "Starfall Arcade")
+    #expect(app?.url.absoluteString == "https://apps.apple.com/us/app/starfall-arcade/id6400000001?mt=12")
+    #expect(MacAppStore.match([MacAppStore.App(name: "Starfall Arcade Tycoon", url: URL(string: "https://apps.apple.com")!)], title: "Starfall Arcade") == nil)
+    // No answer for a game that isn't there, and offline.
+    #expect(await cache.appStore(title: "Moonlit Harbor", country: "us") == nil)
+    #expect(MacAppStore.country("CA") == "ca" && MacAppStore.country(nil) == "us")
+}
+
 private final class Calls: @unchecked Sendable {
     private let lock = NSLock()
     private var n = 0

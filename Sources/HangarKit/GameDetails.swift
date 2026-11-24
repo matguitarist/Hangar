@@ -16,9 +16,11 @@ public struct GameDetails: Codable, Sendable, Equatable {
     public var genres: [String]
     /// The game's page at the source.
     public var url: URL?
+    /// Whether the store sells a macOS version (Steam's platforms); nil when the source doesn't say.
+    public var hasMacVersion: Bool?
 
     public init(source: Source, summary: String, developers: [String] = [], publishers: [String] = [], releaseDate: Date? = nil,
-                releaseText: String? = nil, genres: [String] = [], url: URL? = nil) {
+                releaseText: String? = nil, genres: [String] = [], url: URL? = nil, hasMacVersion: Bool? = nil) {
         self.source = source
         self.summary = summary
         self.developers = developers
@@ -27,6 +29,7 @@ public struct GameDetails: Codable, Sendable, Equatable {
         self.releaseText = releaseText
         self.genres = genres
         self.url = url
+        self.hasMacVersion = hasMacVersion
     }
 
     /// Nothing worth a section.
@@ -59,7 +62,8 @@ public enum SteamDetails {
             publishers: (game["publishers"] as? [String] ?? []).filter { !$0.isEmpty }.map(PlainText.decodeEntities),
             releaseText: (release?["date"] as? String).flatMap { $0.isEmpty ? nil : $0 },
             genres: (game["genres"] as? [[String: Any]] ?? []).compactMap { $0["description"] as? String },
-            url: GameLinks.store(steamID: appID))
+            url: GameLinks.store(steamID: appID),
+            hasMacVersion: (game["platforms"] as? [String: Any])?["mac"] as? Bool)
         return details.isEmpty ? nil : details
     }
 }
@@ -227,6 +231,8 @@ public actor GameDetailsCache {
             let name: String
             if url.host() == "store.steampowered.com" {
                 name = "steam-\(query["appids"] ?? "").json"
+            } else if url.host() == "itunes.apple.com" {
+                name = "appstore-\((query["term"] ?? "").lowercased().map { $0.isLetter || $0.isNumber ? String($0) : "-" }.joined()).json"
             } else if url.path().hasSuffix("/ByGameName") {
                 name = "tgdb-\((query["name"] ?? "").lowercased().map { $0.isLetter || $0.isNumber ? String($0) : "-" }.joined()).json"
             } else {
@@ -239,7 +245,7 @@ public actor GameDetailsCache {
 
     /// A Steam game's details, in a language Steam knows ("french").
     public func details(steamID: String, language: String, force: Bool = false) async -> GameDetails? {
-        await cached("steam-\(steamID)-\(language)", force: force) { [fetch] in
+        await cached("steam2-\(steamID)-\(language)", force: force) { [fetch] in
             await self.paceSteam()
             let data = try await fetch(URLRequest(url: SteamDetails.url(appID: steamID, language: language), timeoutInterval: 15))
             return SteamDetails.parse(data, appID: steamID)
@@ -255,6 +261,15 @@ public actor GameDetailsCache {
             let data = try await fetch(URLRequest(url: TheGamesDB.searchURL(title: title, platforms: platforms, key: key), timeoutInterval: 15))
             guard let game = TheGamesDB.bestMatch(TheGamesDB.games(in: data), title: title, platforms: platforms) else { return nil }
             return TheGamesDB.details(game, names: await self.names(for: game, key: key))
+        }
+    }
+
+    /// The game on the Mac App Store, by its title in the person's country: only an app of the same name.
+    public func appStore(title: String, country: String, force: Bool = false) async -> MacAppStore.App? {
+        let url = folder.appending(path: "appstore-\(TheGamesDB.normalized(title).map { $0 == "/" ? "_" : String($0) }.joined())-\(country).json")
+        return await WebCacheFile<MacAppStore.App>(url: url, maxAge: Self.maxAge).value(now: now(), force: force) { [fetch] in
+            let data = try await fetch(URLRequest(url: MacAppStore.searchURL(title: title, country: country), timeoutInterval: 15))
+            return MacAppStore.match(MacAppStore.apps(in: data), title: title)
         }
     }
 

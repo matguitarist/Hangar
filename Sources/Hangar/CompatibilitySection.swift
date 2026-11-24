@@ -9,6 +9,7 @@ struct CompatibilitySection: View {
 
     var body: some View {
         Section {
+            macVersion
             switch model.compatibility[game.id] {
             case .none:
                 if showsLoading {
@@ -53,6 +54,45 @@ struct CompatibilitySection: View {
             let reveal = Task { try? await Task.sleep(for: .milliseconds(500)); showsLoading = true }
             await model.loadCompatibility(game.id)
             reveal.cancel()
+            if !hasNativeVerdict { await model.loadAppStore(game.id) }
+        }
+    }
+
+    private var hasNativeVerdict: Bool {
+        if case let .some(.some(compatibility)) = model.compatibility[game.id] {
+            return compatibility.entries.contains { $0.method == .native }
+        }
+        return false
+    }
+
+    /// S-033: when the wiki gives no native verdict, the stores still say whether a Mac version exists.
+    @ViewBuilder
+    private var macVersion: some View {
+        let stores = model.macVersions(game)
+        if model.compatibility[game.id] != nil, !hasNativeVerdict, stores.steam || stores.appStore != nil {
+            VStack(alignment: .leading, spacing: Space.xs) {
+                LabeledContent(Compatibility.Method.native.title) {
+                    Label("Mac version", systemImage: "checkmark.circle.fill")
+                        .labelStyle(.titleAndIcon)
+                        .foregroundStyle(.green)
+                        .help(String(localized: "A store sells a version for macOS. How well it runs isn't rated."))
+                }
+                if stores.steam {
+                    Text("Steam sells a Mac version of this game.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+                if let app = stores.appStore {
+                    HStack(alignment: .firstTextBaseline, spacing: Space.sm) {
+                        Text("On the Mac App Store.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                        Button("Open in the App Store") { model.open(app.url) }
+                            .buttonStyle(.link)
+                            .font(.callout)
+                    }
+                }
+            }
         }
     }
 }

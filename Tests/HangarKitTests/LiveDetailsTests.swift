@@ -34,3 +34,12 @@ private let liveKey = ProcessInfo.processInfo.environment["HANGAR_LIVE_TGDB_KEY"
     #expect(await cache.compatibility(for: "HOLLOW KNIGHT")?.page == "Hollow_Knight")
     #expect(await cache.compatibility(for: "Blue Prince") == nil)
 }
+
+/// Steam's platforms and the Mac App Store for real: Blue Prince has a Mac version on both.
+@Test(.enabled(if: liveKey != nil)) func liveMacVersionFromSteamAndTheAppStore() async {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarLiveMac-\(UUID().uuidString)")
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let cache = GameDetailsCache(folder: folder)
+    #expect(await cache.details(steamID: "1569580", language: "english")?.hasMacVersion == true)
+    #expect(await cache.appStore(title: "Blue Prince", country: "ca")?.bundleID == "com.rawfury.blueprince")
+}

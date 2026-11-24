@@ -171,6 +171,16 @@
         }
       }
     },
+    "A store sells a version for macOS. How well it runs isn't rated.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un magasin vend une version pour macOS. Son fonctionnement n’est pas évalué."
+          }
+        }
+      }
+    },
     "AVX for Rosetta": {
       "localizations": {
         "fr": {
@@ -1561,6 +1571,16 @@
         }
       }
     },
+    "Mac version": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version Mac"
+          }
+        }
+      }
+    },
     "Metal Performance HUD": {
       "localizations": {
         "fr": {
@@ -1871,6 +1891,16 @@
         }
       }
     },
+    "On the Mac App Store.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur le Mac App Store."
+          }
+        }
+      }
+    },
     "On the Web": {
       "localizations": {
         "fr": {
@@ -1907,6 +1937,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir la page du magasin"
+          }
+        }
+      }
+    },
+    "Open in the App Store": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir dans l’App Store"
           }
         }
       }
@@ -2827,6 +2867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les jeux Steam reçoivent leur description, leur développeur et leurs genres du magasin Steam. Avec une clé TheGamesDB, Hangar les trouve aussi pour les jeux qui ne sont pas sur Steam."
+          }
+        }
+      }
+    },
+    "Steam sells a Mac version of this game.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steam vend une version Mac de ce jeu."
           }
         }
       }

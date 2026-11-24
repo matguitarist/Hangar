@@ -1,0 +1,17 @@
+{
+  "resultCount": 2,
+  "results": [
+    {
+      "kind": "mac-software",
+      "trackName": "Starfall Arcade",
+      "trackViewUrl": "https://apps.apple.com/us/app/starfall-arcade/id6400000001?mt=12&uo=4",
+      "bundleId": "com.example.starfallarcade"
+    },
+    {
+      "kind": "mac-software",
+      "trackName": "Starfall Arcade Tycoon",
+      "trackViewUrl": "https://apps.apple.com/us/app/starfall-arcade-tycoon/id6400000002?mt=12&uo=4",
+      "bundleId": "com.example.tycoon"
+    }
+  ]
+}

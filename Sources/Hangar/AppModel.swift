@@ -163,6 +163,8 @@ final class AppModel {
     let detailsCache: GameDetailsCache
     /// What each game is about (S-031), by game id: nil while loading, .some(nil) when nothing was found.
     var details: [String: GameDetails?] = [:]
+    /// The game on the Mac App Store, when AppleGamingWiki doesn't say it runs natively (S-033).
+    var appStoreApps: [String: MacAppStore.App?] = [:]
     /// View › Fetch All Details: its progress, shown above the library until dismissed (S-032).
     var detailsRun: DetailsRun?
     @ObservationIgnored var detailsTask: Task<Void, Never>?

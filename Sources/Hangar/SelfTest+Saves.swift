@@ -97,6 +97,20 @@ extension SelfTest {
             model.detailsRun = nil
         }
 
+        // S-033: Vernal Edge's wiki page has no native verdict, but Steam sells a Mac version;
+        // Starfall Arcade has no wiki page, but is on the Mac App Store.
+        if let vernal = find("Vernal Edge"), let starfall = find("Starfall Arcade") {
+            await model.loadCompatibility(vernal.id)
+            await model.loadDetails(vernal.id)
+            check("S-033 Steam's Mac version shows when the wiki has no native verdict", model.macVersions(vernal).steam)
+            await model.loadAppStore(starfall.id)
+            let app = model.macVersions(starfall).appStore
+            check("S-033 a game on the Mac App Store is found by its name", app?.name == "Starfall Arcade", String(describing: app))
+            model.openedURLs = []
+            if let app { model.open(app.url) }
+            check("S-033 Open in the App Store opens its page", model.openedURLs.last?.host() == "apps.apple.com")
+        }
+
         // S-024: Moonlit Harbor, a program in the Classics bottle, with sample Wine logs.
         if let moonlit = find("Moonlit Harbor"), let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] {
             let logs = URL(fileURLWithPath: fixtures).appending(path: "WineLogs")

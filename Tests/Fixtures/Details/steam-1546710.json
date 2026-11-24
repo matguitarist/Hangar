@@ -1,0 +1,30 @@
+{
+  "1546710": {
+    "success": true,
+    "data": {
+      "name": "Vernal Edge",
+      "short_description": "A metroidvania with fast, combo-driven combat.",
+      "developers": [
+        "Hexadrift Games"
+      ],
+      "publishers": [
+        "PQube"
+      ],
+      "release_date": {
+        "coming_soon": false,
+        "date": "14 Mar, 2023"
+      },
+      "genres": [
+        {
+          "id": "1",
+          "description": "Action"
+        }
+      ],
+      "platforms": {
+        "windows": true,
+        "mac": true,
+        "linux": false
+      }
+    }
+  }
+}

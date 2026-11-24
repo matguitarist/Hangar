@@ -434,6 +434,22 @@ UX:
 - Access: the progress bar is read as "4 of 10 games"
 Status: done
 
+### S-033 A Mac version from the stores
+As the user, I see that a game has a Mac version even when AppleGamingWiki doesn't say so, because Steam sells one or it's on the Mac App Store.
+Screens: game-page
+Depends: S-015, S-031
+Acceptance:
+- [unit] Steam's appdetails says whether there's a Mac version (platforms.mac).
+- [unit] The Mac App Store search (Apple's public search, no key, the person's country) finds only an app of the same name, cached a month.
+- [self] A game whose wiki page has no native verdict shows Steam's Mac version; a game with no wiki page on the Mac App Store shows it, and Open in the App Store opens its page.
+UX:
+- Flow: game page › Overview › Runs on a Mac → "Native — Mac version" first, with "Steam sells a Mac version of this game." and/or "On the Mac App Store. Open in the App Store"
+- Live: `HANGAR_LIVE_TGDB_KEY=<key> swift test --filter Live` checks Blue Prince on Steam and the Mac App Store
+- States: shown only when the wiki has no native verdict and a store has one; while the wiki loads: nothing
+- Words: "Mac version" / « Version Mac », "Steam sells a Mac version of this game." / « Steam vend une version Mac de ce jeu. », "On the Mac App Store." / « Sur le Mac App Store. », "Open in the App Store" / « Ouvrir dans l’App Store »
+- Access: the verdict is a word with a symbol, never color alone; hover help says how well it runs isn't rated
+Status: done
+
 
 ## M5 Life on a Mac (0.5.0)
 
