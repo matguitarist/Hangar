@@ -4140,6 +4140,46 @@
           }
         }
       }
+    },
+    "%lld of %lld unlocked": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sur %lld débloqués"
+          }
+        }
+      }
+    },
+    "Achievements": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Succès"
+          }
+        }
+      }
+    },
+    "From Steam's files on this Mac, updated when Steam runs.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon les fichiers de Steam sur ce Mac, mis à jour quand Steam s’exécute."
+          }
+        }
+      }
+    },
+    "%lld of %lld achievements": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld succès sur %lld"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

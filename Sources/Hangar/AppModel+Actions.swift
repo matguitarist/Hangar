@@ -165,6 +165,7 @@ extension AppModel {
         library.games[index].playtime += played
         library.games[index].lastPlayed = now
         refreshCouchRows()
+        Task { await loadAchievements(id, force: true) }
         // From the sofa, Hangar comes back when the game quits (S-029).
         if couchMode, !Store.isOverridden { NSApp.activate() }
         let title = library.games[index].title

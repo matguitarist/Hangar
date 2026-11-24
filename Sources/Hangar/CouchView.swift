@@ -138,6 +138,7 @@ private struct CouchHero: View {
             }
             .padding(.top, Space.sm)
         }
+        .task(id: game.id) { await model.loadAchievements(game.id) }
     }
 
     private var subtitle: String {
@@ -146,6 +147,9 @@ private struct CouchHero: View {
             parts.append(state.phase == .starting ? String(localized: "Starting…") : String(localized: "Running"))
         }
         parts.append(game.playtime > 0 ? String(localized: "Played \(PlaytimeText.short(game.playtime))") : String(localized: "Not played yet"))
+        if let summary = model.achievements(game.id) {
+            parts.append(String(localized: "\(summary.unlocked) of \(summary.total) achievements"))
+        }
         return parts.joined(separator: " · ")
     }
 }

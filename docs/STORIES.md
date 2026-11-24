@@ -605,7 +605,7 @@ UX:
 - Honest: "From Steam's files on this Mac, updated when Steam runs."
 - Words: "Achievements" / « Succès », "\(n) of \(total) unlocked" / « \(n) sur \(total) débloqués »
 - Access: the bar has its numbers as text
-Status: todo
+Status: done
 
 ## M7 Look after the library (0.7.0)
 

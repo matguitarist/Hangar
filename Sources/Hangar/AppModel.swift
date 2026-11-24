@@ -147,6 +147,8 @@ final class AppModel {
     var couch = CouchNavigator(rows: [])
     var couchDetails = false
     @ObservationIgnored var couchMadeFullScreen = false
+    /// Steam achievements by game id (S-041): nil while not read, .some(nil) when Steam has none on this Mac.
+    var achievementCache: [String: AchievementSummary?] = [:]
     /// Game controllers (S-029).
     let controllers = ControllerCenter()
     var addRequest: AddRequest?

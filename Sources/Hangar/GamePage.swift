@@ -66,6 +66,7 @@ struct GamePage: View {
                 LabeledContent("Playtime", value: playtime(game))
                 LabeledContent("Last played", value: game.lastPlayed.map { $0.formatted(.relative(presentation: .named)) } ?? String(localized: "Never"))
             }
+            AchievementsSection(game: game)
             SavesSection(game: game)
             LinksSection(game: game)
         }
@@ -78,6 +79,7 @@ struct GamePage: View {
         .id(game.id)
         // The About section shows only once details arrive, so the page asks for them.
         .task(id: game.id) {
+            await model.loadAchievements(game.id)
             await model.loadDetails(game.id)
             // Suggested settings read the wikis' verdicts and API box (S-034).
             if game.runner == .crossOver {

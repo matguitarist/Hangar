@@ -52,6 +52,19 @@ extension SelfTest {
         check("S-029 B leaves couch mode", !model.couchMode)
     }
 
+    /// S-041: Hollow Knight's achievements, from the sample Steam folder's stats.
+    static func achievementChecks(_ model: AppModel) async {
+        guard let knight = model.library.games.first(where: { $0.title == "Hollow Knight" }) else { return }
+        await model.loadAchievements(knight.id, force: true)
+        let summary = model.achievements(knight.id)
+        check("S-041 the sample game shows 12 of 40 achievements", summary?.unlocked == 12 && summary?.total == 40, "\(summary?.unlocked ?? -1) of \(summary?.total ?? -1)")
+        check("S-041 with the last three unlocked", summary?.recent.count == 3)
+        if let stardew = model.library.games.first(where: { $0.title == "Stardew Valley" }) {
+            await model.loadAchievements(stardew.id, force: true)
+            check("S-041 a game without a stats file has no section", model.achievements(stardew.id) == nil)
+        }
+    }
+
     /// S-037: Play on a game whose bottle's Steam is signed out asks first.
     static func signInChecks(_ model: AppModel) async {
         guard let vernal = model.library.games.first(where: { $0.title == "Vernal Edge" }) else { return }
