@@ -69,6 +69,8 @@ struct GamePage: View {
         .formStyle(.grouped)
         // Snapshot mode shows the end of the page.
         .defaultScrollAnchor(model.scrollGamePageToEnd ? .bottom : .top)
+        // Another game opens at the top of its page, not where the last one was scrolled to.
+        .id(game.id)
         .gridArea("game-page", inset: 0)
     }
 

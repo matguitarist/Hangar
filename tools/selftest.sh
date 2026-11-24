@@ -4,7 +4,8 @@ set -u
 rm -rf ~/Library/Saved\ Application\ State/com.mathieuares.hangar.savedState
 store=/tmp/Hangar-self.json
 rm -f $store ${store:r}.log
-rm -rf ${store:r}-fixtures ${store:r}-covers
+# Every file a run leaves next to the store, so each run starts from nothing.
+rm -rf ${store:r}-fixtures ${store:r}-covers ${store:r}-snapshots ${store:r}-agw ${store:r}-runners.json
 # The sample library: Steam, CrossOver bottles and Mac apps, copied to /tmp by the app.
 # APP_LANGUAGE=fr tools/selftest.sh runs it in French.
 lang=()

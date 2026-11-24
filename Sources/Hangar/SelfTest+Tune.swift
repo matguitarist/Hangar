@@ -118,13 +118,13 @@ extension SelfTest {
         if let kynseed = find("Kynseed"), var good = model.bottleSettings(for: kynseed) {
             good.graphics = .dxvk
             model.changeBottleSettings(kynseed.id, to: good)
-            let before = model.snapshotList(kynseed.id).count
+            let before = model.snapshotList(kynseed.id).first?.id
             var broken = good
             broken.graphics = .wined3d
             broken.msync = false
             model.changeBottleSettings(kynseed.id, to: broken)
             let list = model.snapshotList(kynseed.id)
-            check("S-017 a snapshot is saved before every change", list.count == before + 1 && list.first?.reason == .settings, "\(before) → \(list.count)")
+            check("S-017 a snapshot is saved before every change", list.first?.id != before && list.first?.reason == .settings, "\(list.count) snapshots")
             if let snapshot = list.first {
                 model.restore(snapshot)
                 check("S-017 change, break, restore: the settings come back", model.bottleSettings(for: kynseed) == good,

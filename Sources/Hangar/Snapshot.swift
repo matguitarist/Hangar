@@ -123,6 +123,7 @@ struct SnapshotPage {
         model.selectedGameID = model.library.games.first { $0.title.hasPrefix(title) }?.id
         model.showsGamePage = model.selectedGameID != nil
         model.gamePageTab = .overview
+        model.scrollGamePageToEnd = false
     }
 
     static let all: [SnapshotPage] = [
