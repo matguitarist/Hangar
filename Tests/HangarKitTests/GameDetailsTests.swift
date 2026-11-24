@@ -71,6 +71,32 @@ private func temporaryFolder() -> URL {
     #expect(await offline.details(steamID: "367520", language: "english")?.developers == ["Team Cherry"])
 }
 
+// S-032
+@Test func refreshAsksAgainHoweverFresh() async {
+    let folder = temporaryFolder()
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let calls = Calls()
+    let fixture = GameDetailsCache.folder(answers)
+    let cache = GameDetailsCache(folder: folder, fetch: { request in calls.add(); return try await fixture(request) }, steamSpacing: 0)
+    _ = await cache.details(steamID: "367520", language: "english")
+    _ = await cache.details(steamID: "367520", language: "english")
+    #expect(calls.count == 1)
+    #expect(await cache.details(steamID: "367520", language: "english", force: true)?.developers == ["Team Cherry"])
+    #expect(calls.count == 2)
+    // Offline, a refresh keeps what was there.
+    let offline = GameDetailsCache(folder: folder, fetch: { _ in throw URLError(.notConnectedToInternet) }, steamSpacing: 0)
+    #expect(await offline.details(steamID: "367520", language: "english", force: true)?.developers == ["Team Cherry"])
+}
+
+@Test func steamRequestsAreSpacedOut() async {
+    let folder = temporaryFolder()
+    defer { try? FileManager.default.removeItem(at: folder) }
+    let cache = GameDetailsCache(folder: folder, fetch: { _ in Data("{}".utf8) }, steamSpacing: 0.2)
+    let start = Date()
+    for id in ["1", "2", "3"] { _ = await cache.details(steamID: id, language: "english") }
+    #expect(Date().timeIntervalSince(start) >= 0.39)
+}
+
 private final class Calls: @unchecked Sendable {
     private let lock = NSLock()
     private var n = 0

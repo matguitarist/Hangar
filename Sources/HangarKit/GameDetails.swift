@@ -191,12 +191,26 @@ public actor GameDetailsCache {
     let now: @Sendable () -> Date
     private var key: String?
     public static let maxAge: TimeInterval = 30 * 86400
+    /// The Steam store answers about 200 requests in 5 minutes: one every 1.5 seconds stays under it.
+    let steamSpacing: TimeInterval
+    private var nextSteamRequest = Date.distantPast
 
-    public init(folder: URL, key: String? = nil, fetch: @escaping Fetch = CoverCache.download, now: @escaping @Sendable () -> Date = { Date() }) {
+    public init(folder: URL, key: String? = nil, fetch: @escaping Fetch = CoverCache.download, now: @escaping @Sendable () -> Date = { Date() },
+                steamSpacing: TimeInterval = 1.5) {
         self.folder = folder
         self.fetch = fetch
         self.now = now
         self.key = key?.isEmpty == false ? key : nil
+        self.steamSpacing = steamSpacing
+    }
+
+    /// Waits for the Steam store's next free slot, so fetching a whole library isn't refused.
+    private func paceSteam() async {
+        guard steamSpacing > 0 else { return }
+        let slot = max(Date(), nextSteamRequest)
+        nextSteamRequest = slot.addingTimeInterval(steamSpacing)
+        let wait = slot.timeIntervalSinceNow
+        if wait > 0 { try? await Task.sleep(for: .seconds(wait)) }
     }
 
     /// A new TheGamesDB key can find games that had nothing without one.
@@ -224,28 +238,29 @@ public actor GameDetailsCache {
     }
 
     /// A Steam game's details, in a language Steam knows ("french").
-    public func details(steamID: String, language: String) async -> GameDetails? {
-        await cached("steam-\(steamID)-\(language)") { [fetch] in
+    public func details(steamID: String, language: String, force: Bool = false) async -> GameDetails? {
+        await cached("steam-\(steamID)-\(language)", force: force) { [fetch] in
+            await self.paceSteam()
             let data = try await fetch(URLRequest(url: SteamDetails.url(appID: steamID, language: language), timeoutInterval: 15))
             return SteamDetails.parse(data, appID: steamID)
         }
     }
 
     /// Another game's details from TheGamesDB, by its title. Nil without a key.
-    public func details(title: String, mac: Bool) async -> GameDetails? {
+    public func details(title: String, mac: Bool, force: Bool = false) async -> GameDetails? {
         guard let key else { return nil }
         let platforms = mac ? [TheGamesDB.mac, TheGamesDB.pc] : [TheGamesDB.pc]
         let name = TheGamesDB.normalized(title)
-        return await cached("tgdb-\(name)-\(mac ? "mac" : "pc")") { [fetch] in
+        return await cached("tgdb-\(name)-\(mac ? "mac" : "pc")", force: force) { [fetch] in
             let data = try await fetch(URLRequest(url: TheGamesDB.searchURL(title: title, platforms: platforms, key: key), timeoutInterval: 15))
             guard let game = TheGamesDB.bestMatch(TheGamesDB.games(in: data), title: title, platforms: platforms) else { return nil }
             return TheGamesDB.details(game, names: await self.names(for: game, key: key))
         }
     }
 
-    private func cached(_ name: String, find: @Sendable () async throws -> GameDetails?) async -> GameDetails? {
+    private func cached(_ name: String, force: Bool, find: @Sendable () async throws -> GameDetails?) async -> GameDetails? {
         let url = folder.appending(path: name.map { $0 == "/" ? "_" : String($0) }.joined() + ".json")
-        return await WebCacheFile<GameDetails>(url: url, maxAge: Self.maxAge).value(now: now(), fetch: find)
+        return await WebCacheFile<GameDetails>(url: url, maxAge: Self.maxAge).value(now: now(), force: force, fetch: find)
     }
 
     /// TheGamesDB's genre, developer and publisher names: three lists, fetched at most once a month,

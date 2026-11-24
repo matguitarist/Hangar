@@ -418,6 +418,22 @@ UX:
 - Access: the description is selectable text; rows are label and value
 Status: done
 
+### S-032 Fetch every game's details at once
+As the user, I fetch the details of my whole library in one go, see how far it got, stop it, and ask again for one game whose details are wrong or old.
+Screens: library, game-page
+Depends: S-031
+Acceptance:
+- [unit] Refresh asks the web again however fresh the cache is, and keeps the old details offline.
+- [unit] Steam store requests are spaced out (one every 1.5 seconds), so a whole library isn't refused.
+- [self] Fetch All Details goes through every game, shows its progress and the menu turns into Stop; Refresh Details asks again for one game.
+UX:
+- Flow: View › Fetch All Details (⌥⌘R) → a banner above the library: "Fetching game details… 4 of 10" with a progress bar and Stop → "Found details for 8 of 10 games" with a note and Dismiss; Game › Refresh Details, or right-click a game › Refresh Details
+- Surface: a banner card above the grid, like runner updates; menu items
+- States: running, stopped ("Stopped after 4 of 10 games"), finished; no TheGamesDB key: the note says games not on Steam need one
+- Words: "Fetch All Details" / « Chercher tous les détails », "Stop Fetching Details" / « Arrêter la recherche des détails », "Refresh Details" / « Actualiser les détails », "Fetching game details… %lld of %lld" / « Recherche des détails des jeux… %lld sur %lld », "Found details for %lld of %lld games" / « Détails trouvés pour %lld jeux sur %lld »
+- Access: the progress bar is read as "4 of 10 games"
+Status: done
+
 
 ## M5 Life on a Mac (0.5.0)
 

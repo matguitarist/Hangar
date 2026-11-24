@@ -12,9 +12,10 @@ struct WebCacheFile<Value: Codable & Sendable>: Sendable {
     }
 
     /// The cached value while fresh, else `fetch`'s (saved), else the old one when `fetch` throws.
-    func value(now: Date, fetch: @Sendable () async throws -> Value?) async -> Value? {
+    /// `force` asks again however fresh the file is (Refresh Details).
+    func value(now: Date, force: Bool = false, fetch: @Sendable () async throws -> Value?) async -> Value? {
         let cached = (try? Data(contentsOf: url)).flatMap { try? Self.decoder.decode(Stored.self, from: $0) }
-        if let cached, now.timeIntervalSince(cached.fetched) < maxAge { return cached.value }
+        if !force, let cached, now.timeIntervalSince(cached.fetched) < maxAge { return cached.value }
         do {
             let value = try await fetch()
             try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)

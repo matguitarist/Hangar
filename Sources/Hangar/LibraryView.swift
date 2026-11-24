@@ -17,6 +17,10 @@ struct LibraryView: View {
         @Bindable var model = model
         let games = model.games(for: item)
         ScrollView {
+            if let run = model.detailsRun {
+                DetailsBanner(run: run)
+                    .padding([.horizontal, .top], Space.margin)
+            }
             if item == .allGames, !model.runnerUpdates.isEmpty {
                 VStack(spacing: Space.md) {
                     ForEach(model.runnerUpdates) { RunnerUpdateBanner(notice: $0) }
@@ -168,6 +172,7 @@ struct GameMenu: View {
         Divider()
         Button("Show in Finder") { model.showInFinder(game.id) }
         if game.storeURL != nil { Button("Open Store Page") { model.openStorePage(game.id) } }
+        Button("Refresh Details") { model.refreshDetails(game.id) }
         Divider()
         Menu("Add to Collection") {
             ForEach(model.library.collections) { collection in

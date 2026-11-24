@@ -12,6 +12,7 @@ final class MenuState: ObservableObject {
     @Published var hasStorePage = false
     @Published var hasCustomCover = false
     @Published var sort: GameSort = .name
+    @Published var isFetchingDetails = false
 }
 
 extension GameSort {
@@ -44,6 +45,13 @@ struct HangarCommands: Commands {
         CommandGroup(before: .sidebar) {
             Button("Refresh Library") { Task { await model.refresh() } }
                 .keyboardShortcut("r")
+            if menu.isFetchingDetails {
+                Button("Stop Fetching Details") { model.stopFetchingDetails() }
+                    .keyboardShortcut("r", modifiers: [.command, .option])
+            } else {
+                Button("Fetch All Details") { model.fetchAllDetails() }
+                    .keyboardShortcut("r", modifiers: [.command, .option])
+            }
             Picker("Sort By", selection: Binding(get: { menu.sort }, set: { model.sort = $0 })) {
                 ForEach(GameSort.allCases, id: \.self) { Text($0.title).tag($0) }
             }
@@ -62,6 +70,8 @@ struct HangarCommands: Commands {
                 .disabled(!menu.hasSelection)
             Button("Open Store Page") { if let id = model.selectedGameID { model.openStorePage(id) } }
                 .disabled(!menu.hasStorePage)
+            Button("Refresh Details") { if let id = model.selectedGameID { model.refreshDetails(id) } }
+                .disabled(!menu.hasSelection)
             Divider()
             Button("Choose Cover…") { if let id = model.selectedGameID { GamePanels.chooseCover(model, id) } }
                 .disabled(!menu.hasSelection)

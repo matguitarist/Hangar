@@ -214,7 +214,15 @@ struct SnapshotPage {
                 model.readCrash(id)
             }
         },
+        SnapshotPage(name: "fetch-details") { model in
+            model.scrollGamePageToEnd = false
+            model.showsGamePage = false
+            model.sidebar = .allGames
+            model.detailsRun = DetailsRun(total: 10, done: 4, found: 3)
+        },
         SnapshotPage(name: "share-recipe") { model in
+            model.detailsRun = nil
+            model.showsGamePage = true
             if let id = model.library.games.first(where: { $0.title == "Moonlit Harbor" })?.id { model.notices[id] = nil }
             model.scrollGamePageToEnd = false
             model.runnerUpdates = []

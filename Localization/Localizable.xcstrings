@@ -121,6 +121,16 @@
         }
       }
     },
+    "%lld of %lld games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld jeux sur %2$lld"
+          }
+        }
+      }
+    },
     "1 file": {
       "localizations": {
         "fr": {
@@ -137,6 +147,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "1 restante"
+          }
+        }
+      }
+    },
+    "A game with no details may have another name on TheGamesDB. Open its page to see what was found.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un jeu sans détails porte peut-être un autre nom sur TheGamesDB. Ouvrez sa page pour voir ce qui a été trouvé."
           }
         }
       }
@@ -861,6 +881,26 @@
         }
       }
     },
+    "Fetch All Details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chercher tous les détails"
+          }
+        }
+      }
+    },
+    "Fetching game details… %lld of %lld": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche des détails des jeux… %1$lld sur %2$lld"
+          }
+        }
+      }
+    },
     "File:": {
       "localizations": {
         "fr": {
@@ -877,6 +917,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Concentration"
+          }
+        }
+      }
+    },
+    "Found details for %lld of %lld games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Détails trouvés pour %1$lld jeux sur %2$lld"
           }
         }
       }
@@ -937,6 +987,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Détails des jeux"
+          }
+        }
+      }
+    },
+    "Games that aren't on Steam need a TheGamesDB key, in Settings › Library.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les jeux qui ne sont pas sur Steam ont besoin d’une clé TheGamesDB, dans Réglages › Bibliothèque."
           }
         }
       }
@@ -2111,6 +2171,16 @@
         }
       }
     },
+    "Refresh Details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualiser les détails"
+          }
+        }
+      }
+    },
     "Refresh Library": {
       "localizations": {
         "fr": {
@@ -2787,6 +2857,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Arrêter %@ ?"
+          }
+        }
+      }
+    },
+    "Stop Fetching Details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la recherche des détails"
+          }
+        }
+      }
+    },
+    "Stop after the current game; what was found stays": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter après le jeu en cours ; ce qui a été trouvé est conservé"
+          }
+        }
+      }
+    },
+    "Stopped after %lld of %lld games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêté après %1$lld jeux sur %2$lld"
           }
         }
       }

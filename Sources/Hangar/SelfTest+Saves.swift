@@ -83,6 +83,20 @@ extension SelfTest {
             check("S-031 clearing the key forgets it", Keychain.read("thegamesdb") == nil)
         }
 
+        // S-032
+        if let knight = find("Hollow Knight") {
+            model.fetchAllDetails()
+            check("S-032 Fetch All Details shows its progress", model.detailsRun?.total == model.library.games.count && MenuState.shared.isFetchingDetails)
+            for _ in 0..<200 where model.detailsRun?.finished != true { try? await Task.sleep(for: .milliseconds(50)) }
+            let run = model.detailsRun
+            check("S-032 and goes through every game", run?.finished == true && run?.done == run?.total && (run?.found ?? 0) >= 1
+                  && !MenuState.shared.isFetchingDetails, String(describing: run))
+            model.details[knight.id] = .some(nil)
+            await model.loadDetails(knight.id, force: true)
+            check("S-032 Refresh Details asks again", (model.details[knight.id] ?? nil)?.developers == ["Team Cherry"])
+            model.detailsRun = nil
+        }
+
         // S-024: Moonlit Harbor, a program in the Classics bottle, with sample Wine logs.
         if let moonlit = find("Moonlit Harbor"), let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] {
             let logs = URL(fileURLWithPath: fixtures).appending(path: "WineLogs")

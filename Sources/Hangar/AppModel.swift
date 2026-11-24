@@ -162,6 +162,9 @@ final class AppModel {
     let detailsCache: GameDetailsCache
     /// What each game is about (S-031), by game id: nil while loading, .some(nil) when nothing was found.
     var details: [String: GameDetails?] = [:]
+    /// View › Fetch All Details: its progress, shown above the library until dismissed (S-032).
+    var detailsRun: DetailsRun?
+    @ObservationIgnored var detailsTask: Task<Void, Never>?
     /// The TheGamesDB API key (Settings › Library), kept in the Keychain.
     var theGamesDBKey: String = Keychain.read("thegamesdb") ?? "" {
         didSet {
@@ -206,7 +209,8 @@ final class AppModel {
     init() {
         logViewer = LogViewerModel(store: Store.log)
         covers = CoverCache(folder: Store.coversFolder, gridKey: Keychain.read("steamgriddb"))
-        detailsCache = GameDetailsCache(folder: Store.detailsFolder, key: Keychain.read("thegamesdb"), fetch: Store.detailsFetch)
+        detailsCache = GameDetailsCache(folder: Store.detailsFolder, key: Keychain.read("thegamesdb"), fetch: Store.detailsFetch,
+                                        steamSpacing: Store.isOverridden ? 0 : 1.5)
         let saved = LibraryFile.load(from: Store.url)
         roots = Store.roots(steamFolder: saved.steamFolder)
         library = saved
@@ -344,6 +348,7 @@ final class AppModel {
         menu.hasStorePage = game?.storeURL != nil
         menu.hasCustomCover = game?.customCover != nil
         menu.sort = sort
+        menu.isFetchingDetails = detailsTask != nil
     }
 }
 
