@@ -17,6 +17,14 @@ struct ContentView: View {
         } detail: {
             page(model.sidebar ?? .allGames)
         }
+        .toolbar(model.couchMode ? .hidden : .automatic, for: .windowToolbar)
+        .overlay {
+            if model.couchMode {
+                CouchView()
+                    .transition(.opacity)
+            }
+        }
+        .animation(.default, value: model.couchMode)
         .sheet(item: $model.addRequest) { request in
             AddGameSheet(request: request)
         }

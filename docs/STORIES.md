@@ -568,13 +568,14 @@ Depends: S-005
 Acceptance:
 - [snap] Couch mode in light and dark.
 - [self] View › Couch Mode opens it; Escape closes it; arrow keys move and Return plays.
+- [unit] The selection moves through the rows and stops at the edges; Continue Playing is the recent games, then All Games by name.
 UX:
-- Flow: View › Couch Mode (⌃⌘F) or the toolbar's TV button → the window goes full screen: a row "Continue Playing" (recent) above "All Games" as large covers, the selected one grows with its title, playtime and Play → Return plays; Escape or B leaves
+- Flow: View › Couch Mode (⇧⌘C; ⌃⌘F is the system's Enter Full Screen) or the toolbar's sofa button → the window goes full screen: a row "Continue Playing" (recent) above "All Games" as large covers, the selected one grows with its title, playtime and Play → Return plays; Escape or B leaves
 - Surface: a full-screen view over the main window (not a new window), dark background from the selected cover
 - States: empty library: "No games yet" with "Leave Couch Mode"; a game running: its tile says "Running" and the action is "Stop…"
 - Words: "Couch Mode" / « Mode canapé », "Continue Playing" / « Reprendre », "Leave Couch Mode" / « Quitter le mode canapé »
 - Access: everything works with the keyboard; text is at least title size; VoiceOver reads each cover like the grid
-Status: todo
+Status: done
 
 ### S-029 Play with a controller
 As the user, I browse, launch and see game details with an Xbox, PlayStation or Switch controller; Hangar comes back to the front when the game quits.

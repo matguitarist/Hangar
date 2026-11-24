@@ -56,6 +56,9 @@ struct HangarCommands: Commands {
                 ForEach(GameSort.allCases, id: \.self) { Text($0.title).tag($0) }
             }
             Divider()
+            Button("Couch Mode") { if model.couchMode { model.leaveCouchMode() } else { model.enterCouchMode() } }
+                .keyboardShortcut("c", modifiers: [.command, .shift])
+            Divider()
         }
         CommandMenu("Game") {
             Button("Play") { if let id = model.selectedGameID { model.play(id) } }

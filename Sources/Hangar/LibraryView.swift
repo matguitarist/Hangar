@@ -105,6 +105,8 @@ struct LibraryView: View {
                 Label("Sort By", systemImage: "arrow.up.arrow.down")
             }
             .help(String(localized: "Sort games"))
+            Button { model.enterCouchMode() } label: { Label("Couch Mode", systemImage: "sofa") }
+                .help(String(localized: "Large covers for the sofa, with a controller or the keyboard (⇧⌘C)"))
             Button { GamePanels.addGame(model) } label: { Label("Add Game", systemImage: "plus") }
                 .help(String(localized: "Add a game (⌘N)"))
         }

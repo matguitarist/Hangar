@@ -2,6 +2,25 @@ import Foundation
 import HangarKit
 
 extension SelfTest {
+    /// S-028: couch mode opens, moves with the arrows, and leaves with Escape.
+    static func couchChecks(_ model: AppModel) async {
+        model.selectedGameID = model.library.games.first { $0.title == "Hollow Knight" }?.id
+        model.enterCouchMode()
+        check("S-028 Couch Mode opens on the selected game", model.couchMode && model.game(model.couch.selected)?.title == "Hollow Knight",
+              model.game(model.couch.selected)?.title ?? "none")
+        check("S-028 Continue Playing comes first", model.couch.rows.count == 2 && model.couch.rows[0].allSatisfy { model.game($0)?.lastPlayed != nil })
+        let before = model.couch.selected
+        model.couch(.move(.right))
+        check("S-028 an arrow moves the selection", model.couch.selected != before)
+        model.couch(.details)
+        check("S-028 Space shows the details", model.couchDetails)
+        model.couch(.back)
+        check("S-028 Escape closes the details first", model.couchMode && !model.couchDetails)
+        let last = model.couch.selected
+        model.couch(.back)
+        check("S-028 Escape leaves and keeps the selection", !model.couchMode && model.selectedGameID == last)
+    }
+
     /// S-037: Play on a game whose bottle's Steam is signed out asks first.
     static func signInChecks(_ model: AppModel) async {
         guard let vernal = model.library.games.first(where: { $0.title == "Vernal Edge" }) else { return }

@@ -164,6 +164,9 @@ extension AppModel {
         guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }
         library.games[index].playtime += played
         library.games[index].lastPlayed = now
+        refreshCouchRows()
+        // From the sofa, Hangar comes back when the game quits (S-029).
+        if couchMode, !Store.isOverridden { NSApp.activate() }
         let title = library.games[index].title
         if library.games[index].isWindows, played < CrashReadout.window, !stoppedByUser {
             // A Windows game that quit within a minute: its Wine log may say why (S-024).

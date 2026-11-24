@@ -142,6 +142,11 @@ final class AppModel {
         didSet { if !Store.isOverridden { UserDefaults.standard.set(sort.rawValue, forKey: "library.sort") }; syncMenu() }
     }
     var renamingCollection: UUID?
+    /// Couch mode (S-028): the full-screen view, its selection, and whether the selected game's details are open.
+    var couchMode = false
+    var couch = CouchNavigator(rows: [])
+    var couchDetails = false
+    @ObservationIgnored var couchMadeFullScreen = false
     var addRequest: AddRequest?
     var confirmingStop: String?
 

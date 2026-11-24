@@ -4030,6 +4030,96 @@
           }
         }
       }
+    },
+    "No games yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu pour l’instant"
+          }
+        }
+      }
+    },
+    "Leave Couch Mode": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter le mode canapé"
+          }
+        }
+      }
+    },
+    "Couch Mode": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mode canapé"
+          }
+        }
+      }
+    },
+    "Continue Playing": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprendre"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Détails"
+          }
+        }
+      }
+    },
+    "Move": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour"
+          }
+        }
+      }
+    },
+    "Space": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espace"
+          }
+        }
+      }
+    },
+    "Large covers for the sofa, with a controller or the keyboard (⇧⌘C)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De grandes couvertures pour le canapé, à la manette ou au clavier (⇧⌘C)"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

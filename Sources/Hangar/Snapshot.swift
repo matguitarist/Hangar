@@ -40,6 +40,7 @@ enum Snapshot {
             for mode in ["light", "dark"] {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
                 for page in SnapshotPage.all where only?.contains(page.name) ?? true {
+                    if !page.name.hasPrefix("couch") { model.leaveCouchMode() }
                     page.show(model)
                     try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview", "share-recipe", "backups"].contains(page.name) ? 1.2 : 0.8))
                     capture(to: "\(dir)/\(page.name)-\(mode).png")
@@ -351,6 +352,14 @@ struct SnapshotPage {
         },
         SnapshotPage(name: "log") { model in
             model.sidebar = .log
+        },
+        SnapshotPage(name: "couch") { model in
+            model.leaveCouchMode()
+            model.sidebar = .allGames; select(model, "Hollow Knight"); model.showsGamePage = false
+            model.enterCouchMode()
+        },
+        SnapshotPage(name: "couch-details") { model in
+            model.couch(.details)
         },
     ]
 }
