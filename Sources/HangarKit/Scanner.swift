@@ -171,10 +171,25 @@ public enum SteamScanner {
         }
     }
 
-    /// True when a Steam folder remembers a signed-in account (config/loginusers.vdf).
+    /// True when a Steam folder remembers a signed-in account (config/loginusers.vdf) and its last
+    /// session didn't end signed out (logs/connection_log.txt). A game launched with -applaunch
+    /// waits forever for a sign-in that -silent hides, so Hangar asks first (S-037).
     public static func isSignedIn(steamRoot: URL) -> Bool {
-        guard let users = KeyValues.read(steamRoot.appending(path: "config/loginusers.vdf"))?["users"] else { return false }
-        return users.pairs.contains { $0.1["RememberPassword"]?.string == "1" }
+        guard let users = KeyValues.read(steamRoot.appending(path: "config/loginusers.vdf"))?["users"],
+              users.pairs.contains(where: { $0.1["RememberPassword"]?.string == "1" }) else { return false }
+        let log = try? String(contentsOf: steamRoot.appending(path: "logs/connection_log.txt"), encoding: .utf8)
+        return !(log.map(lastSessionSignedOut) ?? false)
+    }
+
+    /// The connection log's last account is [U:1:0]: Steam ended its last session with nobody signed in.
+    /// A session replaced or disconnected keeps its account, and signs in again by itself.
+    public static func lastSessionSignedOut(_ log: String) -> Bool {
+        for line in log.split(whereSeparator: \.isNewline).reversed() {
+            guard let start = line.range(of: "[U:1:") else { continue }
+            let rest = line[start.upperBound...]
+            return rest.prefix { $0 != "]" } == "0"
+        }
+        return false
     }
 }
 

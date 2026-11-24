@@ -41,6 +41,7 @@ enum SelfTest {
             await lifeOnAMacChecks(model)
             await shortcutsChecks(model)
             await heroicChecks(model)
+            await signInChecks(model)
 
             print(failures == 0 ? "SELFTEST PASS \(count) checks" : "SELFTEST FAIL \(failures) of \(count) checks")
             finish(code: failures == 0 ? 0 : 1)

@@ -3980,6 +3980,56 @@
           }
         }
       }
+    },
+    "Sign in to Steam in the bottle %@ first.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez-vous d’abord à Steam dans la bouteille %@."
+          }
+        }
+      }
+    },
+    "%@ would wait for a sign-in that Steam hides.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ attendrait une connexion que Steam cache."
+          }
+        }
+      }
+    },
+    "Play Anyway": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouer quand même"
+          }
+        }
+      }
+    },
+    "Open Steam in the bottle %@ to sign in": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir Steam dans la bouteille %@ pour vous connecter"
+          }
+        }
+      }
+    },
+    "Start the game now, in case Steam is signed in after all": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancer le jeu maintenant, au cas où Steam serait connecté malgré tout"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

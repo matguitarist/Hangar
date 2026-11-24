@@ -132,6 +132,10 @@ struct GamePage: View {
         }
     }
 
+    private func isSignInNotice(_ notice: GameNotice?) -> Bool {
+        if case .signInFirst = notice { true } else { false }
+    }
+
     @ViewBuilder
     private func banners(_ game: Game) -> some View {
         if model.filesMissing(game) {
@@ -143,7 +147,7 @@ struct GamePage: View {
                 }
             }
         }
-        if model.needsSteamSignIn(game), let bottle = game.bottle {
+        if model.needsSteamSignIn(game), let bottle = game.bottle, !isSignInNotice(model.notices[game.id]) {
             Section {
                 Label(String(localized: "Sign in to Steam in the bottle \(bottle) to play this game."), systemImage: "person.crop.circle.badge.exclamationmark")
                 Button("Open Steam") { model.openSteam(bottle: bottle) }
@@ -164,6 +168,14 @@ struct GamePage: View {
                     Label(String(localized: "Did \(game.title) run well?"), systemImage: "questionmark.circle")
                 case .lowPowerModeOff:
                     Label(String(localized: "Low Power Mode is off. Turn it on to play longer on battery."), systemImage: "battery.50percent")
+                case let .signInFirst(bottle):
+                    VStack(alignment: .leading, spacing: Space.xs) {
+                        Label(String(localized: "Sign in to Steam in the bottle \(bottle) first."), systemImage: "person.crop.circle.badge.exclamationmark")
+                        Text("\(game.title) would wait for a sign-in that Steam hides.")
+                            .foregroundStyle(.secondary)
+                            .padding(.leading, 28)
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
                 case .crashed:
                     EmptyView()
                 }
@@ -172,6 +184,13 @@ struct GamePage: View {
                         Button("It Worked") { model.markWorked(game.id) }
                             .help(String(localized: "Label the settings it started with, to come back to them later"))
                         Button("Not Now") { model.notices[game.id] = nil }
+                    }
+                } else if case let .signInFirst(bottle) = notice {
+                    HStack(spacing: Space.sm) {
+                        Button("Open Steam") { model.openSteam(bottle: bottle) }
+                            .help(String(localized: "Open Steam in the bottle \(bottle) to sign in"))
+                        Button("Play Anyway") { model.play(game.id, anyway: true) }
+                            .help(String(localized: "Start the game now, in case Steam is signed in after all"))
                     }
                 } else if notice == .lowPowerModeOff {
                     HStack(spacing: Space.sm) {

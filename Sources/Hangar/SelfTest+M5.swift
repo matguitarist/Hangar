@@ -2,6 +2,23 @@ import Foundation
 import HangarKit
 
 extension SelfTest {
+    /// S-037: Play on a game whose bottle's Steam is signed out asks first.
+    static func signInChecks(_ model: AppModel) async {
+        guard let vernal = model.library.games.first(where: { $0.title == "Vernal Edge" }) else { return }
+        // Earlier checks may have given Vernal Edge a bottle of its own (S-011).
+        let bottle = vernal.bottle ?? "Steam"
+        let login = CrossOverScanner.steamFolder(bottle: model.roots.bottles.appending(path: bottle)).appending(path: "config/loginusers.vdf")
+        try? FileManager.default.removeItem(at: login)
+        await model.refresh()
+        model.play(vernal.id)
+        check("S-037 Play on a signed-out bottle doesn't launch", model.running[vernal.id] == nil)
+        check("S-037 the page asks to sign in first", model.notices[vernal.id] == .signInFirst(bottle), String(describing: model.notices[vernal.id]))
+        model.play(vernal.id, anyway: true)
+        check("S-037 Play Anyway launches as before", model.notices[vernal.id] == .didntStart(String(localized: "CrossOver isn't installed.")),
+              String(describing: model.notices[vernal.id]))
+        model.notices[vernal.id] = nil
+    }
+
     /// S-036: the games Heroic installed, in the sample library.
     static func heroicChecks(_ model: AppModel) async {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }

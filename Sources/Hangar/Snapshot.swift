@@ -316,7 +316,12 @@ struct SnapshotPage {
         SnapshotPage(name: "crossover") { model in
             model.sidebar = .source(.crossOver); model.selectedGameID = nil; model.showsGamePage = false
         },
+        SnapshotPage(name: "game-page-sign-in") { model in
+            model.sidebar = .allGames; select(model, "Vernal Edge")
+            if let id = model.selectedGameID { model.notices[id] = .signInFirst("Steam") }
+        },
         SnapshotPage(name: "heroic") { model in
+            if let id = model.library.games.first(where: { $0.title == "Vernal Edge" })?.id { model.notices[id] = nil }
             model.sidebar = .source(.heroic); model.selectedGameID = nil; model.showsGamePage = false
         },
         SnapshotPage(name: "game-page-heroic") { model in

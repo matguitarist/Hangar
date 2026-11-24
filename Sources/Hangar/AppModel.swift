@@ -73,6 +73,8 @@ enum GameNotice: Equatable {
     case askWorked
     /// Launched on battery with Low Power Mode off, and the profile suggests it (S-025).
     case lowPowerModeOff
+    /// Play on a Steam game whose bottle's Steam is signed out: it would wait for a hidden sign-in (S-037).
+    case signInFirst(String)
 }
 
 /// A file dropped or chosen that needs the "Add Windows Game" sheet.

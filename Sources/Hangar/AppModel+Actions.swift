@@ -9,9 +9,15 @@ extension AppModel {
     // MARK: Play and stop
 
     /// Starts a game through its runner. Running and playtime then follow its own process.
-    func play(_ id: String) {
+    /// A Steam game in a signed-out bottle asks to sign in first, unless the person plays anyway (S-037).
+    func play(_ id: String, anyway: Bool = false) {
         guard let game = game(id), running[id] == nil else { return }
         notices[id] = nil
+        if !anyway, needsSteamSignIn(game), let bottle = game.bottle {
+            notices[id] = .signInFirst(bottle)
+            log.post(.warning, "\(game.title) waits: Steam in the bottle \(bottle) is signed out", source: "Launch")
+            return
+        }
         var plan: LaunchPlan
         let battery: BatteryProfile?
         do {

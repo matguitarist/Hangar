@@ -550,13 +550,13 @@ Depends: S-006
 Acceptance:
 - [self] Play on a game in a signed-out bottle doesn't launch; the page asks to sign in, with "Open Steam".
 - [self] "Play Anyway" launches as before (the sign-in check can be wrong after Steam changes its files).
-- [unit] Signed in means `loginusers.vdf` remembers an account and `config.vdf` or `connection_log.txt` doesn't say the last session signed out.
+- [unit] Signed in means `loginusers.vdf` remembers an account and `logs/connection_log.txt` doesn't say the last session ended signed out (its last account is `[U:1:0]`; a replaced session stays signed in).
 UX:
 - Flow: Play → the page says "Sign in to Steam in the bottle Steam first. Vernal Edge waits for a sign-in that Steam hides." → "Open Steam" signs in → Play again; "Play Anyway" launches
 - Surface: the game page's notice (inline), as S-006
 - Words: "Sign in to Steam in the bottle \(bottle) first." / « Connectez-vous d’abord à Steam dans la bouteille \(bottle). », "\(game) would wait for a sign-in that Steam hides." / « \(game) attendrait une connexion que Steam cache. », "Play Anyway" / « Jouer quand même »
 - Access: the notice is text with a symbol and two buttons
-Status: todo
+Status: done
 
 
 ## M6 Couch mode (0.6.0)
