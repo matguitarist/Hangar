@@ -19,9 +19,11 @@ public enum FixtureLibrary {
         return roots(at: target)
     }
 
-    /// The fixture's folders. Its CrossOver.app is missing on purpose: Windows games can't start.
+    /// The fixture's folders. Its CrossOver.app has no wine command on purpose: Windows games can't start through it.
     public static func roots(at folder: URL) -> LibraryRoots {
         LibraryRoots(steam: folder.appending(path: "Steam"), bottles: folder.appending(path: "Bottles"),
-                     crossOverApp: nil, appFolders: [folder.appending(path: "Applications")], ownBundleID: "com.mathieuares.hangar")
+                     crossOverApp: folder.appending(path: "Applications/CrossOver.app"),
+                     appFolders: [folder.appending(path: "Applications")], ownBundleID: "com.mathieuares.hangar",
+                     toolFolders: [folder.appending(path: "opt")])
     }
 }

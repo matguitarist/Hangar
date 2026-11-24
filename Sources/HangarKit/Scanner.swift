@@ -12,13 +12,16 @@ public struct LibraryRoots: Sendable {
     public var appFolders: [URL]
     /// This app's bundle id, never listed as a game.
     public var ownBundleID: String?
+    /// Homebrew's opt folders, where Apple's Game Porting Toolkit installs.
+    public var toolFolders: [URL]
 
-    public init(steam: URL, bottles: URL, crossOverApp: URL?, appFolders: [URL], ownBundleID: String? = nil) {
+    public init(steam: URL, bottles: URL, crossOverApp: URL?, appFolders: [URL], ownBundleID: String? = nil, toolFolders: [URL] = []) {
         self.steam = steam
         self.bottles = bottles
         self.crossOverApp = crossOverApp
         self.appFolders = appFolders
         self.ownBundleID = ownBundleID
+        self.toolFolders = toolFolders
     }
 
     /// This Mac's real folders.
@@ -34,7 +37,8 @@ public struct LibraryRoots: Sendable {
             bottles: CrossOverScanner.bottleFolder(preferences: crossOverPrefs, home: home),
             crossOverApp: app,
             appFolders: [URL(fileURLWithPath: "/Applications"), home.appending(path: "Applications")],
-            ownBundleID: ownBundleID)
+            ownBundleID: ownBundleID,
+            toolFolders: [URL(fileURLWithPath: "/usr/local/opt"), URL(fileURLWithPath: "/opt/homebrew/opt")])
     }
 
     /// CrossOver's wine command, which runs a program in a bottle.

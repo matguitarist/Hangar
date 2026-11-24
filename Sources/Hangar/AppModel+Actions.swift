@@ -18,6 +18,7 @@ extension AppModel {
         } catch {
             let reason = switch error {
             case .crossOverMissing: String(localized: "CrossOver isn't installed.")
+            case .runnerMissing: String(localized: "Its runner isn't installed anymore.")
             case .filesMissing: String(localized: "The game's files aren't at this location anymore.")
             case .noBottle: String(localized: "It has no bottle.")
             }

@@ -48,6 +48,8 @@ struct ContentView: View {
                 emptyTitle: String(localized: "No Log Lines Yet"),
                 emptyMessage: String(localized: "What Hangar does, such as finding and launching games, is written here.")))
                 .navigationTitle("Log")
+        case .runners:
+            RunnersPage()
         default:
             LibraryView(item: item)
         }

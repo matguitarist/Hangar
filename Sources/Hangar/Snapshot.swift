@@ -1,4 +1,5 @@
 import AppKit
+import HangarKit
 import IOKit.pwr_mgt
 import SwiftUI
 
@@ -153,6 +154,14 @@ struct SnapshotPage {
             model.searchText = ""
             let exe = model.roots.bottles.appending(path: "Classics/drive_c/Program Files/Moonlit Harbor/MoonlitHarbor.exe")
             model.addRequest = AddRequest(file: exe)
+        },
+        SnapshotPage(name: "runners") { model in
+            model.sidebar = .runners
+            model.runners = RunnerScanner.scan(model.roots)
+        },
+        SnapshotPage(name: "runners-none") { model in
+            model.sidebar = .runners
+            model.runners = []
         },
         SnapshotPage(name: "log") { model in
             model.sidebar = .log

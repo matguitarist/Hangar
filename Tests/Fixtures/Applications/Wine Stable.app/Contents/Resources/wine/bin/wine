@@ -1,0 +1,3 @@
+#!/bin/sh
+# A sample wine command for tests: prints what it was asked to run, then exits.
+echo "WINEPREFIX=$WINEPREFIX $*"

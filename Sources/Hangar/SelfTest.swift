@@ -36,6 +36,7 @@ enum SelfTest {
             let text = (try? String(contentsOf: Store.logURL, encoding: .utf8)) ?? ""
             check("the log line reaches the log file", text.contains("Self-test line"))
             await libraryChecks(model)
+            await tuneChecks(model)
 
             print(failures == 0 ? "SELFTEST PASS \(count) checks" : "SELFTEST FAIL \(failures) of \(count) checks")
             finish(code: failures == 0 ? 0 : 1)
@@ -169,7 +170,7 @@ enum SelfTest {
         check("S-008 collections are saved", LibraryFile.load(from: Store.url).collections.map(\.name).contains("Favorites"))
     }
 
-    private static func check(_ name: String, _ ok: Bool, _ detail: String = "") {
+    static func check(_ name: String, _ ok: Bool, _ detail: String = "") {
         count += 1
         if !ok { failures += 1 }
         print(ok ? "PASS \(name)" : "FAIL \(name)\(detail.isEmpty ? "" : ": \(detail)")")

@@ -75,6 +75,9 @@ struct Sidebar: View {
                 }
             }
             Section {
+                Label("Runners", systemImage: "gearshape.2")
+                    .badge(model.runners.count)
+                    .tag(SidebarItem.runners)
                 Label("Log", systemImage: "doc.text.magnifyingglass")
                     .tag(SidebarItem.log)
             }

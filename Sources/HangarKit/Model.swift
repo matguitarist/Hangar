@@ -11,6 +11,12 @@ public enum RunnerKind: String, Codable, Sendable {
     case native
     /// A Windows program in a CrossOver bottle.
     case crossOver
+    /// A Windows program run by a Wine build in a prefix of its own.
+    case wine
+    /// A Windows program run by Apple's Game Porting Toolkit in a prefix of its own.
+    case gamePortingToolkit
+    /// MacRunner, found on the Runners page.
+    case macRunner
 }
 
 /// A game in the library: a Mac app, a Steam game, or a Windows program in a bottle.

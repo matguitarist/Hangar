@@ -12,6 +12,8 @@ public struct LaunchPlan: Sendable, Equatable {
 
 public enum LaunchError: Error, Sendable, Equatable {
     case crossOverMissing
+    /// The game's runner (a Wine build, Game Porting Toolkit) isn't on this Mac anymore.
+    case runnerMissing
     case filesMissing
     case noBottle
 }
@@ -43,6 +45,8 @@ public enum LaunchPlanner {
                 return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--start", exe], processHints: game.processHints)
             }
             return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--cx-app", exe], processHints: game.processHints)
+        case .wine, .gamePortingToolkit, .macRunner:
+            throw .runnerMissing
         }
     }
 

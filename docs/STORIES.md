@@ -158,7 +158,13 @@ Depends: S-002
 Acceptance:
 - [unit] Finds CrossOver.app and its version, Gcenx Wine builds, and MacRunner.app.
 - [snap] The Runners page with and without CrossOver.
-Status: todo
+UX:
+- Flow: sidebar › Runners → the runners found at the last scan, CrossOver first with its bottles → Refresh scans again; the folder button shows a runner in the Finder
+- Surface: sidebar page "Runners" (a place people come back to), a grouped form
+- States: no CrossOver "CrossOver isn't installed. Hangar needs it to play the Windows games in your bottles." with "Get CrossOver"; no Wine build "None installed…" with "Get Wine builds for the Mac"; long paths truncate in the middle with the full path in a tooltip
+- Words: "Runners" / « Lanceurs », "Bottles" / « Bouteilles », "Version 26.3", "Get CrossOver" / « Obtenir CrossOver », tooltip "Show CrossOver in the Finder" / « Afficher CrossOver dans le Finder »
+- Access: runner name and version read as a pair; the Finder button has a label
+Status: done
 
 ### S-010 Change a Windows game's graphics settings
 As the user, I change a bottle game's graphics backend (Auto, D3DMetal, DXMT, DXVK, Wine), MSync, High Resolution Mode, MetalFX and AVX for Rosetta on its page.

@@ -8,7 +8,7 @@ import SwiftUI
 
 /// The sidebar pages.
 enum SidebarItem: Hashable {
-    case running, allGames, source(GameSource), bottle(String), collection(UUID), log
+    case running, allGames, source(GameSource), bottle(String), collection(UUID), runners, log
 }
 
 extension GameSource {
@@ -47,6 +47,9 @@ extension Game {
         switch runner {
         case .native: "Mac"
         case .crossOver: bottle.map { String(localized: "CrossOver, bottle \($0)") } ?? "CrossOver"
+        case .wine: "Wine"
+        case .gamePortingToolkit: "Game Porting Toolkit"
+        case .macRunner: "MacRunner"
         }
     }
 
@@ -81,6 +84,8 @@ final class AppModel {
     private(set) var notes: [ScanNote] = []
     private(set) var bottles: [String] = []
     private(set) var signedOutBottles: Set<String> = []
+    /// CrossOver, Wine builds and Game Porting Toolkit on this Mac (the Runners page).
+    var runners: [InstalledRunner] = []
     private(set) var isScanning = false
     private(set) var showsScanning = false
     private(set) var hasScanned = false
@@ -155,6 +160,7 @@ final class AppModel {
         }
         notes = result.notes
         bottles = result.bottles
+        runners = RunnerScanner.scan(roots)
         signedOutBottles = Set(result.bottles.filter { name in
             let steam = CrossOverScanner.steamFolder(bottle: roots.bottles.appending(path: name))
             return FileManager.default.fileExists(atPath: steam.path) && !SteamScanner.isSignedIn(steamRoot: steam)
@@ -193,7 +199,7 @@ final class AppModel {
     func games(for item: SidebarItem) -> [Game] {
         let all: [Game]
         switch item {
-        case .allGames, .log: all = library.games
+        case .allGames, .log, .runners: all = library.games
         case .running: all = library.games.filter { running[$0.id] != nil }
         case let .source(source): all = library.games.filter { $0.source == source }
         case let .bottle(name): all = library.games.filter { $0.bottle == name && $0.source == .crossOver }
@@ -212,6 +218,7 @@ final class AppModel {
         case let .source(source): source.title
         case let .bottle(name): name
         case let .collection(id): library.collections.first { $0.id == id }?.name ?? ""
+        case .runners: String(localized: "Runners")
         case .log: String(localized: "Log")
         }
     }

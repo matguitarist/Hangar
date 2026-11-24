@@ -191,6 +191,16 @@
         }
       }
     },
+    "Bottles": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouteilles"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "fr": {
@@ -331,6 +341,16 @@
         }
       }
     },
+    "CrossOver": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CrossOver"
+          }
+        }
+      }
+    },
     "CrossOver has no bottles. Make one in CrossOver first.": {
       "localizations": {
         "fr": {
@@ -347,6 +367,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "CrossOver n’est pas installé."
+          }
+        }
+      }
+    },
+    "CrossOver isn't installed. Hangar needs it to play the Windows games in your bottles.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CrossOver n’est pas installé. Hangar en a besoin pour lancer les jeux Windows de vos bouteilles."
           }
         }
       }
@@ -431,6 +461,26 @@
         }
       }
     },
+    "Get CrossOver": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obtenir CrossOver"
+          }
+        }
+      }
+    },
+    "Get Wine builds for the Mac": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obtenir des versions de Wine pour Mac"
+          }
+        }
+      }
+    },
     "Get a free key on steamgriddb.com": {
       "localizations": {
         "fr": {
@@ -487,6 +537,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Il n’a pas de bouteille."
+          }
+        }
+      }
+    },
+    "Its runner isn't installed anymore.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son lanceur n’est plus installé."
           }
         }
       }
@@ -721,6 +781,26 @@
         }
       }
     },
+    "None": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune"
+          }
+        }
+      }
+    },
+    "None installed. A Wine build or Game Porting Toolkit runs a game in a prefix of its own.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun installé. Une version de Wine ou Game Porting Toolkit lance un jeu dans son propre préfixe."
+          }
+        }
+      }
+    },
     "Not played yet": {
       "localizations": {
         "fr": {
@@ -821,6 +901,16 @@
         }
       }
     },
+    "Refresh": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualiser"
+          }
+        }
+      }
+    },
     "Refresh Library": {
       "localizations": {
         "fr": {
@@ -911,6 +1001,16 @@
         }
       }
     },
+    "Runners": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanceurs"
+          }
+        }
+      }
+    },
     "Running": {
       "localizations": {
         "fr": {
@@ -947,6 +1047,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sélectionnez un jeu pour voir ses détails"
+          }
+        }
+      }
+    },
+    "Show %@ in the Finder": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher %@ dans le Finder"
           }
         }
       }
@@ -1201,12 +1311,32 @@
         }
       }
     },
+    "Version unknown": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version inconnue"
+          }
+        }
+      }
+    },
     "What Hangar does, such as finding and launching games, is written here.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ce que fait Hangar, comme trouver et lancer des jeux, est écrit ici."
+          }
+        }
+      }
+    },
+    "What runs your Windows games. Hangar finds them in the Applications folders and Homebrew.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce qui lance vos jeux Windows. Hangar les trouve dans les dossiers Applications et dans Homebrew."
           }
         }
       }
@@ -1227,6 +1357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jeu Windows, bouteille %@"
+          }
+        }
+      }
+    },
+    "Wine and Game Porting Toolkit": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wine et Game Porting Toolkit"
           }
         }
       }
