@@ -113,6 +113,9 @@ final class AppModel {
     var running: [String: LaunchState] = [:] { didSet { syncMenu() } }
     var notices: [String: GameNotice] = [:]
     let covers: CoverCache
+    let compatibilityCache = CompatibilityCache(folder: Store.compatibilityFolder, fetch: Store.compatibilityFetch)
+    /// AppleGamingWiki's verdicts by game id: nil while loading, .some(nil) when the wiki has no page.
+    var compatibility: [String: Compatibility?] = [:]
     /// Bumped when covers can change everywhere (a new SteamGridDB key), so tiles look again.
     var coverGeneration = 0
     /// The SteamGridDB API key (Settings › Library), kept in the Keychain.

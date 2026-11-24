@@ -50,6 +50,7 @@ struct GamePage: View {
                 .padding(.vertical, Space.xs)
             }
             banners(game)
+            CompatibilitySection(game: game)
             Section {
                 LabeledContent("Source", value: game.sourceLabel)
                 LabeledContent("Runner", value: model.runnerLabel(game))

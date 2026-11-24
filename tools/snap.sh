@@ -8,6 +8,8 @@ store=/tmp/Hangar-test.json
 shots=/tmp/Hangar-shots
 # A crashed run leaves saved window state, and the next launch would wait on a "reopen windows?" alert.
 rm -rf ~/Library/Saved\ Application\ State/com.mathieuares.hangar.savedState
+# Start every run at the window's default size: APP_SNAPSHOT_MIN shrinks it, and the size is remembered.
+defaults delete com.mathieuares.hangar "NSWindow Frame main" 2>/dev/null
 # Seed data only fills an empty store, so start from nothing.
 rm -f $store ${store:r}.log
 rm -rf $shots

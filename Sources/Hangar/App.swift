@@ -99,6 +99,18 @@ enum Store {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-covers") : folder.appending(path: "Covers")
     }
 
+    /// AppleGamingWiki's verdicts, cached: Compatibility/ next to the library, or <store>-agw in a test run.
+    static var compatibilityFolder: URL {
+        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-agw") : folder.appending(path: "Compatibility")
+    }
+
+    /// A test run never asks the wiki: it reads the sample pages (APP_FIXTURES/AppleGamingWiki), or nothing.
+    static var compatibilityFetch: CompatibilityCache.Fetch {
+        guard isOverridden else { return CompatibilityCache.network }
+        let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] ?? "/nonexistent"
+        return CompatibilityCache.folder(URL(fileURLWithPath: fixtures).appending(path: "AppleGamingWiki"))
+    }
+
     /// Where scans look. A test run never reads this Mac's games: it scans the sample library
     /// (APP_FIXTURES, copied to <store>-fixtures in /tmp) or nothing.
     static func roots(steamFolder: String?) -> LibraryRoots {

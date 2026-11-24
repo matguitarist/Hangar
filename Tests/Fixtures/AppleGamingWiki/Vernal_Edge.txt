@@ -1,0 +1,14 @@
+{{Compatibility/macOS
+|native               = na
+|native notes         = 
+|rosetta 2            = na
+|rosetta 2 notes      = 
+|crossover            = playable
+|crossover notes      = Runs with D3DMetal. Set '''MSync''' on; see [[CrossOver|the CrossOver page]].<ref>{{Refdevice|user=Sample|device=MacBook Pro M3}}</ref>
+|wine                 = runs
+|wine notes           = Starts, but cutscenes are black.
+|parallels            = unknown
+|parallels notes      = 
+}}
+
+[[Category:Games]]

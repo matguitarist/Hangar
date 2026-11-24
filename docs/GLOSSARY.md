@@ -15,6 +15,7 @@ One name for each thing, in every button, menu, title, tooltip and error.
 | Windows game | A game that runs through a runner other than Mac | PC game, .exe | jeu Windows |
 | Launch options | A game's own program, arguments and environment variables | command line, flags | options de lancement |
 | Graphics | The way a Windows game's graphics reach Metal: Auto, D3DMetal, DXMT, DXVK, Wine | backend, renderer | graphismes |
+| Runs on a Mac | AppleGamingWiki's verdict for each way to play a game on a Mac | compatibility, rating | Fonctionne sur Mac |
 | Recipe | The known-good setup for a game: runner and settings | profile, preset, fix, config | recette |
 | Recommended setup | A recipe offered for a game on its page | best settings | configuration recommandée |
 | Snapshot | A saved copy of a game's settings and bottle files, to roll back to | backup (that's for saves), restore point | instantané |

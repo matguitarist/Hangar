@@ -1,0 +1,26 @@
+{{Compatibility/macOS
+|native               = perfect
+|native notes         = Added on patch version 1.5.12459 (further testing required)
+|rosetta 2            = perfect
+|rosetta 2 notes      = Playable.<ref>{{Refdevice|user=Andytizer|date=|device=MacBook Air M1 2020 8 GB RAM|os=|method=|version=|resolution=|settings=|framerate=|controller=|url=|title=|comment=}}</ref>
+|ios-ipados app       = na
+|ios-ipados app notes = 
+|crossover            = perfect
+|crossover notes      = Perfect.<ref>{{Refdevice|user=Andytizer|date=|device=MacBook Air M1 2020 8 GB RAM|os=|method=|version=|resolution=|settings=|framerate=|controller=|url=|title=|comment=}}</ref>
+
+|wine                 = unknown
+|wine notes           = 
+|parallels            = perfect
+|parallels notes      = Playable, although there is minor (but noticeable) input lag. <ref>{{Refdevice|user=Shock9616|date=|device=MacBook Pro M1 Pro 2021 16 GB RAM|os=MacOS 13.0.1|method=Parallels 18.1|version=|resolution=|settings=|framerate=|controller=|url=|title=|comment=}}</ref>
+|windows 10 arm       = na
+|windows 10 arm notes = 
+|linux arm            = na
+|linux arm notes      = 
+}}
+
+==Gameplay videos==
+{{#widget:YouTube|id=6fZBwT7indY}}
+
+{{References}}
+
+[[Category:Games]]

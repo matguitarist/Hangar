@@ -231,6 +231,26 @@
         }
       }
     },
+    "AppleGamingWiki has no page for this game yet.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AppleGamingWiki n’a pas encore de page pour ce jeu."
+          }
+        }
+      }
+    },
+    "AppleGamingWiki has no verdicts for this game yet.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AppleGamingWiki n’a pas encore d’avis pour ce jeu."
+          }
+        }
+      }
+    },
     "Arguments": {
       "localizations": {
         "fr": {
@@ -327,6 +347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rechercher les mises à jour automatiquement"
+          }
+        }
+      }
+    },
+    "Checking AppleGamingWiki…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consultation d’AppleGamingWiki…"
           }
         }
       }
@@ -541,6 +571,16 @@
         }
       }
     },
+    "Doesn't run": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne fonctionne pas"
+          }
+        }
+      }
+    },
     "Drag games here to add them": {
       "localizations": {
         "fr": {
@@ -587,6 +627,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Concentration"
+          }
+        }
+      }
+    },
+    "From AppleGamingWiki": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon AppleGamingWiki"
           }
         }
       }
@@ -991,6 +1041,16 @@
         }
       }
     },
+    "Native": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Natif"
+          }
+        }
+      }
+    },
     "Never": {
       "localizations": {
         "fr": {
@@ -1111,6 +1171,16 @@
         }
       }
     },
+    "Not tested": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non testé"
+          }
+        }
+      }
+    },
     "Open Steam": {
       "localizations": {
         "fr": {
@@ -1161,12 +1231,32 @@
         }
       }
     },
+    "Perfect": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parfait"
+          }
+        }
+      }
+    },
     "Play": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Jouer"
+          }
+        }
+      }
+    },
+    "Playable": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouable"
           }
         }
       }
@@ -1391,6 +1481,16 @@
         }
       }
     },
+    "Runs": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarre"
+          }
+        }
+      }
+    },
     "Runs in CrossOver, bottle %@": {
       "localizations": {
         "fr": {
@@ -1407,6 +1507,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "S’exécute dans son propre préfixe, à partir des fichiers du jeu dans la bouteille %@. Les réglages de la bouteille ne s’appliquent pas."
+          }
+        }
+      }
+    },
+    "Runs on a Mac": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonctionne sur Mac"
+          }
+        }
+      }
+    },
+    "Search AppleGamingWiki": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chercher dans AppleGamingWiki"
           }
         }
       }

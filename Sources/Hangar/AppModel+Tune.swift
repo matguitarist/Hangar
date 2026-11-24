@@ -60,6 +60,13 @@ extension AppModel {
         settingsGeneration += 1
     }
 
+    /// Asks AppleGamingWiki (or its cache) how well a game runs, once per game while the app is open.
+    func loadCompatibility(_ id: String) async {
+        guard compatibility[id] == nil, let title = game(id)?.title else { return }
+        let result = await compatibilityCache.compatibility(for: title)
+        compatibility[id] = .some(result)
+    }
+
     /// "CrossOver, bottle Steam", or the Wine build the person chose.
     func runnerLabel(_ game: Game) -> String {
         guard let path = game.options.runner, game.runner == .crossOver, game.steamID == nil else { return game.runnerLabel }

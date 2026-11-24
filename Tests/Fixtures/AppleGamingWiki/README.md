@@ -1,0 +1,1 @@
+Page sources from AppleGamingWiki (action=raw), named like the wiki's page titles. A test run reads these instead of the network. Hollow_Knight.txt is the real page as of 2026-11-23; the others are made up in the same shape.

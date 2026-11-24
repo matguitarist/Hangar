@@ -130,6 +130,9 @@ struct SnapshotPage {
         SnapshotPage(name: "game-page") { model in
             model.sidebar = .allGames; select(model, "Starfall Arcade")
         },
+        SnapshotPage(name: "game-page-compatibility") { model in
+            model.sidebar = .allGames; select(model, "Hollow Knight")
+        },
         SnapshotPage(name: "game-page-windows") { model in
             model.sidebar = .allGames; select(model, "Vernal Edge")
         },

@@ -253,7 +253,13 @@ Acceptance:
 - [unit] Parses the `Compatibility/macOS` template from a page's source, status and notes for each method.
 - [unit] The cached data is used offline and refreshed at most once a week.
 - [snap] A game page with the status for each method, credited to AppleGamingWiki.
-Status: todo
+UX:
+- Flow: select a game → its page asks AppleGamingWiki (or the cache, at most a week old) by title → "Runs on a Mac" lists each method with its verdict and notes → "From AppleGamingWiki" opens the page
+- Surface: a section of the game page's Overview, under the cover and buttons
+- States: loading "Checking AppleGamingWiki…" only past half a second; no page "AppleGamingWiki has no page for this game yet." with "Search AppleGamingWiki"; offline: the cache, however old, or nothing; long notes cut at three lines with the full text in a tooltip
+- Words: "Runs on a Mac" / « Fonctionne sur Mac », verdicts "Perfect", "Playable", "Runs", "Doesn't run", "Not tested" / « Parfait », « Jouable », « Démarre », « Ne fonctionne pas », « Non testé »; methods Native, Rosetta 2, CrossOver, Wine, Parallels
+- Access: a verdict is a word with a symbol, never color alone; method and verdict read as a pair
+Status: done
 
 ### S-016 Apply a recipe
 As the user, a game with a recipe shows "Recommended setup"; I see what it will change, apply it, and can undo it.

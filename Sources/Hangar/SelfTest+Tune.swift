@@ -84,6 +84,18 @@ extension SelfTest {
             model.setOptions(harbor.id) { $0.runner = nil }
         }
 
+        // S-015: the sample pages in Tests/Fixtures/AppleGamingWiki.
+        if let knight = find("Hollow Knight"), let pocket = find("Pocket Racer") {
+            await model.loadCompatibility(knight.id)
+            let entries = model.compatibility[knight.id]??.entries ?? []
+            check("S-015 a game page shows the verdict for each method", entries.map(\.method) == [.native, .rosetta, .crossOver, .wine, .parallels]
+                  && entries.first?.rating == .perfect, entries.map(\.method.rawValue).joined(separator: ","))
+            check("S-015 the verdicts are cached for offline use",
+                  FileManager.default.fileExists(atPath: Store.compatibilityFolder.appending(path: "Hollow_Knight.json").path))
+            await model.loadCompatibility(pocket.id)
+            check("S-015 a game without a wiki page says so", model.compatibility[pocket.id] == .some(nil))
+        }
+
         // S-011
         if let vernal = find("Vernal Edge") {
             let mates = model.bottleMates(of: vernal).map(\.title)
