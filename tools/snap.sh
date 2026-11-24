@@ -13,7 +13,7 @@ defaults delete com.mathieuares.hangar "NSWindow Frame main" 2>/dev/null
 # Seed data only fills an empty store, so start from nothing.
 rm -f $store ${store:r}.log
 rm -rf $shots
-rm -rf ${store:r}-fixtures ${store:r}-snapshots ${store:r}-agw ${store:r}-runners.json
+rm -rf ${store:r}-run
 # APP_LANGUAGE=fr tools/snap.sh shoots the French pages.
 lang=()
 lang=(-AppleLanguages "(${APP_LANGUAGE:-en})")

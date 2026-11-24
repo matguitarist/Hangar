@@ -99,9 +99,15 @@ enum Store {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-covers") : folder.appending(path: "Covers")
     }
 
-    /// Settings snapshots: Snapshots/ next to the library, or <store>-snapshots in a test run.
+    /// A file a test run makes next to the store. They all live in <store>-run/, which the
+    /// self-test and snapshot scripts remove at the start, so no run sees another's leftovers.
+    static func runFile(_ name: String) -> URL {
+        URL(fileURLWithPath: url.deletingPathExtension().path + "-run").appending(path: name)
+    }
+
+    /// Settings snapshots: Snapshots/ next to the library, or <store>-run/snapshots in a test run.
     static var snapshotsFolder: URL {
-        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-snapshots") : folder.appending(path: "Snapshots")
+        isOverridden ? runFile("snapshots") : folder.appending(path: "Snapshots")
     }
 
     /// The recipe manifest: the bundled one, or in a test run the sample (APP_FIXTURES/recipes.json).
@@ -110,14 +116,14 @@ enum Store {
         return ProcessInfo.processInfo.environment["APP_FIXTURES"].map { URL(fileURLWithPath: $0).appending(path: "recipes.json") }
     }
 
-    /// The runner versions seen last: runners.json next to the library, or <store>-runners.json in a test run.
+    /// The runner versions seen last: runners.json next to the library, or <store>-run/runners.json in a test run.
     static var runnerVersionsURL: URL {
-        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-runners.json") : folder.appending(path: "runners.json")
+        isOverridden ? runFile("runners.json") : folder.appending(path: "runners.json")
     }
 
-    /// AppleGamingWiki's verdicts, cached: Compatibility/ next to the library, or <store>-agw in a test run.
+    /// AppleGamingWiki's verdicts, cached: Compatibility/ next to the library, or <store>-run/agw in a test run.
     static var compatibilityFolder: URL {
-        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-agw") : folder.appending(path: "Compatibility")
+        isOverridden ? runFile("agw") : folder.appending(path: "Compatibility")
     }
 
     /// A test run never asks the wiki: it reads the sample pages (APP_FIXTURES/AppleGamingWiki), or nothing.
@@ -128,10 +134,10 @@ enum Store {
     }
 
     /// Where scans look. A test run never reads this Mac's games: it scans the sample library
-    /// (APP_FIXTURES, copied to <store>-fixtures in /tmp) or nothing.
+    /// (APP_FIXTURES, copied to <store>-run/fixtures in /tmp) or nothing.
     static func roots(steamFolder: String?) -> LibraryRoots {
         guard isOverridden else { return .live(steamFolder: steamFolder) }
-        let copy = URL(fileURLWithPath: url.deletingPathExtension().path + "-fixtures")
+        let copy = runFile("fixtures")
         if let source = ProcessInfo.processInfo.environment["APP_FIXTURES"], !source.isEmpty {
             if FileManager.default.fileExists(atPath: copy.path) { return FixtureLibrary.roots(at: copy) }
             if let roots = try? FixtureLibrary.install(from: URL(fileURLWithPath: source), to: copy) { return roots }
