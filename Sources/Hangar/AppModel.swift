@@ -8,7 +8,7 @@ import SwiftUI
 
 /// The sidebar pages.
 enum SidebarItem: Hashable {
-    case running, allGames, source(GameSource), bottle(String), collection(UUID), runners, storage, log
+    case running, allGames, source(GameSource), bottle(String), collection(UUID), runners, storage, health, log
 }
 
 extension GameSource {
@@ -151,6 +151,9 @@ final class AppModel {
     var achievementCache: [String: AchievementSummary?] = [:]
     /// The Storage page (S-039): what it measured, and whether it's measuring.
     var storageItems: [StorageItem]?
+    /// What needs the person (S-042), for the Health page and its sidebar badge.
+    var healthIssues: [HealthIssue] = []
+    var checkingHealth = false
     var measuringStorage = false
     /// Game controllers (S-029).
     let controllers = ControllerCenter()
@@ -288,6 +291,7 @@ final class AppModel {
         showsScanning = false
         hasScanned = true
         if let id = selectedGameID, game(id) == nil { selectedGameID = nil }
+        Task { await checkHealth(loadSaves: false) }
         syncMenu()
     }
 
@@ -311,7 +315,7 @@ final class AppModel {
     func games(for item: SidebarItem) -> [Game] {
         let all: [Game]
         switch item {
-        case .allGames, .log, .runners, .storage: all = library.games
+        case .allGames, .log, .runners, .storage, .health: all = library.games
         case .running: all = library.games.filter { running[$0.id] != nil }
         case let .source(source): all = library.games.filter { $0.source == source }
         case let .bottle(name): all = library.games.filter { $0.bottle == name && $0.source == .crossOver }
@@ -332,6 +336,7 @@ final class AppModel {
         case let .collection(id): library.collections.first { $0.id == id }?.name ?? ""
         case .runners: String(localized: "Runners")
         case .storage: String(localized: "Storage")
+        case .health: String(localized: "Health")
         case .log: String(localized: "Log")
         }
     }

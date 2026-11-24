@@ -4550,6 +4550,156 @@
           }
         }
       }
+    },
+    "Health": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "État"
+          }
+        }
+      }
+    },
+    "Everything looks good": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout va bien"
+          }
+        }
+      }
+    },
+    "No moved files, unreadable bottles, signed-out Steam, or saves without a backup.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun fichier déplacé, aucune bouteille illisible, Steam est connecté et toutes les parties sont sauvegardées."
+          }
+        }
+      }
+    },
+    "Checking…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérification…"
+          }
+        }
+      }
+    },
+    "Check Again": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier à nouveau"
+          }
+        }
+      }
+    },
+    "Check the library again": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier la bibliothèque à nouveau"
+          }
+        }
+      }
+    },
+    "Files moved": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichiers déplacés"
+          }
+        }
+      }
+    },
+    "Bottles Hangar can't read": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouteilles illisibles"
+          }
+        }
+      }
+    },
+    "Signed out of Steam": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déconnecté de Steam"
+          }
+        }
+      }
+    },
+    "Never backed up": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jamais sauvegardé"
+          }
+        }
+      }
+    },
+    "Open in CrossOver": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir dans CrossOver"
+          }
+        }
+      }
+    },
+    "Back Up Now": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarder maintenant"
+          }
+        }
+      }
+    },
+    "Open it once in CrossOver, then refresh.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrez-la une fois dans CrossOver, puis actualisez."
+          }
+        }
+      }
+    },
+    "Its Steam games can't start until you sign in.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses jeux Steam ne peuvent pas démarrer avant que vous vous connectiez."
+          }
+        }
+      }
+    },
+    "Its saves are on this Mac only.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses parties sont seulement sur ce Mac."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

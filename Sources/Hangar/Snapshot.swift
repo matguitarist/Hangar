@@ -370,6 +370,9 @@ struct SnapshotPage {
             model.sidebar = .runners
             model.runners = []
         },
+        SnapshotPage(name: "health") { model in
+            model.sidebar = .health
+        },
         SnapshotPage(name: "storage") { model in
             let old = model.roots.prefixes.appending(path: "Old Game-1a2b")
             try? FileManager.default.createDirectory(at: old.appending(path: "drive_c"), withIntermediateDirectories: true)

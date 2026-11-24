@@ -656,7 +656,7 @@ UX:
 Status: done
 
 ### S-042 Library health
-As the user, I see in one place what needs me: games whose files moved, bottles Hangar can't read, Steam signed out in a bottle, recipes older than the runner, and games without a save backup.
+As the user, I see in one place what needs me: games whose files moved, bottles Hangar can't read, Steam signed out in a bottle, and games without a save backup. (Settings from an older runner stay in the S-018 and S-040 update banner.)
 Screens: health
 Depends: S-007, S-018, S-022
 Acceptance:
@@ -667,7 +667,7 @@ UX:
 - Surface: sidebar page "Health", always shown, with "Everything looks good" when there is nothing to fix
 - Words: "Health" / « État », "Everything looks good" / « Tout va bien », "Files moved" / « Fichiers déplacés », "Bottles Hangar can't read" / « Bouteilles illisibles », "Signed out of Steam" / « Déconnecté de Steam », "Never backed up" / « Jamais sauvegardé », "Back Up Now" / « Sauvegarder maintenant »
 - Access: each group is a section with a header; each fix a labeled button
-Status: todo
+Status: done
 
 ### S-043 Smart filters
 As the user, I filter any page to games I never played, haven't played in six months, Windows or Mac games, or games with a native Mac version.

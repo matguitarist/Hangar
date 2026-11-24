@@ -27,6 +27,7 @@ extension AppModel {
         case let .success(backup):
             if let backup {
                 backupGeneration += 1
+                healthIssues.removeAll { $0 == .neverBackedUp(gameID: id) }
                 log.post(.info, "Backed up the saves of \(game.title): \(backup.files) files", source: "Saves")
             }
             return backup

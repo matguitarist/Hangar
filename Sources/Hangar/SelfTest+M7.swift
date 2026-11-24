@@ -8,6 +8,21 @@ extension SelfTest {
         await frameCapChecks(model)
         await storageChecks(model)
         await driftChecks(model)
+        await healthChecks(model)
+    }
+
+    /// S-042: the sample library's unreadable bottle and a game with saves and no backup show on Health; Back Up Now clears it.
+    static func healthChecks(_ model: AppModel) async {
+        await model.checkHealth(loadSaves: true)
+        let issues = model.healthIssues
+        let names = issues.map(\.id).joined(separator: ", ")
+        check("S-042 Health shows the unreadable bottle Empty", issues.contains(.bottleUnreadable(bottle: "Empty")), names)
+        let unsaved = issues.first { $0.kind == .neverBackedUp }
+        check("S-042 Health shows a game with saves and no backup", unsaved != nil, names)
+        if let unsaved {
+            await model.fixHealth(unsaved)
+            check("S-042 Back Up Now clears it", !model.healthIssues.contains(unsaved), model.healthIssues.map(\.id).joined(separator: ", "))
+        }
     }
 
     /// S-040: an update that changed a bottle shows in the banner, and Put Back restores it after a snapshot.

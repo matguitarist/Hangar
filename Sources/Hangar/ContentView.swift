@@ -71,6 +71,8 @@ struct ContentView: View {
             RunnersPage()
         case .storage:
             StoragePage()
+        case .health:
+            HealthPage()
         default:
             LibraryView(item: item)
         }
