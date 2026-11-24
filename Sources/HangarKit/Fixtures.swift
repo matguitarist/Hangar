@@ -1,7 +1,7 @@
 import Foundation
 
 /// The sample library in Tests/Fixtures, copied to a folder in /tmp for a test run.
-/// Its .vdf files name their own folder as @ROOT@, replaced here with the copy's path.
+/// Its .vdf, .json and .info files name their own folder as @ROOT@, replaced here with the copy's path.
 public enum FixtureLibrary {
     public static func install(from source: URL, to target: URL) throws -> LibraryRoots {
         let fm = FileManager.default
@@ -9,7 +9,7 @@ public enum FixtureLibrary {
         try fm.createDirectory(at: target.deletingLastPathComponent(), withIntermediateDirectories: true)
         try fm.copyItem(at: source, to: target)
         if let files = fm.enumerator(at: target, includingPropertiesForKeys: nil) {
-            for case let file as URL in files where file.pathExtension == "vdf" {
+            for case let file as URL in files where ["vdf", "json", "info"].contains(file.pathExtension) {
                 let text = try String(contentsOf: file, encoding: .utf8)
                 if text.contains("@ROOT@") {
                     try text.replacingOccurrences(of: "@ROOT@", with: target.path).write(to: file, atomically: true, encoding: .utf8)
@@ -25,6 +25,7 @@ public enum FixtureLibrary {
                      crossOverApp: folder.appending(path: "Applications/CrossOver.app"),
                      appFolders: [folder.appending(path: "Applications")], ownBundleID: "com.mathieuares.hangar",
                      toolFolders: [folder.appending(path: "opt")], prefixes: folder.appending(path: "Prefixes"),
-                     home: folder.appending(path: "Home"))
+                     home: folder.appending(path: "Home"), heroic: folder.appending(path: "Heroic"),
+                     heroicApp: folder.appending(path: "Applications/Heroic.app"))
     }
 }

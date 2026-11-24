@@ -316,6 +316,12 @@ struct SnapshotPage {
         SnapshotPage(name: "crossover") { model in
             model.sidebar = .source(.crossOver); model.selectedGameID = nil; model.showsGamePage = false
         },
+        SnapshotPage(name: "heroic") { model in
+            model.sidebar = .source(.heroic); model.selectedGameID = nil; model.showsGamePage = false
+        },
+        SnapshotPage(name: "game-page-heroic") { model in
+            model.sidebar = .source(.heroic); select(model, "Ember Isles"); model.gamePageTab = .settings
+        },
         SnapshotPage(name: "collection") { model in
             if let first = model.library.collections.first { model.sidebar = .collection(first.id) }
         },

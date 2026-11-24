@@ -2,6 +2,24 @@ import Foundation
 import HangarKit
 
 extension SelfTest {
+    /// S-036: the games Heroic installed, in the sample library.
+    static func heroicChecks(_ model: AppModel) async {
+        guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }
+        let heroic = model.games(for: .source(.heroic))
+        check("S-036 Heroic's games show under Heroic", heroic.map(\.title) == ["Ember Isles", "Lantern Road", "Paper Kites"], heroic.map(\.title).joined(separator: ","))
+        let ember = heroic.first { $0.title == "Ember Isles" }
+        check("S-036 with their store on the tile", ember?.sourceLabel == "Heroic · Epic" && ember?.isWindows == true, ember?.sourceLabel ?? "none")
+        check("S-036 the DLC isn't a game", !model.library.games.contains { $0.title.hasSuffix("Soundtrack") })
+        if let ember {
+            let plan = (try? model.launchPlan(for: ember))?.plan
+            check("S-036 a Heroic game launches through Heroic", plan?.arguments == ["heroic://launch?appName=Ember&runner=legendary"], plan?.arguments.joined() ?? "none")
+            check("S-036 its saves are looked for in Heroic's prefix", model.savePathContext(ember).driveC?.path.hasSuffix("Heroic/Prefixes/Ember/drive_c") == true)
+            model.openedURLs = []
+            model.openHeroic()
+            check("S-036 Open in Heroic opens Heroic", model.openedURLs.first?.lastPathComponent == "Heroic.app")
+        }
+    }
+
     /// S-027: the Shortcuts actions, run the way Shortcuts runs them (perform() in Hangar's process).
     static func shortcutsChecks(_ model: AppModel) async {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }

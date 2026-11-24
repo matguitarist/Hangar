@@ -22,6 +22,7 @@ extension AppModel {
             case .runnerMissing: String(localized: "Its runner isn't installed anymore.")
             case .filesMissing: String(localized: "The game's files aren't at this location anymore.")
             case .noBottle: String(localized: "It has no bottle.")
+            case .heroicMissing: String(localized: "Heroic isn't installed.")
             }
             notices[id] = .didntStart(reason)
             log.post(.error, "\(game.title) didn't start: \(reason)", source: "Launch")
@@ -185,6 +186,13 @@ extension AppModel {
         process.executableURL = plan.executable
         process.arguments = plan.arguments
         try? process.run()
+    }
+
+    /// Open in Heroic: where a Heroic game's settings live (S-036). A test run records it instead.
+    func openHeroic() {
+        guard let app = roots.heroicApp else { return }
+        if Store.isOverridden { openedURLs.append(app); return }
+        NSWorkspace.shared.open(app)
     }
 
     // MARK: Adding and removing

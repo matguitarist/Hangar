@@ -20,7 +20,7 @@ struct GameTile: View {
                             .padding(.vertical, 2)
                             .background(.regularMaterial, in: Capsule())
                             .padding(Space.sm)
-                            .help(game.bottle.map { String(localized: "Runs in CrossOver, bottle \($0)") } ?? "CrossOver")
+                            .help(game.isHeroic ? String(localized: "Runs in Heroic") : game.bottle.map { String(localized: "Runs in CrossOver, bottle \($0)") } ?? "CrossOver")
                     }
                 }
                 .overlay {
@@ -51,7 +51,7 @@ struct GameTile: View {
 
     private var accessibilityText: String {
         var parts = [game.title, game.sourceLabel]
-        if game.isWindows { parts.append(String(localized: "Windows game, bottle \(game.bottle ?? "")")) }
+        if game.isHeroic, game.isWindows { parts.append(String(localized: "Windows game, runs in Heroic")) } else if game.isWindows { parts.append(String(localized: "Windows game, bottle \(game.bottle ?? "")")) }
         if game.playtime > 0 { parts.append(String(localized: "played \(PlaytimeText.short(game.playtime))")) }
         if model.running[game.id] != nil { parts.append(String(localized: "Running")) }
         return parts.joined(separator: ", ")
@@ -104,6 +104,10 @@ struct GameCover: View {
 
     private func load() async -> NSImage? {
         if let custom = game.customCover, let image = NSImage(contentsOfFile: custom) { return image }
+        if let art = game.heroic?.art.flatMap(URL.init(string:)), let file = await model.covers.cover(art: art, id: game.id),
+           let image = NSImage(contentsOf: file) {
+            return image
+        }
         guard let id = game.steamID else {
             // A Windows game that isn't on Steam: SteamGridDB by name, with a key.
             // A Mac app keeps its own icon on the generated cover.

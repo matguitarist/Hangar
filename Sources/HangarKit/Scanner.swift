@@ -18,9 +18,15 @@ public struct LibraryRoots: Sendable {
     public var prefixes: URL
     /// The Mac user's home, where Mac games keep their saves (~/Library/Application Support/…).
     public var home: URL
+    /// Heroic's settings folder (~/Library/Application Support/heroic), read for the games it installed (S-036).
+    public var heroic: URL
+    /// Heroic.app, or nil when it isn't installed.
+    public var heroicApp: URL?
 
     public init(steam: URL, bottles: URL, crossOverApp: URL?, appFolders: [URL], ownBundleID: String? = nil, toolFolders: [URL] = [],
-                prefixes: URL? = nil, home: URL = FileManager.default.homeDirectoryForCurrentUser) {
+                prefixes: URL? = nil, home: URL = FileManager.default.homeDirectoryForCurrentUser, heroic: URL? = nil, heroicApp: URL? = nil) {
+        self.heroic = heroic ?? home.appending(path: "Library/Application Support/heroic")
+        self.heroicApp = heroicApp
         self.prefixes = prefixes ?? bottles.deletingLastPathComponent().appending(path: "Prefixes")
         self.home = home
         self.steam = steam
@@ -39,6 +45,9 @@ public struct LibraryRoots: Sendable {
         let app = ["/Applications/CrossOver.app", home.appending(path: "Applications/CrossOver.app").path]
             .map { URL(fileURLWithPath: $0) }
             .first { FileManager.default.fileExists(atPath: $0.path) }
+        let heroicApp = ["/Applications/Heroic.app", home.appending(path: "Applications/Heroic.app").path]
+            .map { URL(fileURLWithPath: $0) }
+            .first { FileManager.default.fileExists(atPath: $0.path) }
         return LibraryRoots(
             steam: steamFolder.map { URL(fileURLWithPath: $0) } ?? support.appending(path: "Steam"),
             bottles: CrossOverScanner.bottleFolder(preferences: crossOverPrefs, home: home),
@@ -47,7 +56,9 @@ public struct LibraryRoots: Sendable {
             ownBundleID: ownBundleID,
             toolFolders: [URL(fileURLWithPath: "/usr/local/opt"), URL(fileURLWithPath: "/opt/homebrew/opt")],
             prefixes: support.appending(path: "Hangar/Prefixes"),
-            home: home)
+            home: home,
+            heroic: support.appending(path: "heroic"),
+            heroicApp: heroicApp)
     }
 
     /// CrossOver's wine command, which runs a program in a bottle.
@@ -81,7 +92,7 @@ public enum LibraryScanner {
     /// The games of a scan, on the caller's thread (tests).
     public static func scanNow(_ roots: LibraryRoots) -> [Game] {
         SteamScanner.scan(steamRoot: roots.steam).games + CrossOverScanner.scan(bottles: roots.bottles).games
-            + MacAppScanner.scan(folders: roots.appFolders, excluding: roots.ownBundleID)
+            + MacAppScanner.scan(folders: roots.appFolders, excluding: roots.ownBundleID) + HeroicScanner.scan(config: roots.heroic)
     }
 
     /// Scans every source. Runs off the main actor: it reads many small files.
@@ -96,6 +107,7 @@ public enum LibraryScanner {
         result.notes += crossOver.notes
         result.bottles = crossOver.bottles
         result.games += MacAppScanner.scan(folders: roots.appFolders, excluding: roots.ownBundleID)
+        result.games += HeroicScanner.scan(config: roots.heroic)
         return result
     }
 }

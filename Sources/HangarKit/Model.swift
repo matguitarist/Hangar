@@ -3,6 +3,8 @@ import Foundation
 /// Where Hangar found a game.
 public enum GameSource: String, Codable, Sendable, CaseIterable {
     case steam, crossOver, macApp, addedByHand
+    /// Installed by Heroic: Epic, GOG, or added to Heroic by hand (S-036).
+    case heroic
 }
 
 /// What runs a game.
@@ -17,6 +19,8 @@ public enum RunnerKind: String, Codable, Sendable {
     case gamePortingToolkit
     /// MacRunner, found on the Runners page.
     case macRunner
+    /// A Windows game Heroic installed, started through Heroic with its own Wine settings (S-036).
+    case heroic
 }
 
 /// A game in the library: a Mac app, a Steam game, or a Windows program in a bottle.
@@ -47,6 +51,8 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
     public var added: Date = Date(timeIntervalSince1970: 0)
     /// What the person set on the game's Settings tab.
     public var options = GameOptions()
+    /// For a game Heroic installed: how Heroic names it (S-036).
+    public var heroic: HeroicGame?
 
     public init(id: String, title: String, source: GameSource, runner: RunnerKind = .native,
                 steamID: String? = nil, path: String = "", exe: String? = nil, bottle: String? = nil,
@@ -64,7 +70,7 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case id, title, source, runner, steamID, path, exe, startsShortcut, bottle, processHints
-        case playtime, lastPlayed, customCover, added, options
+        case playtime, lastPlayed, customCover, added, options, heroic
     }
 
     public init(from decoder: Decoder) throws {
@@ -84,10 +90,14 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
         customCover = try c.decodeIfPresent(String.self, forKey: .customCover)
         added = try c.decodeIfPresent(Date.self, forKey: .added) ?? Date(timeIntervalSince1970: 0)
         options = try c.decodeIfPresent(GameOptions.self, forKey: .options) ?? GameOptions()
+        heroic = try c.decodeIfPresent(HeroicGame.self, forKey: .heroic)
     }
 
     /// A Windows game (one that runs through a runner other than Mac).
     public var isWindows: Bool { runner != .native }
+
+    /// A game Heroic runs: its Wine settings live in Heroic, not in a CrossOver bottle.
+    public var isHeroic: Bool { heroic != nil }
 }
 
 /// A game's own settings, kept across scans. Every field has a default, so older libraries open.

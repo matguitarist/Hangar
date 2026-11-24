@@ -1,0 +1,7 @@
+{
+  "Ember": {
+    "winePrefix": "@ROOT@/Heroic/Prefixes/Ember"
+  },
+  "version": "v0",
+  "explicit": true
+}

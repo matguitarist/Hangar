@@ -1,0 +1,17 @@
+{
+  "games": [
+    {
+      "runner": "sideload",
+      "app_name": "kites01",
+      "title": "Paper Kites",
+      "install": {
+        "executable": "@ROOT@/Games/Paper Kites/PaperKites.exe",
+        "platform": "Windows",
+        "is_dlc": false
+      },
+      "folder_name": "@ROOT@/Games/Paper Kites",
+      "is_installed": true,
+      "art_cover": ""
+    }
+  ]
+}

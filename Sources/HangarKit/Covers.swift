@@ -57,6 +57,12 @@ public actor CoverCache {
         }
     }
 
+    /// The cover another launcher shows (Heroic's art), downloaded once.
+    public func cover(art: URL, id: String) async -> URL? {
+        let name = id.map { $0.isLetter || $0.isNumber ? String($0) : "-" }.joined()
+        return await cached(key: "art:\(id)", file: folder.appending(path: "art-\(name).jpg")) { art }
+    }
+
     private func cached(key: String, file: URL, find: @escaping @Sendable () async -> URL?) async -> URL? {
         if FileManager.default.fileExists(atPath: file.path) { return file }
         if failed.contains(key) { return nil }

@@ -8,41 +8,10 @@ struct GameSettingsView: View {
 
     var body: some View {
         Form {
-            if game.runner == .crossOver, game.steamID == nil {
-                RunnerSection(game: game)
-            }
-            if game.options.runner == nil, let settings = model.bottleSettings(for: game), let bottle = game.bottle {
-                BottleSettingsSection(game: game, bottle: bottle, settings: settings)
-            }
-            Section {
-                Toggle("Metal Performance HUD", isOn: Binding(get: { game.options.metalHUD },
-                                                               set: { on in model.setOptions(game.id) { $0.metalHUD = on } }))
-                    .help(String(localized: "Show frame rate, GPU time and memory over the game"))
-            } footer: {
-                Text(hudFooter).foregroundStyle(.secondary)
-            }
-            if Power.hasBattery {
-                BatterySection(game: game)
-            }
-            LaunchOptionsSection(game: game)
-            Section {
-                let list = model.snapshotList(game.id)
-                LabeledContent("Snapshots") {
-                    Text(list.isEmpty ? String(localized: "None yet") : list.first(where: { $0.worked != nil })?.title ?? list[0].title)
-                        .foregroundStyle(.secondary)
-                }
-                Button("Show Snapshots…") { model.showsSnapshots = game.id }
-                    .help(String(localized: "Go back to settings that worked"))
-            } footer: {
-                Text("Saved before every change and every launch.").foregroundStyle(.secondary)
-            }
-            if game.runner == .crossOver, game.bottle != nil {
-                Section {
-                    Button("Share This Setup…") { model.sharingRecipe = game.id }
-                        .help(String(localized: "Send these settings as a recipe, so others can play this game too"))
-                } footer: {
-                    Text("Sends the settings as a recipe on Hangar's GitHub, never your files or your user name.").foregroundStyle(.secondary)
-                }
+            if game.isHeroic {
+                HeroicSection(game: game)
+            } else {
+                sections
             }
         }
         .formStyle(.grouped)
@@ -65,6 +34,46 @@ struct GameSettingsView: View {
 }
 
 extension GameSettingsView {
+    @ViewBuilder
+    var sections: some View {
+        if game.runner == .crossOver, game.steamID == nil {
+            RunnerSection(game: game)
+        }
+        if game.options.runner == nil, let settings = model.bottleSettings(for: game), let bottle = game.bottle {
+            BottleSettingsSection(game: game, bottle: bottle, settings: settings)
+        }
+        Section {
+            Toggle("Metal Performance HUD", isOn: Binding(get: { game.options.metalHUD },
+                                                           set: { on in model.setOptions(game.id) { $0.metalHUD = on } }))
+                .help(String(localized: "Show frame rate, GPU time and memory over the game"))
+        } footer: {
+            Text(hudFooter).foregroundStyle(.secondary)
+        }
+        if Power.hasBattery {
+            BatterySection(game: game)
+        }
+        LaunchOptionsSection(game: game)
+        Section {
+            let list = model.snapshotList(game.id)
+            LabeledContent("Snapshots") {
+                Text(list.isEmpty ? String(localized: "None yet") : list.first(where: { $0.worked != nil })?.title ?? list[0].title)
+                    .foregroundStyle(.secondary)
+            }
+            Button("Show Snapshots…") { model.showsSnapshots = game.id }
+                .help(String(localized: "Go back to settings that worked"))
+        } footer: {
+            Text("Saved before every change and every launch.").foregroundStyle(.secondary)
+        }
+        if game.runner == .crossOver, game.bottle != nil {
+            Section {
+                Button("Share This Setup…") { model.sharingRecipe = game.id }
+                    .help(String(localized: "Send these settings as a recipe, so others can play this game too"))
+            } footer: {
+                Text("Sends the settings as a recipe on Hangar's GitHub, never your files or your user name.").foregroundStyle(.secondary)
+            }
+        }
+    }
+
     var hudFooter: String {
         if game.source == .steam, game.runner == .native {
             return String(localized: "Shows the next time the game starts. Steam can't pass the HUD on, so Hangar opens the game itself, without Steam's overlay.")
@@ -193,5 +202,23 @@ private struct BottleSettingsSection: View {
             new[keyPath: path] = value
             model.changeBottleSettings(game.id, to: new)
         })
+    }
+}
+
+/// A game Heroic installed (S-036): Heroic keeps its Wine settings and starts it.
+private struct HeroicSection: View {
+    @Environment(AppModel.self) private var model
+    let game: Game
+
+    var body: some View {
+        Section {
+            LabeledContent("Runner", value: "Heroic")
+            Button("Open in Heroic") { model.openHeroic() }
+                .help(String(localized: "Change this game's Wine version, prefix and other settings in Heroic"))
+        } footer: {
+            Text(game.isWindows ? String(localized: "Heroic keeps this game's Wine settings. Change them in Heroic.")
+                                : String(localized: "Heroic starts this game. Change its settings in Heroic."))
+                .foregroundStyle(.secondary)
+        }
     }
 }

@@ -24,6 +24,8 @@ public enum LaunchError: Error, Sendable, Equatable {
     case runnerMissing
     case filesMissing
     case noBottle
+    /// A Heroic game, and Heroic isn't installed anymore (S-036).
+    case heroicMissing
 }
 
 public enum LaunchPlanner {
@@ -39,6 +41,12 @@ public enum LaunchPlanner {
     }
 
     static func basePlan(for game: Game, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
+        if let heroic = game.heroic {
+            // Heroic starts it with the Wine settings it keeps for the game.
+            guard let app = roots.heroicApp, FileManager.default.fileExists(atPath: app.path) else { throw .heroicMissing }
+            guard let url = heroic.launchURL else { throw .filesMissing }
+            return LaunchPlan(executable: open, arguments: [url.absoluteString], processHints: game.processHints)
+        }
         if let path = game.options.runner, game.runner == .crossOver, game.steamID == nil {
             return try prefixPlan(for: game, runnerPath: path, roots: roots)
         }
@@ -75,7 +83,7 @@ public enum LaunchPlanner {
                 return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--start", exe] + args, processHints: game.processHints)
             }
             return LaunchPlan(executable: wine, arguments: ["--bottle", bottle, "--no-wait", "--cx-app", exe] + args, processHints: game.processHints)
-        case .wine, .gamePortingToolkit, .macRunner:
+        case .wine, .gamePortingToolkit, .macRunner, .heroic:
             throw .runnerMissing
         }
     }

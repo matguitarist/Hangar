@@ -60,7 +60,7 @@ struct Sidebar: View {
                             .tag(SidebarItem.source(.crossOver))
                     }
                 }
-                ForEach([GameSource.macApp, .addedByHand], id: \.self) { source in
+                ForEach([GameSource.heroic, .macApp, .addedByHand], id: \.self) { source in
                     if count(source) > 0 {
                         Label(source.title, systemImage: source.symbol)
                             .badge(count(source))

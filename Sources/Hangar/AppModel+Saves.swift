@@ -11,6 +11,8 @@ extension AppModel {
             driveC = LaunchPlanner.prefix(for: game, roots: roots).appending(path: "drive_c")
         } else if game.isWindows, let bottle = game.bottle {
             driveC = bottleURL(bottle).appending(path: "drive_c")
+        } else if game.isWindows, let heroic = game.heroic {
+            driveC = HeroicScanner.prefix(config: roots.heroic, appName: heroic.appName)?.appending(path: "drive_c")
         }
         let steam: URL? = game.steamID == nil ? nil
             : driveC.map { $0.appending(path: "Program Files (x86)/Steam") } ?? roots.steam

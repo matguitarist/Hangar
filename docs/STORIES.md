@@ -538,10 +538,10 @@ Acceptance:
 UX:
 - Flow: same scan as S-001 → Heroic games join the grid → sidebar source "Heroic"; Play opens Heroic, which starts the game
 - Surface: same grid; tile subtitle "Heroic · Epic", "Heroic · GOG", "Heroic"; a "Windows" badge for Windows games; game page Runner "Heroic"
-- States: Heroic not installed: the source isn't shown; Heroic removed after a scan: "Heroic isn't installed." on Play; the game's Settings tab shows only the HUD and launch options it can pass on: "Heroic keeps this game's Wine settings. Change them in Heroic." with "Open in Heroic"
+- States: Heroic not installed: the source isn't shown; Heroic removed after a scan: "Heroic isn't installed." on Play; the game's Settings tab says "Heroic keeps this game's Wine settings. Change them in Heroic." with "Open in Heroic" (heroic:// passes no environment or arguments, so Hangar's HUD and launch options don't show)
 - Words: "Heroic" source, "Heroic · Epic", "Heroic · GOG", "Heroic isn't installed." / « Heroic n’est pas installé. », "Heroic keeps this game's Wine settings. Change them in Heroic." / « Heroic garde les réglages Wine de ce jeu. Modifiez-les dans Heroic. », "Open in Heroic" / « Ouvrir dans Heroic »
 - Access: as S-001
-Status: todo
+Status: done
 
 ### S-037 Sign in to Steam before launching
 As the user, when I play a Steam game whose bottle's Steam is signed out, Hangar tells me at once instead of waiting two minutes for a game that never starts.

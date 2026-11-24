@@ -3910,6 +3910,76 @@
           }
         }
       }
+    },
+    "Heroic isn't installed.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heroic n’est pas installé."
+          }
+        }
+      }
+    },
+    "Open in Heroic": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir dans Heroic"
+          }
+        }
+      }
+    },
+    "Change this game's Wine version, prefix and other settings in Heroic": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changer la version de Wine, le préfixe et les autres réglages de ce jeu dans Heroic"
+          }
+        }
+      }
+    },
+    "Heroic keeps this game's Wine settings. Change them in Heroic.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heroic garde les réglages Wine de ce jeu. Modifiez-les dans Heroic."
+          }
+        }
+      }
+    },
+    "Heroic starts this game. Change its settings in Heroic.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heroic lance ce jeu. Modifiez ses réglages dans Heroic."
+          }
+        }
+      }
+    },
+    "Runs in Heroic": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’exécute dans Heroic"
+          }
+        }
+      }
+    },
+    "Windows game, runs in Heroic": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeu Windows, s’exécute dans Heroic"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

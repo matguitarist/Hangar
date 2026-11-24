@@ -19,6 +19,7 @@ extension GameSource {
         case .crossOver: "CrossOver"
         case .macApp: String(localized: "Mac Apps")
         case .addedByHand: String(localized: "Added by You")
+        case .heroic: "Heroic"
         }
     }
 
@@ -28,6 +29,7 @@ extension GameSource {
         case .crossOver: "wineglass"
         case .macApp: "macwindow"
         case .addedByHand: "plus.square.on.square"
+        case .heroic: "flame"
         }
     }
 }
@@ -40,6 +42,7 @@ extension Game {
         case .crossOver: steamID == nil ? "CrossOver" : "CrossOver · Steam"
         case .macApp: String(localized: "Mac App")
         case .addedByHand: String(localized: "Added by You")
+        case .heroic: heroic?.store.map { "Heroic · \($0)" } ?? "Heroic"
         }
     }
 
@@ -50,6 +53,7 @@ extension Game {
         case .wine: "Wine"
         case .gamePortingToolkit: "Game Porting Toolkit"
         case .macRunner: "MacRunner"
+        case .heroic: "Heroic"
         }
     }
 

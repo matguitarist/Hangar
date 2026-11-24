@@ -1,0 +1,18 @@
+{
+  "Ember": {
+    "app_name": "Ember",
+    "title": "Ember Isles",
+    "install_path": "@ROOT@/Games/Ember Isles",
+    "executable": "EmberIsles.exe",
+    "platform": "Windows",
+    "is_dlc": false
+  },
+  "EmberSoundtrack": {
+    "app_name": "EmberSoundtrack",
+    "title": "Ember Isles Soundtrack",
+    "install_path": "@ROOT@/Games/Ember Isles",
+    "executable": "",
+    "platform": "Windows",
+    "is_dlc": true
+  }
+}
