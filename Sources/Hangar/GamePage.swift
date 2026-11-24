@@ -138,8 +138,18 @@ struct GamePage: View {
                     Label(String(localized: "\(game.title) quit right away"), systemImage: "exclamationmark.triangle")
                 case let .didntCopy(reason):
                     Label(String(localized: "Hangar couldn't copy the bottle. \(reason)"), systemImage: "exclamationmark.triangle")
+                case .askWorked:
+                    Label(String(localized: "Did \(game.title) run well?"), systemImage: "questionmark.circle")
                 }
-                Button("Show Details") { model.sidebar = .log }
+                if notice == .askWorked {
+                    HStack(spacing: Space.sm) {
+                        Button("It Worked") { model.markWorked(game.id) }
+                            .help(String(localized: "Label the settings it started with, to come back to them later"))
+                        Button("Not Now") { model.notices[game.id] = nil }
+                    }
+                } else {
+                    Button("Show Details") { model.sidebar = .log }
+                }
             }
         }
     }

@@ -82,6 +82,7 @@ extension AppModel {
     /// Writes a bottle's settings, for a game's Settings tab.
     func changeBottleSettings(_ id: String, to settings: BottleSettings) {
         guard let game = game(id), let bottle = game.bottle, !bottleIsBusy(bottle) else { return }
+        takeSnapshot(id, reason: .settings)
         do {
             let changed = try settings.write(bottle: bottleURL(bottle))
             if !changed.isEmpty {

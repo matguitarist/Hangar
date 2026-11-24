@@ -99,6 +99,11 @@ enum Store {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-covers") : folder.appending(path: "Covers")
     }
 
+    /// Settings snapshots: Snapshots/ next to the library, or <store>-snapshots in a test run.
+    static var snapshotsFolder: URL {
+        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-snapshots") : folder.appending(path: "Snapshots")
+    }
+
     /// AppleGamingWiki's verdicts, cached: Compatibility/ next to the library, or <store>-agw in a test run.
     static var compatibilityFolder: URL {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-agw") : folder.appending(path: "Compatibility")

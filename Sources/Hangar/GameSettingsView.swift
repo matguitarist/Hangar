@@ -22,6 +22,17 @@ struct GameSettingsView: View {
                 Text(hudFooter).foregroundStyle(.secondary)
             }
             LaunchOptionsSection(game: game)
+            Section {
+                let list = model.snapshotList(game.id)
+                LabeledContent("Snapshots") {
+                    Text(list.isEmpty ? String(localized: "None yet") : list.first(where: { $0.worked != nil })?.title ?? list[0].title)
+                        .foregroundStyle(.secondary)
+                }
+                Button("Show Snapshots…") { model.showsSnapshots = game.id }
+                    .help(String(localized: "Go back to settings that worked"))
+            } footer: {
+                Text("Saved before every change and every launch.").foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
         .id(model.settingsGeneration)

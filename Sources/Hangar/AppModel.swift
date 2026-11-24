@@ -63,6 +63,8 @@ enum GameNotice: Equatable {
     case didntStart(String)
     case quitRightAway
     case didntCopy(String)
+    /// After a game ran a while: did it work? (labels the snapshot taken at launch)
+    case askWorked
 }
 
 /// A file dropped or chosen that needs the "Add Windows Game" sheet.
@@ -100,6 +102,13 @@ final class AppModel {
     /// The game whose bottle is being copied (S-011).
     var copyingBottle: String?
     var confirmingOwnBottle: String?
+    let snapshots = SnapshotStore(folder: Store.snapshotsFolder)
+    /// The snapshot taken when a game last started, by game id.
+    var launchSnapshots: [String: SettingsSnapshot] = [:]
+    /// The game whose Snapshots sheet is open.
+    var showsSnapshots: String?
+    /// Bumped when snapshots change, so lists read them again.
+    var snapshotGeneration = 0
     var searchText = ""
     var focusSearch = 0
     var sort: GameSort = GameSort(rawValue: UserDefaults.standard.string(forKey: "library.sort") ?? "") ?? .name {

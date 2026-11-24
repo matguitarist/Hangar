@@ -279,7 +279,13 @@ Acceptance:
 - [unit] A snapshot holds `cxbottle.conf`, the registry files and the files a recipe touched; restore makes them byte for byte.
 - [self] Change, break, restore: the sample game's settings come back.
 - [self] Marking a launch "worked" labels that snapshot.
-Status: todo
+UX:
+- Flow: Hangar saves a snapshot before every settings change, recipe and launch (skipped when nothing changed since the last one) → after a session of a minute or more the game page asks "Did Vernal Edge run well?" with "It Worked" / "Not Now" → "It Worked" labels the launch's snapshot "Worked on 12 Nov" → later, Settings › Snapshots › "Show Snapshots…" → pick one → "Restore…" → confirmation → files and options come back; the current ones are saved first
+- Surface: inline question on the game page (information inline); a sheet "Snapshots of Vernal Edge" (one short task that finishes or cancels); a confirmation dialog, since restore overwrites files
+- States: none yet "No Snapshots Yet" with what makes the first one; a game in the bottle running: Restore… is dimmed; 20 snapshots kept per game plus every working one
+- Words: "Snapshot" / « Instantané », "It Worked" / « Ça a fonctionné », "Worked on 12 Nov" / « A fonctionné le 12 nov. », reasons "Before playing", "Before changing settings", "Before applying …", "Before restoring an earlier snapshot"
+- Access: Return restores the selected snapshot, Escape closes; a working snapshot has a symbol and words, not color alone
+Status: done
 
 ### S-018 Warn after a runner update
 As the user, when CrossOver or a Wine build updates, Hangar tells me which games were last known to work on the old version, and offers their snapshots.

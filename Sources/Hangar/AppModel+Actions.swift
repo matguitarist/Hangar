@@ -26,6 +26,7 @@ extension AppModel {
             log.post(.error, "\(game.title) didn't start: \(reason)", source: "Launch")
             return
         }
+        if let snapshot = takeSnapshot(id, reason: .launch) { launchSnapshots[id] = snapshot }
         running[id] = LaunchState(launched: Date(), slowStart: game.isWindows || game.source == .steam)
         log.post(.info, "Starting \(game.title): \(plan.executable.lastPathComponent) \(plan.arguments.joined(separator: " "))", source: "Launch")
         if !plan.environment.isEmpty {
@@ -134,6 +135,8 @@ extension AppModel {
             log.post(.warning, "\(title) quit after \(Int(played)) seconds", source: "Launch")
         } else {
             log.post(.info, "\(title) quit after \(Int(played)) seconds", source: "Launch")
+            // A real session: ask whether it worked, to label the snapshot taken at launch.
+            if played >= 60 { notices[id] = .askWorked }
         }
     }
 

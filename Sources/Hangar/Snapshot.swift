@@ -41,10 +41,11 @@ enum Snapshot {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
                 for page in SnapshotPage.all where only?.contains(page.name) ?? true {
                     page.show(model)
-                    try? await Task.sleep(for: .seconds(page.name == "add-game" ? 1.2 : 0.8))
+                    try? await Task.sleep(for: .seconds(["add-game", "snapshots"].contains(page.name) ? 1.2 : 0.8))
                     capture(to: "\(dir)/\(page.name)-\(mode).png")
-                    if model.addRequest != nil {
+                    if model.addRequest != nil || model.showsSnapshots != nil {
                         model.addRequest = nil
+                        model.showsSnapshots = nil
                         try? await Task.sleep(for: .seconds(0.5))
                     }
                 }
@@ -161,7 +162,26 @@ struct SnapshotPage {
             model.running = [:]
             model.sidebar = .allGames; select(model, "Vernal Edge"); model.gamePageTab = .settings
         },
+        SnapshotPage(name: "game-page-worked") { model in
+            model.sidebar = .allGames; select(model, "Hollow Knight")
+            if let id = model.selectedGameID { model.notices[id] = .askWorked }
+        },
+        SnapshotPage(name: "snapshots") { model in
+            model.sidebar = .allGames; select(model, "Kynseed")
+            guard let id = model.selectedGameID, model.snapshotList(id).isEmpty, let game = model.game(id), var settings = model.bottleSettings(for: game) else {
+                model.showsSnapshots = model.selectedGameID
+                return
+            }
+            if let worked = model.takeSnapshot(id, reason: .launch) { try? model.snapshots.markWorked(worked, on: Date().addingTimeInterval(-11 * 86400)) }
+            settings.graphics = .dxvk
+            model.running = [:]
+            model.changeBottleSettings(id, to: settings)
+            settings.msync = false
+            model.changeBottleSettings(id, to: settings)
+            model.showsSnapshots = id
+        },
         SnapshotPage(name: "game-page-running") { model in
+            model.showsSnapshots = nil
             if model.running.isEmpty, let game = model.library.games.first(where: { $0.title.hasPrefix("Bloodstained") }) {
                 model.running[game.id] = LaunchState(phase: .running, launched: Date().addingTimeInterval(-1200), started: Date().addingTimeInterval(-1190))
             }

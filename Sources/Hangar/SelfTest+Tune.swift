@@ -113,5 +113,35 @@ extension SelfTest {
             check("S-011 the copy has its own BottleID", copyID != nil && copyID != originalID)
             check("S-011 the game now has its bottle to itself", moved.map { model.bottleMates(of: $0).isEmpty } == true)
         }
+
+        // S-017: change, break, restore, on Kynseed in the bottle Steam.
+        if let kynseed = find("Kynseed"), var good = model.bottleSettings(for: kynseed) {
+            good.graphics = .dxvk
+            model.changeBottleSettings(kynseed.id, to: good)
+            let before = model.snapshotList(kynseed.id).count
+            var broken = good
+            broken.graphics = .wined3d
+            broken.msync = false
+            model.changeBottleSettings(kynseed.id, to: broken)
+            let list = model.snapshotList(kynseed.id)
+            check("S-017 a snapshot is saved before every change", list.count == before + 1 && list.first?.reason == .settings, "\(before) → \(list.count)")
+            if let snapshot = list.first {
+                model.restore(snapshot)
+                check("S-017 change, break, restore: the settings come back", model.bottleSettings(for: kynseed) == good,
+                      String(describing: model.bottleSettings(for: kynseed)))
+                check("S-017 restoring saves the broken settings first", model.snapshotList(kynseed.id).first?.reason == .restore)
+            }
+        }
+        if let starfall = find("Starfall Arcade") {
+            model.play(starfall.id)
+            let launch = model.launchSnapshots[starfall.id]
+            for _ in 0..<40 where model.running[starfall.id]?.phase != .running { try? await Task.sleep(for: .milliseconds(250)) }
+            model.stop(starfall.id)
+            for _ in 0..<40 where model.running[starfall.id] != nil { try? await Task.sleep(for: .milliseconds(250)) }
+            check("S-017 a snapshot is taken when a game starts", launch?.reason == .launch || launch != nil)
+            model.notices[starfall.id] = .askWorked
+            model.markWorked(starfall.id)
+            let labeled = model.snapshotList(starfall.id).first { $0.id == launch?.id }
+            check("S-017 marking a launch \"worked\" labels that snapshot", labeled?.worked != nil && model.notices[starfall.id] == nil)        }
     }
 }

@@ -20,6 +20,9 @@ struct ContentView: View {
         .sheet(item: $model.addRequest) { request in
             AddGameSheet(request: request)
         }
+        .sheet(isPresented: Binding(get: { model.showsSnapshots != nil }, set: { if !$0 { model.showsSnapshots = nil } })) {
+            if let id = model.showsSnapshots { SnapshotsSheet(gameID: id) }
+        }
         .confirmationDialog(stopTitle, isPresented: Binding(get: { model.confirmingStop != nil }, set: { if !$0 { model.confirmingStop = nil } })) {
             Button("Stop", role: .destructive) { if let id = model.confirmingStop { model.stop(id) } }
             Button("Cancel", role: .cancel) {}

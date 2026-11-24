@@ -61,6 +61,16 @@
         }
       }
     },
+    "%@'s settings and bottle files go back to how they were. Hangar saves the current ones first, so you can come back.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les réglages et les fichiers de bouteille de %@ reviennent à leur état d’alors. Hangar enregistre d’abord les actuels, pour que vous puissiez y revenir."
+          }
+        }
+      }
+    },
     "%@, playing for %@": {
       "localizations": {
         "fr": {
@@ -277,6 +287,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mises à jour automatiques"
+          }
+        }
+      }
+    },
+    "Before applying %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avant d’appliquer %@"
+          }
+        }
+      }
+    },
+    "Before changing settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avant un changement de réglages"
+          }
+        }
+      }
+    },
+    "Before playing": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avant de jouer"
+          }
+        }
+      }
+    },
+    "Before restoring an earlier snapshot": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avant de restaurer un instantané antérieur"
           }
         }
       }
@@ -571,12 +621,32 @@
         }
       }
     },
+    "Did %@ run well?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ a-t-il bien fonctionné ?"
+          }
+        }
+      }
+    },
     "Doesn't run": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ne fonctionne pas"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminé"
           }
         }
       }
@@ -721,6 +791,16 @@
         }
       }
     },
+    "Go back to settings that worked": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revenir à des réglages qui fonctionnaient"
+          }
+        }
+      }
+    },
     "Graphics": {
       "localizations": {
         "fr": {
@@ -781,6 +861,16 @@
         }
       }
     },
+    "Hangar saves a game's settings and bottle files before every change and every launch.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar enregistre les réglages et les fichiers de bouteille d’un jeu avant chaque changement et chaque lancement."
+          }
+        }
+      }
+    },
     "High Resolution Mode": {
       "localizations": {
         "fr": {
@@ -821,6 +911,16 @@
         }
       }
     },
+    "It Worked": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ça a fonctionné"
+          }
+        }
+      }
+    },
     "It has no bottle.": {
       "localizations": {
         "fr": {
@@ -847,6 +947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sa fenêtre ne s’est jamais ouverte."
+          }
+        }
+      }
+    },
+    "Label the settings it started with, to come back to them later": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marquer les réglages de ce lancement, pour y revenir plus tard"
           }
         }
       }
@@ -1091,6 +1201,16 @@
         }
       }
     },
+    "No Snapshots Yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun instantané pour l’instant"
+          }
+        }
+      }
+    },
     "No game is running": {
       "localizations": {
         "fr": {
@@ -1147,6 +1267,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun installé. Une version de Wine ou Game Porting Toolkit lance un jeu dans son propre préfixe."
+          }
+        }
+      }
+    },
+    "None yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun pour l’instant"
+          }
+        }
+      }
+    },
+    "Not Now": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus tard"
           }
         }
       }
@@ -1451,6 +1591,26 @@
         }
       }
     },
+    "Restore the snapshot from %@?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurer l’instantané du %@ ?"
+          }
+        }
+      }
+    },
+    "Restore…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurer…"
+          }
+        }
+      }
+    },
     "Runner": {
       "localizations": {
         "fr": {
@@ -1521,6 +1681,16 @@
         }
       }
     },
+    "Saved before every change and every launch.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrés avant chaque changement et chaque lancement."
+          }
+        }
+      }
+    },
     "Search AppleGamingWiki": {
       "localizations": {
         "fr": {
@@ -1581,6 +1751,16 @@
         }
       }
     },
+    "Show Snapshots…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher les instantanés…"
+          }
+        }
+      }
+    },
     "Show frame rate, GPU time and memory over the game": {
       "localizations": {
         "fr": {
@@ -1627,6 +1807,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Connectez-vous à Steam dans la bouteille %@ pour jouer à ce jeu."
+          }
+        }
+      }
+    },
+    "Snapshots": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instantanés"
+          }
+        }
+      }
+    },
+    "Snapshots of %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instantanés de %@"
           }
         }
       }
@@ -1787,6 +1987,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Indique aux jeux que Rosetta peut exécuter les instructions AVX. Certains jeux récents en ont besoin."
+          }
+        }
+      }
+    },
+    "The first one is saved the next time you change a setting or play.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le premier sera enregistré au prochain changement de réglage ou à la prochaine partie."
           }
         }
       }
@@ -1967,6 +2177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mots transmis au jeu à son lancement. Mettez entre guillemets un mot qui contient des espaces."
+          }
+        }
+      }
+    },
+    "Worked on %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A fonctionné le %@"
           }
         }
       }
