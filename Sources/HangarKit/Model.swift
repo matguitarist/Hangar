@@ -101,6 +101,19 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
         launches = try c.decodeIfPresent(Int.self, forKey: .launches) ?? 0
     }
 
+    /// What the person did with the game, which a rescan or a move to its own bottle keeps.
+    /// Every new field of that kind goes here, so no caller forgets one.
+    public mutating func keepPersonalData(from other: Game) {
+        playtime = other.playtime
+        lastPlayed = other.lastPlayed
+        sessions = other.sessions
+        lastLaunch = other.lastLaunch
+        launches = other.launches
+        customCover = other.customCover
+        options = other.options
+        added = other.added
+    }
+
     /// A Windows game (one that runs through a runner other than Mac).
     public var isWindows: Bool { runner != .native }
 
@@ -267,14 +280,7 @@ public struct LibraryFile: Codable, Sendable, Equatable {
         var result: [Game] = []
         for var game in scanned where !removedIDs.contains(game.id) && seen.insert(game.id).inserted {
             if let previous = old[game.id] {
-                game.playtime = previous.playtime
-                game.lastPlayed = previous.lastPlayed
-                game.sessions = previous.sessions
-                game.lastLaunch = previous.lastLaunch
-                game.launches = previous.launches
-                game.customCover = previous.customCover
-                game.added = previous.added
-                game.options = previous.options
+                game.keepPersonalData(from: previous)
             } else {
                 game.added = now
             }
@@ -310,14 +316,7 @@ public struct LibraryFile: Codable, Sendable, Equatable {
     /// found in the copy leave the library (Settings › Removed Games).
     public mutating func moveGame(from oldID: String, to newID: String) {
         guard let old = games.first(where: { $0.id == oldID }), let index = games.firstIndex(where: { $0.id == newID }) else { return }
-        games[index].playtime = old.playtime
-        games[index].lastPlayed = old.lastPlayed
-        games[index].sessions = old.sessions
-        games[index].lastLaunch = old.lastLaunch
-        games[index].launches = old.launches
-        games[index].customCover = old.customCover
-        games[index].options = old.options
-        games[index].added = old.added
+        games[index].keepPersonalData(from: old)
         for c in collections.indices {
             collections[c].gameIDs = collections[c].gameIDs.map { $0 == oldID ? newID : $0 }
         }
