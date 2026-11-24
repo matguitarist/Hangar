@@ -1,0 +1,276 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "1 left": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 restante"
+          }
+        }
+      }
+    },
+    "Accent color": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couleur d’accentuation"
+          }
+        }
+      }
+    },
+    "Add Task": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une tâche"
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence"
+          }
+        }
+      }
+    },
+    "Automatic Updates": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mises à jour automatiques"
+          }
+        }
+      }
+    },
+    "Check Now": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier maintenant"
+          }
+        }
+      }
+    },
+    "Check for Updates…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher des mises à jour…"
+          }
+        }
+      }
+    },
+    "Check for updates automatically": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les mises à jour automatiquement"
+          }
+        }
+      }
+    },
+    "Every game on this Mac in one library: Mac games, and Windows games that run through CrossOver and other runners. Hangar finds them, launches them, and keeps their settings and saves safe.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tous les jeux de ce Mac dans une seule bibliothèque : les jeux Mac, et les jeux Windows qui s’exécutent dans CrossOver et d’autres lanceurs. Hangar les trouve, les lance, et garde leurs réglages et leurs sauvegardes en sécurité."
+          }
+        }
+      }
+    },
+    "Focus": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Concentration"
+          }
+        }
+      }
+    },
+    "General": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Général"
+          }
+        }
+      }
+    },
+    "Hangar": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar"
+          }
+        }
+      }
+    },
+    "Inbox": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boîte de réception"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langue"
+          }
+        }
+      }
+    },
+    "Log": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journal"
+          }
+        }
+      }
+    },
+    "Looks once a day for a new version on GitHub.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cherche une nouvelle version sur GitHub une fois par jour."
+          }
+        }
+      }
+    },
+    "Looks once a day for a new version on GitHub. Last checked %@.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cherche une nouvelle version sur GitHub une fois par jour. Dernière vérification %@."
+          }
+        }
+      }
+    },
+    "No Log Lines Yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune ligne dans le journal"
+          }
+        }
+      }
+    },
+    "Overview": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu"
+          }
+        }
+      }
+    },
+    "Preview of the accent color": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu de la couleur d’accentuation"
+          }
+        }
+      }
+    },
+    "Restart Now": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redémarrer maintenant"
+          }
+        }
+      }
+    },
+    "System (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Système (%@)"
+          }
+        }
+      }
+    },
+    "The new language applies after a restart.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La nouvelle langue s’applique après un redémarrage."
+          }
+        }
+      }
+    },
+    "Updates": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mises à jour"
+          }
+        }
+      }
+    },
+    "Updates are off in this build.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les mises à jour sont désactivées dans cette version."
+          }
+        }
+      }
+    },
+    "Version %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        }
+      }
+    },
+    "What Hangar does, such as finding and launching games, is written here.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce que fait Hangar, comme trouver et lancer des jeux, est écrit ici."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
