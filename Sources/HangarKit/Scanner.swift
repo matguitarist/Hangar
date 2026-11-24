@@ -163,8 +163,9 @@ public enum CrossOverScanner {
 
     public static func scan(bottles: URL) -> ScanResult {
         var result = ScanResult()
+        // CrossOver keeps a "default" symlink to the default bottle: list each real bottle once.
         let names = ((try? FileManager.default.contentsOfDirectory(atPath: bottles.path)) ?? [])
-            .filter { !$0.hasPrefix(".") }
+            .filter { !$0.hasPrefix(".") && !isSymlink(bottles.appending(path: $0)) }
             .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
         for name in names {
             let bottle = bottles.appending(path: name)
@@ -178,6 +179,10 @@ public enum CrossOverScanner {
             result.games += programs(bottle: bottle, name: name)
         }
         return result
+    }
+
+    static func isSymlink(_ url: URL) -> Bool {
+        (try? FileManager.default.attributesOfItem(atPath: url.path)[.type] as? FileAttributeType) == .typeSymbolicLink
     }
 
     /// A Windows path in a bottle ("C:\\Program Files (x86)\\Steam") as a Mac path.
