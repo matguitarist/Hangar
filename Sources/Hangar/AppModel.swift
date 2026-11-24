@@ -101,6 +101,17 @@ final class AppModel {
     var running: [String: LaunchState] = [:] { didSet { syncMenu() } }
     var notices: [String: GameNotice] = [:]
     let covers: CoverCache
+    /// Bumped when covers can change everywhere (a new SteamGridDB key), so tiles look again.
+    var coverGeneration = 0
+    /// The SteamGridDB API key (Settings › Library), kept in the Keychain.
+    var steamGridDBKey: String = Keychain.read("steamgriddb") ?? "" {
+        didSet {
+            guard steamGridDBKey != oldValue else { return }
+            Keychain.write("steamgriddb", steamGridDBKey.trimmingCharacters(in: .whitespacesAndNewlines))
+            let key = steamGridDBKey
+            Task { await covers.setGridKey(key); coverGeneration += 1 }
+        }
+    }
     @ObservationIgnored weak var undoManager: UndoManager?
     @ObservationIgnored private var saveTask: Task<Void, Never>?
     @ObservationIgnored var monitor: Task<Void, Never>?
@@ -120,7 +131,7 @@ final class AppModel {
 
     init() {
         logViewer = LogViewerModel(store: Store.log)
-        covers = CoverCache(folder: Store.coversFolder)
+        covers = CoverCache(folder: Store.coversFolder, gridKey: Keychain.read("steamgriddb"))
         let saved = LibraryFile.load(from: Store.url)
         roots = Store.roots(steamFolder: saved.steamFolder)
         library = saved

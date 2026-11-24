@@ -321,6 +321,16 @@
         }
       }
     },
+    "Cover Art": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couvertures"
+          }
+        }
+      }
+    },
     "CrossOver has no bottles. Make one in CrossOver first.": {
       "localizations": {
         "fr": {
@@ -417,6 +427,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Général"
+          }
+        }
+      }
+    },
+    "Get a free key on steamgriddb.com": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obtenir une clé gratuite sur steamgriddb.com"
           }
         }
       }
@@ -731,6 +751,16 @@
         }
       }
     },
+    "Optional": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Facultative"
+          }
+        }
+      }
+    },
     "Play": {
       "localizations": {
         "fr": {
@@ -1027,6 +1057,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dossier Steam"
+          }
+        }
+      }
+    },
+    "Steam games get their covers from the Steam store. With a SteamGridDB key, Hangar also finds covers the store doesn't have, and covers for Windows games that aren't on Steam. Sign in with Steam on steamgriddb.com, then make a key under Preferences › API.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les jeux Steam prennent leur couverture dans le magasin Steam. Avec une clé SteamGridDB, Hangar trouve aussi les couvertures que le magasin n’a pas, et celles des jeux Windows qui ne sont pas sur Steam. Connectez-vous avec Steam sur steamgriddb.com, puis créez une clé sous Preferences › API."
+          }
+        }
+      }
+    },
+    "SteamGridDB API Key": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clé d’API SteamGridDB"
           }
         }
       }

@@ -133,6 +133,22 @@ UX:
 Status: done
 
 
+### S-030 Cover art from the Steam store and SteamGridDB
+As the user, I see a cover for every Steam game, newer games included, and for Windows games that aren't on Steam, using the same art sources as Attic.
+Screens: library, settings-library
+Depends: S-005
+Acceptance:
+- [unit] A Steam game's cover comes from the store's asset list (IStoreBrowseService/GetItems), whose newer file names can't be guessed; downloaded once and cached.
+- [unit] With a SteamGridDB API key, a Steam game the store has no portrait art for gets SteamGridDB's best cover, and a Windows game that isn't on Steam is found by its name.
+- [self] The key is kept in the Keychain (in memory in a test run), and clearing it forgets it.
+UX:
+- Flow: Settings › Library › Cover Art → paste the key → covers fill in without a restart
+- Surface: a section in Settings › Library, with a link to make the key
+- States: no key: the store's art and generated covers only; a wrong key or offline: the generated cover stays, nothing to read
+- Words: "Cover Art" / « Couvertures », "SteamGridDB API Key" / « Clé d’API SteamGridDB », "Get a free key on steamgriddb.com" / « Obtenir une clé gratuite sur steamgriddb.com »
+- Access: the key field is a secure field with its label read
+Status: done
+
 ## M2 Tune Windows games (0.2.0)
 
 ### S-009 See the runners on this Mac

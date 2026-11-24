@@ -99,12 +99,17 @@ struct GameCover: View {
                 RoundedRectangle(cornerRadius: Radius.control, style: .continuous).strokeBorder(.separator, lineWidth: 1)
             }
             .accessibilityHidden(true)
-            .task(id: "\(game.id)|\(game.customCover ?? "")") { image = await load() }
+            .task(id: "\(game.id)|\(game.customCover ?? "")|\(model.coverGeneration)") { image = await load() }
     }
 
     private func load() async -> NSImage? {
         if let custom = game.customCover, let image = NSImage(contentsOfFile: custom) { return image }
-        guard let id = game.steamID else { return nil }
+        guard let id = game.steamID else {
+            // A Windows game that isn't on Steam: SteamGridDB by name, with a key.
+            // A Mac app keeps its own icon on the generated cover.
+            guard game.isWindows, let file = await model.covers.cover(title: game.title) else { return nil }
+            return NSImage(contentsOf: file)
+        }
         guard let file = await model.covers.cover(steamID: id) else {
             model.log.post(.debug, "No Steam cover for \(game.title), the generated one shows", source: "Covers")
             return nil

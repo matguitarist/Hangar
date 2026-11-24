@@ -91,6 +91,7 @@ struct LibrarySettings: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
+        @Bindable var model = model
         Section("Steam") {
             LabeledContent("Steam Folder") {
                 HStack {
@@ -102,6 +103,15 @@ struct LibrarySettings: View {
                     Button("Choose…") { GamePanels.chooseSteamFolder(model) }
                 }
             }
+        }
+        Section {
+            SecureField("SteamGridDB API Key", text: $model.steamGridDBKey, prompt: Text("Optional"))
+            Link("Get a free key on steamgriddb.com", destination: URL(string: "https://www.steamgriddb.com/profile/preferences/api")!)
+        } header: {
+            Text("Cover Art")
+        } footer: {
+            Text("Steam games get their covers from the Steam store. With a SteamGridDB key, Hangar also finds covers the store doesn't have, and covers for Windows games that aren't on Steam. Sign in with Steam on steamgriddb.com, then make a key under Preferences › API.")
+                .foregroundStyle(.secondary)
         }
         Section {
             if model.library.removed.isEmpty {

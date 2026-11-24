@@ -107,32 +107,67 @@ func fixtureRoots(_ name: String = #function) throws -> LibraryRoots {
 }
 
 // S-005
-actor FetchCounter {
-    var count = 0
+/// A stand-in for the internet: answers by URL, counts the requests, can go offline.
+actor FakeWeb {
+    var requests: [URLRequest] = []
     var online = true
-    func hit() throws -> Data {
-        count += 1
-        guard online else { throw URLError(.notConnectedToInternet) }
-        return Data(repeating: 7, count: 4096)
-    }
+    let answers: [String: String]
+    init(_ answers: [String: String]) { self.answers = answers }
     func goOffline() { online = false }
+    func count(_ part: String) -> Int { requests.filter { $0.url!.absoluteString.contains(part) }.count }
+    func answer(_ request: URLRequest) throws -> Data {
+        requests.append(request)
+        guard online else { throw URLError(.notConnectedToInternet) }
+        let url = request.url!.absoluteString
+        if let match = answers.first(where: { url.contains($0.key) }) { return Data(match.value.utf8) }
+        if url.contains(".jpg") || url.contains(".png") { return Data(repeating: 7, count: 4096) }
+        throw URLError(.fileDoesNotExist)
+    }
 }
 
-@Test func steamArtIsFetchedOnceAndCached() async throws {
+let storeAssets = #"{"response":{"store_items":[{"assets":{"asset_url_format":"steam/apps/1546710/${FILENAME}?t=1","library_capsule_2x":"ab12/library_capsule_2x.jpg"}}]}}"#
+
+@Test func steamArtComesFromTheStoresAssetListOnceAndIsCached() async throws {
     let folder = FileManager.default.temporaryDirectory.appending(path: "HangarCovers-\(UUID().uuidString)")
-    let counter = FetchCounter()
-    let cache = CoverCache(folder: folder) { _ in try await counter.hit() }
-    let first = await cache.cover(steamID: "367520")
-    #expect(first != nil)
-    await counter.goOffline()
-    let again = await cache.cover(steamID: "367520")
-    #expect(again == first)
-    #expect(await counter.count == 1)
-    // Offline with nothing cached: no file, so the generated cover shows; asked once per URL only.
+    let web = FakeWeb(["IStoreBrowseService": storeAssets])
+    let cache = CoverCache(folder: folder) { try await web.answer($0) }
+    let first = await cache.cover(steamID: "1546710")
+    #expect(first == folder.appending(path: "steam-1546710.jpg"))
+    #expect(await web.count("ab12/library_capsule_2x.jpg") == 1)
+    await web.goOffline()
+    #expect(await cache.cover(steamID: "1546710") == first)
+    #expect(await web.count("IStoreBrowseService") == 1)
+}
+
+@Test func offlineWithNothingCachedTheGeneratedCoverShowsAndIsntAskedAgain() async {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarCovers-\(UUID().uuidString)")
+    let web = FakeWeb([:])
+    await web.goOffline()
+    let cache = CoverCache(folder: folder) { try await web.answer($0) }
     #expect(await cache.cover(steamID: "1") == nil)
+    let asked = await web.requests.count
     #expect(await cache.cover(steamID: "1") == nil)
-    #expect(await counter.count == 1 + CoverCache.steamURLs("1").count)
-    #expect(CoverCache.steamURLs("367520")[0].absoluteString.contains("/367520/library_600x900"))
+    #expect(await web.requests.count == asked)
+}
+
+@Test func steamGridDBFillsInWithAKeyAndFindsGamesByName() async throws {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarCovers-\(UUID().uuidString)")
+    let web = FakeWeb([
+        "IStoreBrowseService": #"{"response":{"store_items":[{}]}}"#,
+        "apps/758870/library_600x900": "missing",
+        "grids/steam/758870": #"{"success":true,"data":[{"url":"https://cdn2.steamgriddb.com/grid/k.png"}]}"#,
+        "search/autocomplete/Moonlit%20Harbor": #"{"success":true,"data":[{"id":42,"name":"Moonlit Harbor"}]}"#,
+        "grids/game/42": #"{"success":true,"data":[{"url":"https://cdn2.steamgriddb.com/grid/m.png"}]}"#,
+    ])
+    let cache = CoverCache(folder: folder) { try await web.answer($0) }
+    // No key: nothing by name.
+    #expect(await cache.cover(title: "Moonlit Harbor") == nil)
+    await cache.setGridKey("  secret ")
+    #expect(await cache.cover(title: "Moonlit Harbor") == folder.appending(path: "grid-moonlit-harbor.jpg"))
+    let grid = await web.requests.first { $0.url!.absoluteString.contains("grids/game") }
+    #expect(grid?.value(forHTTPHeaderField: "Authorization") == "Bearer secret")
+    #expect(SteamArt.assets(from: Data(storeAssets.utf8)).cover?.absoluteString
+            == "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1546710/ab12/library_capsule_2x.jpg?t=1")
 }
 
 // S-006

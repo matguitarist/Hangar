@@ -106,6 +106,12 @@ enum SelfTest {
             check("S-005 Reset Cover goes back", model.game(id)?.customCover == nil)
         }
 
+        // S-030
+        model.steamGridDBKey = " test-key "
+        check("S-030 the SteamGridDB key is kept (in memory in a test run)", Keychain.read("steamgriddb") == "test-key")
+        model.steamGridDBKey = ""
+        check("S-030 clearing the key forgets it", Keychain.read("steamgriddb") == nil)
+
         // S-006: Starfall Arcade (a sample app that runs until stopped) and Pocket Racer (quits at once).
         if let id = find("Starfall Arcade")?.id {
             model.selectedGameID = id
