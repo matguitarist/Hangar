@@ -4120,6 +4120,26 @@
           }
         }
       }
+    },
+    "Controller connected": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manette connectée"
+          }
+        }
+      }
+    },
+    "Controller": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manette"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

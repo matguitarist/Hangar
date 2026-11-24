@@ -584,13 +584,13 @@ Depends: S-028
 Acceptance:
 - [self] Simulated controller input moves the selection and launches.
 - [unit] The D-pad and left stick map to moves with a repeat delay; A plays, B leaves, Y shows details, menu button opens couch mode.
-- [manual] A DualSense and an Xbox pad both work.
+- [manual] A DualSense and an Xbox pad both work. Not run yet: needs a person with a controller at the Mac.
 UX:
 - Flow: a controller connects → "Controller connected" for a moment → D-pad moves, A plays, Y shows the game's details, B goes back; the Home/menu button opens couch mode from anywhere in Hangar; when the game quits, Hangar comes to the front in couch mode
 - Surface: couch mode; a hint bar at the bottom with the buttons of the connected controller ("Ⓐ Play  Ⓑ Back  Ⓨ Details")
 - Words: "Play" / « Jouer », "Back" / « Retour », "Details" / « Détails », "Controller connected" / « Manette connectée »
 - Access: the hint bar names buttons in text, not only glyphs
-Status: todo
+Status: done
 
 ### S-041 Steam achievements
 As the user, I see how many of a Steam game's achievements I unlocked on its page and in couch mode.

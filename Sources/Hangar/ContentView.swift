@@ -25,6 +25,8 @@ struct ContentView: View {
             }
         }
         .animation(.default, value: model.couchMode)
+        .overlay(alignment: .top) { ControllerToast() }
+        .animation(.default, value: model.controllers.justConnected)
         .sheet(item: $model.addRequest) { request in
             AddGameSheet(request: request)
         }

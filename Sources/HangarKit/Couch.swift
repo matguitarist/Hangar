@@ -1,7 +1,7 @@
 import Foundation
 
 /// A move in couch mode, from the arrow keys, a D-pad or a stick (S-028, S-029).
-public enum CouchDirection: Sendable, Equatable, CaseIterable {
+public enum CouchDirection: Sendable, Hashable, CaseIterable {
     case up, down, left, right
 }
 

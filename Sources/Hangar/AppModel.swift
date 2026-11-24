@@ -147,6 +147,8 @@ final class AppModel {
     var couch = CouchNavigator(rows: [])
     var couchDetails = false
     @ObservationIgnored var couchMadeFullScreen = false
+    /// Game controllers (S-029).
+    let controllers = ControllerCenter()
     var addRequest: AddRequest?
     var confirmingStop: String?
 
@@ -244,6 +246,9 @@ final class AppModel {
         log.post(.info, "Hangar \(version) started", source: "App")
         syncMenu()
         IntentModel.model = self
+        controllers.onEvent = { [weak self] in self?.gamepad($0) }
+        // A test run sends its own presses; a pad on the desk mustn't move its selection.
+        if !Store.isOverridden { controllers.start() }
     }
 
     // MARK: Scanning

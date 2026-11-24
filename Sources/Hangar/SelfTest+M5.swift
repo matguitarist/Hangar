@@ -21,6 +21,37 @@ extension SelfTest {
         check("S-028 Escape leaves and keeps the selection", !model.couchMode && model.selectedGameID == last)
     }
 
+    /// S-029: a simulated pad, read like a real one, moves the selection and launches.
+    static func controllerChecks(_ model: AppModel) async {
+        var mapper = GamepadMapper()
+        var now = Date()
+        func press(_ state: GamepadState) {
+            for event in mapper.step(state, now: now) + mapper.step(GamepadState(), now: now.addingTimeInterval(0.05)) { model.gamepad(event) }
+            now.addTimeInterval(0.1)
+        }
+        press(GamepadState(menu: true))
+        check("S-029 the menu button opens couch mode", model.couchMode)
+        let before = model.couch.selected
+        press(GamepadState(stickX: 1))
+        check("S-029 the stick moves the selection", model.couch.selected != before)
+        press(GamepadState(y: true))
+        check("S-029 Y shows the details", model.couchDetails)
+        press(GamepadState(b: true))
+        check("S-029 B closes them", model.couchMode && !model.couchDetails)
+        guard let starfall = model.library.games.first(where: { $0.title == "Starfall Arcade" })?.id else { return }
+        model.couch.select(starfall)
+        press(GamepadState(a: true))
+        for _ in 0..<40 where model.running[starfall]?.phase != .running { try? await Task.sleep(for: .milliseconds(250)) }
+        check("S-029 A plays the selected game", model.running[starfall] != nil)
+        press(GamepadState(a: true))
+        check("S-029 A on a running game asks to stop it", model.confirmingStop == starfall)
+        model.confirmingStop = nil
+        model.stop(starfall)
+        for _ in 0..<40 where model.running[starfall] != nil { try? await Task.sleep(for: .milliseconds(250)) }
+        press(GamepadState(b: true))
+        check("S-029 B leaves couch mode", !model.couchMode)
+    }
+
     /// S-037: Play on a game whose bottle's Steam is signed out asks first.
     static func signInChecks(_ model: AppModel) async {
         guard let vernal = model.library.games.first(where: { $0.title == "Vernal Edge" }) else { return }
