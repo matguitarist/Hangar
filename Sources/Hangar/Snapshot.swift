@@ -52,6 +52,26 @@ enum Snapshot {
                     }
                 }
             }
+            if only == nil || only?.contains("menu-bar") == true {
+                // The menu bar panel, drawn in a panel of its own: the real one opens only from a click.
+                let host = NSHostingView(rootView: QuickLaunchView(close: {})
+                    .environment(model).themed()
+                    .background(.background, in: .rect(cornerRadius: Radius.card, style: .continuous)))
+                let panel = NSPanel(contentRect: NSRect(origin: .zero, size: host.fittingSize), styleMask: [.borderless],
+                                    backing: .buffered, defer: false)
+                panel.isOpaque = false
+                panel.backgroundColor = .clear
+                panel.contentView = host
+                panel.setContentSize(host.fittingSize)
+                panel.center()
+                for mode in ["light", "dark"] {
+                    NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
+                    panel.orderFront(nil)
+                    try? await Task.sleep(for: .seconds(1))
+                    capture(to: "\(dir)/menu-bar-\(mode).png", window: panel)
+                }
+                panel.close()
+            }
             if only == nil || only?.contains("settings") == true {
                 let main = NSApp.windows.first { $0.canBecomeMain && !$0.isSheet }
                 openSettings()
@@ -61,7 +81,8 @@ enum Snapshot {
                     for tab in SettingsTab.allCases {
                         model.settingsTab = tab
                         try? await Task.sleep(for: .seconds(0.8))
-                        let settings = NSApp.windows.first { $0.isVisible && $0 !== main && !$0.isSheet }
+                        // Titled and not a panel: the menu bar icon has a window of its own too.
+                        let settings = NSApp.windows.first { $0.isVisible && $0 !== main && !$0.isSheet && $0.styleMask.contains(.titled) && !($0 is NSPanel) }
                         capture(to: "\(dir)/settings-\(tab.rawValue)-\(mode).png", window: settings)
                     }
                 }

@@ -30,3 +30,4 @@ One name for each thing, in every button, menu, title, tooltip and error.
 | Couch mode | The full-screen view used with a controller | Big Picture, TV mode | mode salon |
 | Battery settings | A game's other settings used when the Mac is on battery at launch (the On Battery section) | battery profile, power plan, eco mode | réglages sur batterie |
 | Low Power Mode | macOS's own power-saving mode; Hangar only suggests it | power saving, eco mode | mode Économie d’énergie |
+| Menu bar icon | Hangar's gamepad in the menu bar: running and recently played games | status item, tray icon, widget | icône de la barre des menus |

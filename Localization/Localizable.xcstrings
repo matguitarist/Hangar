@@ -511,6 +511,16 @@
         }
       }
     },
+    "Bring %@ to the front": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre %@ au premier plan"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "fr": {
@@ -1601,6 +1611,16 @@
         }
       }
     },
+    "Menu Bar": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barre des menus"
+          }
+        }
+      }
+    },
     "Metal Performance HUD": {
       "localizations": {
         "fr": {
@@ -1961,6 +1981,16 @@
         }
       }
     },
+    "Open Hangar": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir Hangar"
+          }
+        }
+      }
+    },
     "Open Steam": {
       "localizations": {
         "fr": {
@@ -2091,6 +2121,26 @@
         }
       }
     },
+    "Play %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouer à %@"
+          }
+        }
+      }
+    },
+    "Play a recent game or see what's running from the menu bar. Hangar keeps running when you close its window.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancez un jeu récent ou voyez ce qui est en cours depuis la barre des menus. Hangar reste ouvert quand vous fermez sa fenêtre."
+          }
+        }
+      }
+    },
     "Play at the next resolution down, back to normal when the game quits": {
       "localizations": {
         "fr": {
@@ -2121,12 +2171,32 @@
         }
       }
     },
+    "Played %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Joué %@"
+          }
+        }
+      }
+    },
     "Playing for %@": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Partie en cours depuis %@"
+          }
+        }
+      }
+    },
+    "Playing since %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En cours depuis %@"
           }
         }
       }
@@ -2187,6 +2257,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Remettre ces sauvegardes"
+          }
+        }
+      }
+    },
+    "Quit Hangar": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter Hangar"
+          }
+        }
+      }
+    },
+    "Quit Hangar (⌘Q)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter Hangar (⌘Q)"
           }
         }
       }
@@ -2731,6 +2821,16 @@
         }
       }
     },
+    "Show Hangar in the menu bar": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher Hangar dans la barre des menus"
+          }
+        }
+      }
+    },
     "Show Log": {
       "localizations": {
         "fr": {
@@ -2777,6 +2877,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Afficher le HUD sur batterie, quel que soit le réglage plus haut"
+          }
+        }
+      }
+    },
+    "Show the library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher la bibliothèque"
           }
         }
       }
@@ -2971,6 +3081,16 @@
         }
       }
     },
+    "Stop %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter %@"
+          }
+        }
+      }
+    },
     "Stop %@?": {
       "localizations": {
         "fr": {
@@ -3117,6 +3237,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les fichiers du jeu ne sont plus à cet emplacement."
+          }
+        }
+      }
+    },
+    "The games you play show here.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les jeux auxquels vous jouez s’affichent ici."
           }
         }
       }

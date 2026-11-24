@@ -476,7 +476,14 @@ Screens: menu-bar
 Depends: S-006
 Acceptance:
 - [snap] The menu with recent games and a running game.
-Status: todo
+- [unit] Recently played: the five played last, without the running ones.
+UX:
+- Flow: click the gamepad icon in the menu bar → a panel: Running (each with "Playing since 6:12 PM" and Stop…), Recently Played (five, "Played yesterday") → click a game to play it, a running one to bring it to the front, Stop… to confirm in the main window; Open Hangar; Quit Hangar
+- Surface: a menu bar extra in window style (covers help recognize games); rows highlight under the pointer and with keyboard focus, like menu items; Settings › General › Menu Bar turns it off
+- States: nothing played yet: "The games you play show here."; starting: "Starting…"; with the icon on, Hangar keeps running when its window closes
+- Words: "Running" / « En cours », "Recently Played" / « Joués récemment », "Played %@" / « Joué %@ », "Playing since %@" / « En cours depuis %@ », "Open Hangar" / « Ouvrir Hangar », "Quit Hangar" / « Quitter Hangar », "Show Hangar in the menu bar" / « Afficher Hangar dans la barre des menus »
+- Access: every row is a button with hover help; Tab moves through rows; ⌘Q quits
+Status: done
 
 ### S-027 Shortcuts actions
 As the user, I launch a game, or back up its saves, from Shortcuts and Spotlight.

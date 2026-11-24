@@ -155,6 +155,10 @@ final class AppModel {
     /// Bumped when save backups change, so the Saves section and the Backups sheet read them again.
     var backupGeneration = 0
     /// Settings › Library: keep save backups in iCloud Drive. Turning it on or off moves them.
+    /// Settings › General › Menu Bar (S-026): the quick launch icon, on unless turned off.
+    var showsInMenuBar: Bool = UserDefaults.standard.object(forKey: "menuBar.shown") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(showsInMenuBar, forKey: "menuBar.shown") }
+    }
     var backupsInICloud: Bool = UserDefaults.standard.bool(forKey: "saves.iCloud") {
         didSet {
             guard backupsInICloud != oldValue else { return }

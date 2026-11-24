@@ -83,6 +83,14 @@ struct GeneralSettings: View {
                 }
             }
         }
+        Section {
+            Toggle("Show Hangar in the menu bar", isOn: $model.showsInMenuBar)
+        } header: {
+            Text("Menu Bar")
+        } footer: {
+            Text("Play a recent game or see what's running from the menu bar. Hangar keeps running when you close its window.")
+                .foregroundStyle(.secondary)
+        }
     }
 }
 

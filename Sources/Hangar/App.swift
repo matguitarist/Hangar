@@ -45,6 +45,16 @@ struct HangarApp: App {
         }
         .defaultSize(width: 900, height: 560)
 
+        // A test run never puts an icon in the real menu bar; snapshots draw the panel on its own.
+        MenuBarExtra(isInserted: Binding(get: { model.showsInMenuBar && !Store.isOverridden }, set: { if !Store.isOverridden { model.showsInMenuBar = $0 } })) {
+            QuickLaunchView()
+                .environment(model)
+                .themed()
+        } label: {
+            Label("Hangar", systemImage: "gamecontroller")
+        }
+        .menuBarExtraStyle(.window)
+
         Settings {
             SettingsView()
                 .environment(model)
@@ -62,7 +72,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         _ = Updater.shared
     }
 
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
+    /// With the menu bar icon, Hangar keeps running when its window closes (S-026).
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        Store.isOverridden || !(UserDefaults.standard.object(forKey: "menuBar.shown") as? Bool ?? true)
+    }
 
     /// The self-test's result becomes the exit code, after a normal quit.
     func applicationWillTerminate(_ notification: Notification) {
