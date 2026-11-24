@@ -27,6 +27,7 @@ extension AppModel {
             return
         }
         saveDataPages[id] = data.url
+        if let api = data.api { gameAPI[id] = api }
         saveLocations[id] = .some(SavePaths.locations(data, isWindows: game.isWindows, onSteam: game.steamID != nil,
                                                       context: savePathContext(game)))
     }

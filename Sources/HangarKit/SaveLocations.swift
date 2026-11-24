@@ -16,6 +16,8 @@ public struct GameData: Codable, Sendable, Equatable {
     /// The wiki page the data came from ("Hollow_Knight").
     public var page: String
     public var entries: [Entry]
+    /// The graphics APIs and builds the page lists (S-034); nil when it lists none.
+    public var api: GameAPI?
 
     public var url: URL { PCGamingWiki.pageURL(page) }
 
@@ -35,7 +37,7 @@ public struct GameData: Codable, Sendable, Equatable {
                 }
             }
         }
-        return GameData(page: page, entries: entries)
+        return GameData(page: page, entries: entries, api: GameAPI.parse(source))
     }
 
     /// Where the template that starts before `from` closes: the index of its "}}".
@@ -270,7 +272,7 @@ public actor GameDataCache {
     }
 
     func file(_ title: String) -> URL {
-        folder.appending(path: AppleGamingWiki.pageName(title).replacingOccurrences(of: "/", with: "_") + ".json")
+        folder.appending(path: AppleGamingWiki.pageName(title).replacingOccurrences(of: "/", with: "_") + "-v2.json")
     }
 
     /// The save paths for a game, by its title. Nil when the wiki has no page, or offline with nothing cached.

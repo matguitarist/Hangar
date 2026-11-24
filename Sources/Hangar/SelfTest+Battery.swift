@@ -7,6 +7,24 @@ extension SelfTest {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }
         func find(_ title: String) -> Game? { model.library.games.first { $0.title == title } }
 
+        // S-034: Vernal Edge's wiki notes say "Runs with D3DMetal. Set MSync on".
+        if let vernal = find("Vernal Edge") {
+            await model.loadCompatibility(vernal.id)
+            await model.loadSaveLocations(vernal.id)
+            let before = model.bottleSettings(for: vernal)
+            let list = model.suggestions(for: vernal)
+            check("S-034 the wiki's notes become suggestions", list.contains { $0.change == .graphics(.d3dMetal) } && list.allSatisfy { if case .wikiNote = $0.reason { true } else { false } },
+                  "\(list.map(\.id)) from \(String(describing: before))")
+            model.suggestionState[vernal.id] = nil
+            model.applySuggestions(vernal.id)
+            let game = model.game(vernal.id) ?? vernal
+            check("S-034 Apply Suggestions changes the bottle", model.bottleSettings(for: game)?.graphics == .d3dMetal && model.suggestions(for: game).isEmpty)
+            if case .applied = model.suggestionState[vernal.id] { check("S-034 and offers Undo", true) } else { check("S-034 and offers Undo", false) }
+            model.undoSuggestions(vernal.id)
+            check("S-034 Undo puts the settings back", model.bottleSettings(for: game) == before, String(describing: model.bottleSettings(for: game)))
+            model.suggestionState[vernal.id] = nil
+        }
+
         // S-025: Pocket Racer shows the HUD, but not on battery.
         if let moonlit = find("Pocket Racer") {
             let before = moonlit.options

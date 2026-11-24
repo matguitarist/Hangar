@@ -50,6 +50,7 @@ struct GamePage: View {
                 .padding(.vertical, Space.xs)
             }
             banners(game)
+            SuggestedSettingsSection(game: game)
             AboutSection(game: game)
             RecipeSection(game: game)
             CompatibilitySection(game: game)
@@ -76,7 +77,14 @@ struct GamePage: View {
         // Another game opens at the top of its page, not where the last one was scrolled to.
         .id(game.id)
         // The About section shows only once details arrive, so the page asks for them.
-        .task(id: game.id) { await model.loadDetails(game.id) }
+        .task(id: game.id) {
+            await model.loadDetails(game.id)
+            // Suggested settings read the wikis' verdicts and API box (S-034).
+            if game.runner == .crossOver {
+                await model.loadCompatibility(game.id)
+                await model.loadSaveLocations(game.id)
+            }
+        }
         .gridArea("game-page", inset: 0)
     }
 

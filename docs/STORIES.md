@@ -470,6 +470,24 @@ UX:
 - Access: every toggle has hover help; the notice is text with a symbol and two buttons
 Status: done
 
+### S-034 Suggested settings
+As the user, I see which bottle settings the wikis recommend for a Windows game, with the reason for each, and apply them in one click that I can undo.
+Screens: game-page
+Depends: S-010, S-015, S-021
+Acceptance:
+- [unit] AppleGamingWiki's CrossOver notes become suggestions only from sentences that recommend (a sentence with "crash", "doesn't", "black"… is a warning); two different backends recommended means no graphics advice.
+- [unit] PCGamingWiki's Direct3D version is a rule only when the notes say nothing: 10 → DXMT, 9 and older → DXVK; 11 and 12 nothing (CrossOver's Auto already picks D3DMetal).
+- [unit] What's already set is never suggested.
+- [self] The sample game's notes become suggestions; Apply changes the bottle after a snapshot; Undo puts it back.
+UX:
+- Flow: game page › Overview › Suggested Settings (above About) → each change with "AppleGamingWiki: “Runs with D3DMetal”" or "PCGamingWiki lists Direct3D 9; DXVK usually runs that best." → Apply Suggestions (snapshot first) → "Applied the suggested settings." with Undo; Not Now hides it for this session
+- Surface: a section of the Overview, only for games in a CrossOver bottle with something to suggest
+- States: nothing to suggest: no section; a game running in the bottle: Apply disabled with "Quit the games in this bottle first"
+- Honest: "From the wikis, not tested on this Mac."; a Mac version comes only from the stores (PCGamingWiki's macOS flag said Bloodstained had one; its Mac version was cancelled)
+- Words: "Suggested Settings" / « Réglages suggérés », "Apply Suggestions" / « Appliquer les suggestions », "Applied the suggested settings." / « Réglages suggérés appliqués. », "From the wikis, not tested on this Mac." / « Selon les wikis, pas encore essayé sur ce Mac. »
+- Access: each suggestion is a label, a value and its reason in text; Apply has hover help
+Status: done
+
 ### S-026 Quick launch from the menu bar
 As the user, I click Hangar's menu bar icon and launch one of my recent games, or see what's running.
 Screens: menu-bar

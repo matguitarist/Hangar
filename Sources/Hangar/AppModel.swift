@@ -171,6 +171,9 @@ final class AppModel {
     var details: [String: GameDetails?] = [:]
     /// Games playing with the display lowered by their battery profile (S-025), and the mode to put back.
     var loweredDisplay: Set<String> = []
+    /// PCGamingWiki's API box per game, read with its save locations (S-034).
+    var gameAPI: [String: GameAPI] = [:]
+    var suggestionState: [String: SuggestionState] = [:]
     @ObservationIgnored var displayRestore: (id: String, mode: CGDisplayMode)?
     /// The game on the Mac App Store, when AppleGamingWiki doesn't say it runs natively (S-033).
     var appStoreApps: [String: MacAppStore.App?] = [:]

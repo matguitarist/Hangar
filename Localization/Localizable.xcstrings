@@ -171,6 +171,16 @@
         }
       }
     },
+    "A snapshot is saved first, so you can go back": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un instantané est enregistré d’abord, pour pouvoir revenir en arrière"
+          }
+        }
+      }
+    },
     "A store sells a version for macOS. How well it runs isn't rated.": {
       "localizations": {
         "fr": {
@@ -351,6 +361,16 @@
         }
       }
     },
+    "AppleGamingWiki: “%@”": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AppleGamingWiki : « %@ »"
+          }
+        }
+      }
+    },
     "Applied": {
       "localizations": {
         "fr": {
@@ -361,12 +381,32 @@
         }
       }
     },
+    "Applied the suggested settings.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages suggérés appliqués."
+          }
+        }
+      }
+    },
     "Apply Setup": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Appliquer la configuration"
+          }
+        }
+      }
+    },
+    "Apply Suggestions": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appliquer les suggestions"
           }
         }
       }
@@ -991,6 +1031,16 @@
         }
       }
     },
+    "From the wikis, not tested on this Mac.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon les wikis, pas encore essayé sur ce Mac."
+          }
+        }
+      }
+    },
     "Game": {
       "localizations": {
         "fr": {
@@ -1107,6 +1157,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Revenir à des réglages qui fonctionnaient"
+          }
+        }
+      }
+    },
+    "Go back to the settings from before": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revenir aux réglages d’avant"
           }
         }
       }
@@ -1931,6 +1991,16 @@
         }
       }
     },
+    "On": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activé"
+          }
+        }
+      }
+    },
     "On Battery": {
       "localizations": {
         "fr": {
@@ -2087,6 +2157,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "PCGamingWiki n’a pas encore de page pour ce jeu."
+          }
+        }
+      }
+    },
+    "PCGamingWiki lists Direct3D %lld; %@ usually runs that best.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PCGamingWiki indique Direct3D %1$lld ; %2$@ le fait généralement le mieux tourner."
           }
         }
       }
@@ -2317,6 +2397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quittez d’abord les jeux de la bouteille %@."
+          }
+        }
+      }
+    },
+    "Quit the games in this bottle first": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quittez d’abord les jeux de cette bouteille"
           }
         }
       }
@@ -3147,6 +3237,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Suggérer le mode Économie d’énergie"
+          }
+        }
+      }
+    },
+    "Suggested Settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages suggérés"
           }
         }
       }

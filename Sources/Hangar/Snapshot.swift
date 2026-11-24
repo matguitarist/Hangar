@@ -158,6 +158,16 @@ struct SnapshotPage {
         SnapshotPage(name: "game-page-compatibility") { model in
             model.sidebar = .allGames; select(model, "Hollow Knight")
         },
+        SnapshotPage(name: "game-page-suggested") { model in
+            model.scrollGamePageToEnd = false
+            model.sidebar = .allGames; select(model, "Vernal Edge"); model.gamePageTab = .overview
+            // Settings the wiki's notes disagree with (on the test copy), so the card shows.
+            // Written straight to the test copy: Bloodstained runs in the same bottle, so Apply shows disabled.
+            if let id = model.selectedGameID, let bottle = model.game(id)?.bottle {
+                _ = try? BottleSettings(graphics: .dxvk).write(bottle: model.bottleURL(bottle))
+                model.suggestionState[id] = nil
+            }
+        },
         SnapshotPage(name: "game-page-battery") { model in
             model.sidebar = .allGames; select(model, "Pocket Racer"); model.gamePageTab = .settings
             if let id = model.selectedGameID { model.useBatteryProfile(id, true) }
