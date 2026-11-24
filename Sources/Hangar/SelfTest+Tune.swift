@@ -132,6 +132,21 @@ extension SelfTest {
                 check("S-017 restoring saves the broken settings first", model.snapshotList(kynseed.id).first?.reason == .restore)
             }
         }
+        // S-018: CrossOver was 26.2 when Vernal Edge last worked; now it's 26.3.
+        if let vernal = find("Vernal Edge"), let crossOver = model.runners.first(where: { $0.kind == .crossOver }), let version = crossOver.version {
+            if let worked = try? model.snapshots.take(vernal, bottle: nil, reason: .launch, runner: "CrossOver 26.2") {
+                try? model.snapshots.markWorked(worked)
+            }
+            try? JSONEncoder().encode([crossOver.path: "26.2"]).write(to: Store.runnerVersionsURL)
+            model.checkRunnerUpdates()
+            let notice = model.runnerUpdates.first { $0.update.path == crossOver.path }
+            check("S-018 a version change is noticed", notice?.update.old == "26.2" && notice?.update.new == version)
+            check("S-018 the notice lists the games that last worked on the old version",
+                  notice?.snapshots.map(\.gameID) == [vernal.id], String(describing: notice?.snapshots.map(\.gameID)))
+            model.checkRunnerUpdates()
+            check("S-018 the same versions aren't noticed twice", RunnerVersions.load(Store.runnerVersionsURL)[crossOver.path] == version)
+            model.runnerUpdates = []
+        }
         // S-016: apply the sample recipe to Moonlit Harbor (bottle Classics), then Undo.
         if let harbor = find("Moonlit Harbor"), let name = harbor.bottle {
             let bottle = model.bottleURL(name)

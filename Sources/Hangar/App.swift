@@ -110,6 +110,11 @@ enum Store {
         return ProcessInfo.processInfo.environment["APP_FIXTURES"].map { URL(fileURLWithPath: $0).appending(path: "recipes.json") }
     }
 
+    /// The runner versions seen last: runners.json next to the library, or <store>-runners.json in a test run.
+    static var runnerVersionsURL: URL {
+        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-runners.json") : folder.appending(path: "runners.json")
+    }
+
     /// AppleGamingWiki's verdicts, cached: Compatibility/ next to the library, or <store>-agw in a test run.
     static var compatibilityFolder: URL {
         isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-agw") : folder.appending(path: "Compatibility")

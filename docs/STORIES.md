@@ -300,7 +300,13 @@ Depends: S-017
 Acceptance:
 - [unit] A version change in a runner is noticed at launch.
 - [self] The notice lists the games that last worked on the old version.
-Status: todo
+UX:
+- Flow: Hangar starts or refreshes → a runner's version differs from the one seen last → when games last worked on the old version, All Games shows "CrossOver updated from 26.2 to 26.3" with each game, the date it worked and "Show Snapshots…" → the Snapshots sheet for that game → "Dismiss" hides the notice
+- Surface: a card above the All Games grid (information inline, not an alert: nothing is broken yet)
+- States: first look at a runner: no notice; an update with no working games: no notice, a line in the Log; several runners updated: one card each
+- Words: "CrossOver updated from 26.2 to 26.3" / « CrossOver est passé de 26.2 à 26.3 », "Show Snapshots…" / « Afficher les instantanés… », "Dismiss" / « Masquer »
+- Access: the symbol is decoration; the title says it all
+Status: done
 
 ### S-019 Share a recipe
 As the user, when a game works, I send its setup as a recipe: Hangar copies the recipe JSON and opens a pre-filled issue on Hangar's GitHub.

@@ -61,6 +61,16 @@
         }
       }
     },
+    "%@ updated from %@ to %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ est passé de %2$@ à %3$@"
+          }
+        }
+      }
+    },
     "%@'s settings and bottle files go back to how they were. Hangar saves the current ones first, so you can come back.": {
       "localizations": {
         "fr": {
@@ -667,6 +677,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ a-t-il bien fonctionné ?"
+          }
+        }
+      }
+    },
+    "Dismiss": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer"
           }
         }
       }
@@ -2227,6 +2247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "La recette a besoin de %@, qui n’est pas dans la bouteille."
+          }
+        }
+      }
+    },
+    "These games last worked on %@. If one stops working, go back to its snapshot from then.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ces jeux ont fonctionné pour la dernière fois avec %@. Si l’un d’eux ne fonctionne plus, revenez à son instantané d’alors."
           }
         }
       }

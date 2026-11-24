@@ -163,7 +163,19 @@ struct SnapshotPage {
             model.running = [:]
             model.sidebar = .allGames; select(model, "Vernal Edge"); model.gamePageTab = .settings
         },
+        SnapshotPage(name: "library-runner-update") { model in
+            model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false
+            let ids = ["Vernal Edge", "Kynseed"].compactMap { title in model.library.games.first { $0.title == title }?.id }
+            let snapshots: [SettingsSnapshot] = ids.compactMap { id in
+                guard let game = model.game(id), let s = try? model.snapshots.take(game, bottle: nil, reason: .launch, runner: "CrossOver 26.2") else { return nil }
+                try? model.snapshots.markWorked(s, on: Date().addingTimeInterval(-9 * 86400))
+                return model.snapshots.list(id).first { $0.id == s.id }
+            }
+            model.runnerUpdates = [RunnerUpdateNotice(update: RunnerUpdate(name: "CrossOver", path: "/Applications/CrossOver.app", old: "26.2", new: "26.3"), snapshots: snapshots)]
+        },
         SnapshotPage(name: "game-page-recipe") { model in
+            model.runnerUpdates = []
+            model.showsGamePage = true
             model.sidebar = .allGames; select(model, "Moonlit Harbor")
         },
         SnapshotPage(name: "recipe-preview") { model in

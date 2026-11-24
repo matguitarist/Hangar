@@ -105,6 +105,8 @@ final class AppModel {
     let snapshots = SnapshotStore(folder: Store.snapshotsFolder)
     /// Known-good setups, read once from the manifest.
     @ObservationIgnored lazy var recipes: RecipeManifest = loadRecipes()
+    /// Runners that updated, with the games that last worked on the old version.
+    var runnerUpdates: [RunnerUpdateNotice] = []
     /// The game whose recipe preview is open.
     var previewingRecipe: String?
     /// The snapshot taken before a recipe was applied, by game id: Undo restores it.
@@ -186,6 +188,7 @@ final class AppModel {
         notes = result.notes
         bottles = result.bottles
         runners = RunnerScanner.scan(roots)
+        checkRunnerUpdates()
         signedOutBottles = Set(result.bottles.filter { name in
             let steam = CrossOverScanner.steamFolder(bottle: roots.bottles.appending(path: name))
             return FileManager.default.fileExists(atPath: steam.path) && !SteamScanner.isSignedIn(steamRoot: steam)

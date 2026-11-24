@@ -17,6 +17,12 @@ struct LibraryView: View {
         @Bindable var model = model
         let games = model.games(for: item)
         ScrollView {
+            if item == .allGames, !model.runnerUpdates.isEmpty {
+                VStack(spacing: Space.md) {
+                    ForEach(model.runnerUpdates) { RunnerUpdateBanner(notice: $0) }
+                }
+                .padding([.horizontal, .top], Space.margin)
+            }
             LazyVGrid(columns: [GridItem(.adaptive(minimum: Self.tileWidth, maximum: 200), spacing: Self.spacing, alignment: .top)],
                       alignment: .leading, spacing: Space.xxl) {
                 ForEach(games) { game in
