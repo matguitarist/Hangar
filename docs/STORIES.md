@@ -411,11 +411,12 @@ Acceptance:
 - [self] The sample game's details show from the sample answers; the TheGamesDB key is kept in the Keychain (in memory in a test run), and clearing it forgets it.
 UX:
 - Flow: game page › Overview › "About" (under the header) → the description (four lines, "More" shows the rest) → Developer, Publisher, Released, Genres; Settings › Library › Game Details → paste the TheGamesDB key → details fill in without a restart
+- Live: `HANGAR_LIVE_TGDB_KEY=<key> swift test --filter LiveDetails` checks the Steam store, TheGamesDB and PCGamingWiki for real
 - Surface: a section of the Overview; one secure field and a link in Settings › Library
 - States: loading: nothing (the section appears when details arrive); nothing found or offline with no cache: no section; no key: Steam games only
 - Words: "About" / « À propos », "Developer" / « Développeur », "Publisher" / « Éditeur », "Released" / « Sortie », "Genres" / « Genres », "More" / « Plus », "Less" / « Moins », "From the Steam store" / « Selon le magasin Steam », "From TheGamesDB" / « Selon TheGamesDB », "Game Details" / « Détails des jeux », "TheGamesDB API Key" / « Clé d’API TheGamesDB », "Request a key on the TheGamesDB forums" / « Demander une clé sur les forums de TheGamesDB »
 - Access: the description is selectable text; rows are label and value
-Status: todo
+Status: done
 
 
 ## M5 Life on a Mac (0.5.0)

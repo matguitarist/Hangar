@@ -1,0 +1,12 @@
+{
+  "code": 200,
+  "data": {
+    "count": 1,
+    "publishers": {
+      "8001": {
+        "id": 8001,
+        "name": "Lantern Press"
+      }
+    }
+  }
+}

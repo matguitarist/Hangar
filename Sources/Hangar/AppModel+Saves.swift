@@ -31,6 +31,19 @@ extension AppModel {
                                                       context: savePathContext(game)))
     }
 
+    /// Reads what a game is about (S-031): the Steam store in the app's language, else TheGamesDB by title.
+    func loadDetails(_ id: String) async {
+        guard details[id] == nil, let game = game(id) else { return }
+        let result: GameDetails?
+        if let steamID = game.steamID {
+            let language = SteamDetails.language(for: Bundle.main.preferredLocalizations.first ?? "en")
+            result = await detailsCache.details(steamID: steamID, language: language)
+        } else {
+            result = await detailsCache.details(title: game.title, mac: !game.isWindows)
+        }
+        details[id] = .some(result)
+    }
+
     /// The save locations already loaded, or an empty list.
     func knownSaveLocations(_ id: String) -> [SaveLocation] {
         (saveLocations[id] ?? nil) ?? []

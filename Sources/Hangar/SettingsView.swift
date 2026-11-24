@@ -114,6 +114,15 @@ struct LibrarySettings: View {
                 .foregroundStyle(.secondary)
         }
         Section {
+            SecureField("TheGamesDB API Key", text: $model.theGamesDBKey, prompt: Text("Optional"))
+            Link("Request a key on the TheGamesDB forums", destination: URL(string: "https://forums.thegamesdb.net/viewforum.php?f=10")!)
+        } header: {
+            Text("Game Details")
+        } footer: {
+            Text("Steam games get their description, developer and genres from the Steam store. With a TheGamesDB key, Hangar also finds them for games that aren't on Steam.")
+                .foregroundStyle(.secondary)
+        }
+        Section {
             Toggle("Keep save backups in iCloud Drive", isOn: $model.backupsInICloud)
         } header: {
             Text("Save Backups")

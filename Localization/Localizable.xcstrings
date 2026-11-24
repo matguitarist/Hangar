@@ -161,6 +161,16 @@
         }
       }
     },
+    "About": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À propos"
+          }
+        }
+      }
+    },
     "Accent color": {
       "localizations": {
         "fr": {
@@ -771,6 +781,16 @@
         }
       }
     },
+    "Developer": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Développeur"
+          }
+        }
+      }
+    },
     "Did %@ run well?": {
       "localizations": {
         "fr": {
@@ -881,12 +901,42 @@
         }
       }
     },
+    "From TheGamesDB": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon TheGamesDB"
+          }
+        }
+      }
+    },
+    "From the Steam store": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selon le magasin Steam"
+          }
+        }
+      }
+    },
     "Game": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Jeu"
+          }
+        }
+      }
+    },
+    "Game Details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Détails des jeux"
           }
         }
       }
@@ -907,6 +957,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Général"
+          }
+        }
+      }
+    },
+    "Genres": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genres"
           }
         }
       }
@@ -1301,6 +1361,16 @@
         }
       }
     },
+    "Less": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moins"
+          }
+        }
+      }
+    },
     "Lets D3DMetal games upscale with MetalFX.": {
       "localizations": {
         "fr": {
@@ -1517,6 +1587,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "XNA Framework manquant"
+          }
+        }
+      }
+    },
+    "More": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus"
           }
         }
       }
@@ -1921,6 +2001,16 @@
         }
       }
     },
+    "Publisher": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Éditeur"
+          }
+        }
+      }
+    },
     "Put back the settings and files the recipe changed": {
       "localizations": {
         "fr": {
@@ -2051,6 +2141,16 @@
         }
       }
     },
+    "Released": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sortie"
+          }
+        }
+      }
+    },
     "Remove Variable": {
       "localizations": {
         "fr": {
@@ -2107,6 +2207,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Renommer"
+          }
+        }
+      }
+    },
+    "Request a key on the TheGamesDB forums": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demander une clé sur les forums de TheGamesDB"
           }
         }
       }
@@ -2641,6 +2751,16 @@
         }
       }
     },
+    "Steam games get their description, developer and genres from the Steam store. With a TheGamesDB key, Hangar also finds them for games that aren't on Steam.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les jeux Steam reçoivent leur description, leur développeur et leurs genres du magasin Steam. Avec une clé TheGamesDB, Hangar les trouve aussi pour les jeux qui ne sont pas sur Steam."
+          }
+        }
+      }
+    },
     "SteamGridDB API Key": {
       "localizations": {
         "fr": {
@@ -2797,6 +2917,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "La recette a besoin de %@, qui n’est pas dans la bouteille."
+          }
+        }
+      }
+    },
+    "TheGamesDB API Key": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clé d’API TheGamesDB"
           }
         }
       }

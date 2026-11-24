@@ -1,0 +1,42 @@
+{
+  "code": 200,
+  "status": "Success",
+  "data": {
+    "count": 2,
+    "games": [
+      {
+        "id": 900002,
+        "game_title": "Moonlit Harbor: Director's Cut",
+        "release_date": "2021-06-01",
+        "platform": 1,
+        "overview": "The longer cut.",
+        "developers": [
+          7001
+        ],
+        "genres": [
+          2
+        ],
+        "publishers": [
+          8001
+        ]
+      },
+      {
+        "id": 900001,
+        "game_title": "Moonlit Harbor",
+        "release_date": "2019-03-14",
+        "platform": 1,
+        "overview": "A lighthouse keeper's quiet mystery on a foggy coast.\r\n\r\nExplore the harbor by night.",
+        "developers": [
+          7001
+        ],
+        "genres": [
+          2,
+          5
+        ],
+        "publishers": [
+          8001
+        ]
+      }
+    ]
+  }
+}

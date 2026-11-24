@@ -1,0 +1,16 @@
+{
+  "code": 200,
+  "data": {
+    "count": 2,
+    "genres": {
+      "2": {
+        "id": 2,
+        "name": "Adventure"
+      },
+      "5": {
+        "id": 5,
+        "name": "Puzzle"
+      }
+    }
+  }
+}

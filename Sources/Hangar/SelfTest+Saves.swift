@@ -64,6 +64,25 @@ extension SelfTest {
             }
         }
 
+        // S-031
+        if let knight = find("Hollow Knight"), let moonlit = find("Moonlit Harbor") {
+            await model.loadDetails(knight.id)
+            let steam = model.details[knight.id] ?? nil
+            check("S-031 a Steam game's details come from the Steam store", steam?.source == .steam && steam?.developers == ["Team Cherry"]
+                  && steam?.genres.contains("Action") == true, String(describing: steam?.developers))
+            await model.loadDetails(moonlit.id)
+            check("S-031 without a TheGamesDB key, a game that isn't on Steam has none", model.details[moonlit.id] == .some(nil))
+            model.theGamesDBKey = " test-key "
+            check("S-031 the TheGamesDB key is kept (in memory in a test run)", Keychain.read("thegamesdb") == "test-key")
+            for _ in 0..<20 where model.details[moonlit.id] != nil { try? await Task.sleep(for: .milliseconds(50)) }
+            await model.loadDetails(moonlit.id)
+            let other = model.details[moonlit.id] ?? nil
+            check("S-031 with the key, it's found on TheGamesDB with its names", other?.source == .theGamesDB
+                  && other?.developers == ["Tidewater Games"] && other?.genres == ["Adventure", "Puzzle"], String(describing: other))
+            model.theGamesDBKey = ""
+            check("S-031 clearing the key forgets it", Keychain.read("thegamesdb") == nil)
+        }
+
         // S-024: Moonlit Harbor, a program in the Classics bottle, with sample Wine logs.
         if let moonlit = find("Moonlit Harbor"), let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] {
             let logs = URL(fileURLWithPath: fixtures).appending(path: "WineLogs")

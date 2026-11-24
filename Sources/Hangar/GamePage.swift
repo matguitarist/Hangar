@@ -50,6 +50,7 @@ struct GamePage: View {
                 .padding(.vertical, Space.xs)
             }
             banners(game)
+            AboutSection(game: game)
             RecipeSection(game: game)
             CompatibilitySection(game: game)
             Section {
@@ -74,6 +75,8 @@ struct GamePage: View {
         .defaultScrollAnchor(model.scrollGamePageToEnd ? .bottom : nil, for: .sizeChanges)
         // Another game opens at the top of its page, not where the last one was scrolled to.
         .id(game.id)
+        // The About section shows only once details arrive, so the page asks for them.
+        .task(id: game.id) { await model.loadDetails(game.id) }
         .gridArea("game-page", inset: 0)
     }
 

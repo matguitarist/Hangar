@@ -165,6 +165,18 @@ enum Store {
         isOverridden ? runFile("wine-logs") : folder.appending(path: "Wine Logs")
     }
 
+    /// Game details from the Steam store and TheGamesDB, cached: Details/ next to the library, or <store>-run/details.
+    static var detailsFolder: URL {
+        isOverridden ? runFile("details") : folder.appending(path: "Details")
+    }
+
+    /// A test run never asks the stores: it reads the sample answers (APP_FIXTURES/Details), or nothing.
+    static var detailsFetch: GameDetailsCache.Fetch {
+        guard isOverridden else { return CoverCache.download }
+        let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] ?? "/nonexistent"
+        return GameDetailsCache.folder(URL(fileURLWithPath: fixtures).appending(path: "Details"))
+    }
+
     /// Where scans look. A test run never reads this Mac's games: it scans the sample library
     /// (APP_FIXTURES, copied to <store>-run/fixtures in /tmp) or nothing.
     static func roots(steamFolder: String?) -> LibraryRoots {

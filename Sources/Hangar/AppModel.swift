@@ -159,6 +159,22 @@ final class AppModel {
             moveBackups(from: SaveBackupStore(root: Store.saveBackupsFolder(iCloud: oldValue)))
         }
     }
+    let detailsCache: GameDetailsCache
+    /// What each game is about (S-031), by game id: nil while loading, .some(nil) when nothing was found.
+    var details: [String: GameDetails?] = [:]
+    /// The TheGamesDB API key (Settings › Library), kept in the Keychain.
+    var theGamesDBKey: String = Keychain.read("thegamesdb") ?? "" {
+        didSet {
+            guard theGamesDBKey != oldValue else { return }
+            let key = theGamesDBKey.trimmingCharacters(in: .whitespacesAndNewlines)
+            Keychain.write("thegamesdb", key)
+            Task {
+                await detailsCache.setKey(key)
+                // Games that had nothing without a key can have details now.
+                details = details.filter { $0.value != nil }
+            }
+        }
+    }
     /// Bumped when covers can change everywhere (a new SteamGridDB key), so tiles look again.
     var coverGeneration = 0
     /// The SteamGridDB API key (Settings › Library), kept in the Keychain.
@@ -190,6 +206,7 @@ final class AppModel {
     init() {
         logViewer = LogViewerModel(store: Store.log)
         covers = CoverCache(folder: Store.coversFolder, gridKey: Keychain.read("steamgriddb"))
+        detailsCache = GameDetailsCache(folder: Store.detailsFolder, key: Keychain.read("thegamesdb"), fetch: Store.detailsFetch)
         let saved = LibraryFile.load(from: Store.url)
         roots = Store.roots(steamFolder: saved.steamFolder)
         library = saved
