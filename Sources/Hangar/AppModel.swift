@@ -232,6 +232,7 @@ final class AppModel {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
         log.post(.info, "Hangar \(version) started", source: "App")
         syncMenu()
+        IntentModel.model = self
     }
 
     // MARK: Scanning

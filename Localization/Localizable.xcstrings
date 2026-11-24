@@ -3710,6 +3710,206 @@
           }
         }
       }
+    },
+    "%@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@"
+          }
+        }
+      }
+    },
+    "%@ isn't running.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ n’est pas en cours."
+          }
+        }
+      }
+    },
+    "Back Up Saves": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarder les parties"
+          }
+        }
+      }
+    },
+    "Backed up the saves of %@.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parties de %@ sauvegardées."
+          }
+        }
+      }
+    },
+    "Copies a game's saves to Hangar's save backups now.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie maintenant les parties d’un jeu dans les sauvegardes de Hangar."
+          }
+        }
+      }
+    },
+    "Hangar doesn't know where %@ keeps its saves.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar ne sait pas où %@ garde ses parties."
+          }
+        }
+      }
+    },
+    "Hangar is still opening. Try again in a moment.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar s’ouvre encore. Réessayez dans un instant."
+          }
+        }
+      }
+    },
+    "Play Game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouer à un jeu"
+          }
+        }
+      }
+    },
+    "Quits a game Hangar started. Unsaved progress in the game is lost.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitte un jeu lancé par Hangar. La progression non enregistrée est perdue."
+          }
+        }
+      }
+    },
+    "Running Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeux en cours"
+          }
+        }
+      }
+    },
+    "Starting %@.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancement de %@."
+          }
+        }
+      }
+    },
+    "Starts a game from your Hangar library through its runner.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lance un jeu de votre bibliothèque Hangar avec son lanceur."
+          }
+        }
+      }
+    },
+    "Stop Game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter un jeu"
+          }
+        }
+      }
+    },
+    "Stopping %@.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêt de %@."
+          }
+        }
+      }
+    },
+    "That game isn't in the library anymore.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce jeu n’est plus dans la bibliothèque."
+          }
+        }
+      }
+    },
+    "The games Hangar started that are still running.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les jeux lancés par Hangar qui sont encore en cours."
+          }
+        }
+      }
+    },
+    "The saves of %@ haven't changed since the last backup.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les parties de %@ n’ont pas changé depuis la dernière sauvegarde."
+          }
+        }
+      }
+    },
+    "Play ${game}": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouer à ${game}"
+          }
+        }
+      }
+    },
+    "Stop ${game}": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter ${game}"
+          }
+        }
+      }
+    },
+    "Back up the saves of ${game}": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauvegarder les parties de ${game}"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

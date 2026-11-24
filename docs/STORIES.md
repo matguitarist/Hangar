@@ -508,14 +508,14 @@ As the user, I launch a game, stop it, see what's running, or back up its saves,
 Depends: S-006, S-022
 Acceptance:
 - [self] The "Play Game" intent launches the sample game; "Back Up Saves" makes a backup; "Running Games" lists it.
-- [unit] The game entity finds games by name with the same search as the library ("bg3").
+- [self] The game entity finds games by name with the same search as the library ("bg3").
 - [build] The App Shortcuts show in Shortcuts after a build (`Metadata.appintents` in the app).
 UX:
 - Flow: Shortcuts › Hangar → "Play Game" (pick a game) → Hangar opens in the background and the game starts; Spotlight: type "Play Hollow Knight"
 - Surface: App Intents only; no window opens unless the game can't start, then the game page shows why
 - Words: "Play Game" / « Jouer à un jeu », "Stop Game" / « Arrêter un jeu », "Back Up Saves" / « Sauvegarder les parties », "Running Games" / « Jeux en cours », "Play \(game) in Hangar" / « Jouer à \(game) dans Hangar »
 - Access: every action has a description in English and French
-Status: todo
+Status: done
 
 ### S-035 An app icon
 As the user, I see Hangar's own icon in the Dock, the Finder, the menu bar panel and the About window, in every look (light, dark, clear, tinted).

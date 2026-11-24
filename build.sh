@@ -22,14 +22,17 @@ if [[ -z "$identity" ]]; then
 fi
 [[ -n "$identity" ]] || identity=-
 
-swift build -c $config --package-path "$here" --scratch-path "$scratch" 2>&1 | grep -E "error|warning|Build complete" | grep -v "^\[" || true
+# The compiler also writes the constant values App Intents need (Shortcuts actions, S-027).
+intents=(-Xswiftc -emit-const-values -Xswiftc -Xfrontend -Xswiftc -const-gather-protocols-file
+         -Xswiftc -Xfrontend -Xswiftc "$here/tools/appintents-protocols.json")
+swift build -c $config --package-path "$here" --scratch-path "$scratch" $intents 2>&1 | grep -E "error|warning|Build complete" | grep -v "^\[" || true
 bin="$scratch/$config/$name"
 [[ -x "$bin" ]] || { echo "build failed"; exit 1; }
 # swift build can report success while an edited file failed to compile. Catch that.
 stale=$(find "$here/Sources" -name '*.swift' -newer "$bin" | head -1)
 if [[ -n "$stale" ]]; then
   echo "build failed: binary is older than $stale"
-  swift build -c $config --package-path "$here" --scratch-path "$scratch" 2>&1 | grep -E "error" | head -20
+  swift build -c $config --package-path "$here" --scratch-path "$scratch" $intents 2>&1 | grep -E "error" | head -20
   exit 1
 fi
 
@@ -39,6 +42,19 @@ rm -rf "$app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 cp "$bin" "$app/Contents/MacOS/$name"
 sed -e "s/__BUILD__/$(date +%Y%m%d%H%M)/" "$here/Info.plist.in" > "$app/Contents/Info.plist"
+# Shortcuts actions: Metadata.appintents, which a plain swift build doesn't make (Xcode does).
+Config=${(C)config}
+print -l "$here"/Sources/$name/**/*.swift > "$scratch/appintents-sources.txt"
+find "$scratch/out/Intermediates.noindex/$name.build/$Config" -name '*.swiftconstvalues' -path "*/$name-*" > "$scratch/appintents-constvalues.txt" 2>/dev/null || true
+if [[ -s "$scratch/appintents-constvalues.txt" ]]; then
+  xcrun appintentsmetadataprocessor --output "$app/Contents/Resources" \
+    --toolchain-dir "$(xcode-select -p)/Toolchains/XcodeDefault.xctoolchain" --module-name $name \
+    --sdk-root "$(xcrun --show-sdk-path)" --xcode-version "$(xcodebuild -version | awk '/Build version/ {print $3}')" \
+    --platform-family macOS --deployment-target 26.0 --target-triple arm64-apple-macos26.0 \
+    --source-file-list "$scratch/appintents-sources.txt" --swift-const-vals-list "$scratch/appintents-constvalues.txt" \
+    --binary-file "$bin" --force 2>&1 | grep -iE "error|warning" || true
+  [[ -d "$app/Contents/Resources/Metadata.appintents" ]] || echo "warning: no Metadata.appintents, Shortcuts won't list Hangar's actions"
+fi
 # Package resources (LogKit's viewer strings): Bundle.module finds them in Contents/Resources.
 for bundle in "$scratch/$config"/*.bundle(N); do cp -R "$bundle" "$app/Contents/Resources/"; done
 # The icon: Icon/AppIcon.icon -> Resources/Assets.car + AppIcon.icns, rebuilt when it changed.
