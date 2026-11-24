@@ -189,7 +189,13 @@ Depends: S-010
 Acceptance:
 - [self] The warning names the other games in the bottle; Copy makes a new bottle and moves the game to it.
 - [unit] The copy gets a new BottleID and keeps the original untouched.
-Status: todo
+UX:
+- Flow: game page › Settings → the bottle section warns "Kynseed and Bloodstained also run in this bottle. These settings change them too." → "Give Vernal Edge Its Own Bottle…" → confirmation → "Copying the bottle…" → the game moves to "Steam – Vernal Edge" and stays selected; the others stay in Steam
+- Surface: an inline warning in the bottle section (information goes inline); a confirmation dialog for the copy, since it makes a new bottle on disk
+- States: copying "Copying the bottle…" with a small spinner; error inline on the game page "Hangar couldn't copy the bottle. …"; the other games found in the copy go to Settings › Removed Games
+- Words: "Give Vernal Edge Its Own Bottle…" / « Donner sa propre bouteille à Vernal Edge… », dialog "Give Vernal Edge its own bottle?" with "Copy Bottle" / « Copier la bouteille » and "Cancel"
+- Access: the warning is a label with an icon and words, never color alone
+Status: done
 
 ### S-012 Metal HUD for any game
 As the user, I turn on the Metal performance HUD for a game, native or Windows, and see it the next time the game starts.

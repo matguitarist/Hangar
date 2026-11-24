@@ -14,6 +14,13 @@ struct GameSettingsView: View {
         }
         .formStyle(.grouped)
         .id(model.settingsGeneration)
+        .confirmationDialog(String(localized: "Give \(game.title) its own bottle?"),
+                            isPresented: Binding(get: { model.confirmingOwnBottle == game.id }, set: { if !$0 { model.confirmingOwnBottle = nil } })) {
+            Button("Copy Bottle") { Task { await model.giveOwnBottle(game.id) } }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Hangar copies the bottle \(game.bottle ?? "") and moves \(game.title) to the copy. The other games stay in the bottle \(game.bottle ?? "") as they are.")
+        }
     }
 }
 
@@ -26,7 +33,26 @@ private struct BottleSettingsSection: View {
 
     var body: some View {
         let busy = model.bottleIsBusy(bottle)
+        let mates = model.bottleMates(of: game)
         Section {
+            if !mates.isEmpty {
+                VStack(alignment: .leading, spacing: Space.sm) {
+                    let names = ListFormatter.localizedString(byJoining: mates.map(\.title))
+                    Label(mates.count == 1 ? String(localized: "\(names) also runs in this bottle. These settings change it too.")
+                                           : String(localized: "\(names) also run in this bottle. These settings change them too."),
+                          systemImage: "exclamationmark.triangle")
+                        .fixedSize(horizontal: false, vertical: true)
+                    if model.copyingBottle == game.id {
+                        HStack(spacing: Space.sm) {
+                            ProgressView().controlSize(.small)
+                            Text("Copying the bottle…").foregroundStyle(.secondary)
+                        }
+                    } else {
+                        Button(String(localized: "Give \(game.title) Its Own Bottle…")) { model.confirmingOwnBottle = game.id }
+                            .help(String(localized: "Copy the bottle, so its settings change this game alone"))
+                    }
+                }
+            }
             Picker("Graphics", selection: binding(\.graphics)) {
                 ForEach(GraphicsBackend.allCases, id: \.self) { Text($0.title).tag($0) }
             }

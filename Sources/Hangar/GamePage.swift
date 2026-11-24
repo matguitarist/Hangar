@@ -135,6 +135,8 @@ struct GamePage: View {
                     Label(String(localized: "\(game.title) didn't start. \(reason)"), systemImage: "exclamationmark.triangle")
                 case .quitRightAway:
                     Label(String(localized: "\(game.title) quit right away"), systemImage: "exclamationmark.triangle")
+                case let .didntCopy(reason):
+                    Label(String(localized: "Hangar couldn't copy the bottle. \(reason)"), systemImage: "exclamationmark.triangle")
                 }
                 Button("Show Details") { model.sidebar = .log }
             }

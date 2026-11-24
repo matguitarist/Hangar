@@ -48,6 +48,25 @@ private func lines(_ text: String, without keys: [String]) -> [Substring] {
     #expect(try BottleSettings.read(bottle: bottle).write(bottle: bottle).isEmpty)
 }
 
+// S-011
+@Test func aCopiedBottleGetsANewIDAndTheOriginalStaysAsItWas() async throws {
+    let roots = try fixtureRoots()
+    let original = roots.bottles.appending(path: "Steam")
+    let before = try Data(contentsOf: BottleSettings.conf(original))
+    let name = BottleCopy.name(for: "Vernal Edge", from: "Steam", in: roots.bottles)
+    #expect(name == "Steam – Vernal Edge")
+    let id = UUID()
+    try await BottleCopy.copy(original, to: roots.bottles.appending(path: name), id: id)
+    let copy = try ConfFile.read(BottleSettings.conf(roots.bottles.appending(path: name)))
+    #expect(copy.value("BottleID", in: "Bottle") == id.uuidString)
+    #expect(try Data(contentsOf: BottleSettings.conf(original)) == before)
+    #expect(ConfFile(text: String(decoding: before, as: UTF8.self)).value("BottleID", in: "Bottle") == "11111111-2222-4333-8444-555555555555")
+    #expect(BottleCopy.name(for: "Vernal Edge", from: "Steam", in: roots.bottles) == "Steam – Vernal Edge 2")
+    // The copy holds the same games.
+    let games = CrossOverScanner.scan(bottles: roots.bottles).games.filter { $0.bottle == name }
+    #expect(games.contains { $0.title == "Vernal Edge" })
+}
+
 @Test func confFileAddsANewSectionAtTheEnd() {
     var conf = ConfFile(text: "[Bottle]\n\"A\" = \"1\"\n")
     conf.set("X", "2", in: "EnvironmentVariables")

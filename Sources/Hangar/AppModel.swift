@@ -62,6 +62,7 @@ extension Game {
 enum GameNotice: Equatable {
     case didntStart(String)
     case quitRightAway
+    case didntCopy(String)
 }
 
 /// A file dropped or chosen that needs the "Add Windows Game" sheet.
@@ -96,6 +97,9 @@ final class AppModel {
     var gamePageTab: GamePageTab = .overview
     /// Bumped when a game's settings change on disk, so the Settings tab reads them again.
     var settingsGeneration = 0
+    /// The game whose bottle is being copied (S-011).
+    var copyingBottle: String?
+    var confirmingOwnBottle: String?
     var searchText = ""
     var focusSearch = 0
     var sort: GameSort = GameSort(rawValue: UserDefaults.standard.string(forKey: "library.sort") ?? "") ?? .name {

@@ -136,7 +136,15 @@ struct SnapshotPage {
         SnapshotPage(name: "game-page-settings") { model in
             model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
         },
+        SnapshotPage(name: "game-page-settings-shared") { model in
+            // A bottle with other games in it, none of them running.
+            model.running = [:]
+            model.sidebar = .allGames; select(model, "Vernal Edge"); model.gamePageTab = .settings
+        },
         SnapshotPage(name: "game-page-running") { model in
+            if model.running.isEmpty, let game = model.library.games.first(where: { $0.title.hasPrefix("Bloodstained") }) {
+                model.running[game.id] = LaunchState(phase: .running, launched: Date().addingTimeInterval(-1200), started: Date().addingTimeInterval(-1190))
+            }
             model.sidebar = .running; select(model, "Bloodstained")
         },
         SnapshotPage(name: "steam") { model in

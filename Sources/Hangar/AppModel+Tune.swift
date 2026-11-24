@@ -27,6 +27,48 @@ extension AppModel {
         running.keys.contains { game($0)?.bottle == name }
     }
 
+    /// The other games in a game's bottle, which a settings change would change too.
+    func bottleMates(of game: Game) -> [Game] {
+        guard let bottle = game.bottle, game.runner == .crossOver else { return [] }
+        return library.games.filter { $0.id != game.id && $0.bottle == bottle && $0.source == .crossOver }
+            .sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+    }
+
+    /// Copies a game's bottle and moves the game to the copy, so its settings change it alone.
+    /// The other games found in the copy stay out of the library (Settings › Removed Games).
+    func giveOwnBottle(_ id: String) async {
+        guard let game = game(id), let bottle = game.bottle, !bottleIsBusy(bottle) else { return }
+        let name = BottleCopy.name(for: game.title, from: bottle, in: roots.bottles)
+        copyingBottle = id
+        defer { copyingBottle = nil }
+        do {
+            try await BottleCopy.copy(bottleURL(bottle), to: bottleURL(name))
+        } catch {
+            log.post(.error, "Can't copy the bottle \(bottle): \(error.localizedDescription)", source: "Settings")
+            notices[id] = .didntCopy(error.localizedDescription)
+            return
+        }
+        log.post(.info, "Copied the bottle \(bottle) to \(name) for \(game.title)", source: "Settings")
+        await refresh()
+        let newID = id.replacingOccurrences(of: "bottle:\(bottle):", with: "bottle:\(name):")
+        guard let index = library.games.firstIndex(where: { $0.id == newID }) else {
+            log.post(.error, "\(game.title) wasn't found in the copied bottle \(name)", source: "Settings")
+            return
+        }
+        // The game keeps what the person did with it.
+        library.games[index].playtime = game.playtime
+        library.games[index].lastPlayed = game.lastPlayed
+        library.games[index].customCover = game.customCover
+        library.games[index].options = game.options
+        for c in library.collections.indices where library.collections[c].gameIDs.contains(id) {
+            library.collections[c].gameIDs = library.collections[c].gameIDs.map { $0 == id ? newID : $0 }
+        }
+        for other in library.games where other.bottle == name && other.id != newID { library.remove(id: other.id) }
+        library.remove(id: id)
+        selectedGameID = newID
+        settingsGeneration += 1
+    }
+
     /// Writes a bottle's settings, for a game's Settings tab.
     func changeBottleSettings(_ id: String, to settings: BottleSettings) {
         guard let game = game(id), let bottle = game.bottle, !bottleIsBusy(bottle) else { return }

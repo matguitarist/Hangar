@@ -45,6 +45,8 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
     /// An image the person chose, or nil for the automatic cover.
     public var customCover: String?
     public var added: Date = Date(timeIntervalSince1970: 0)
+    /// What the person set on the game's Settings tab.
+    public var options = GameOptions()
 
     public init(id: String, title: String, source: GameSource, runner: RunnerKind = .native,
                 steamID: String? = nil, path: String = "", exe: String? = nil, bottle: String? = nil,
@@ -62,7 +64,7 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case id, title, source, runner, steamID, path, exe, startsShortcut, bottle, processHints
-        case playtime, lastPlayed, customCover, added
+        case playtime, lastPlayed, customCover, added, options
     }
 
     public init(from decoder: Decoder) throws {
@@ -81,10 +83,16 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
         lastPlayed = try c.decodeIfPresent(Date.self, forKey: .lastPlayed)
         customCover = try c.decodeIfPresent(String.self, forKey: .customCover)
         added = try c.decodeIfPresent(Date.self, forKey: .added) ?? Date(timeIntervalSince1970: 0)
+        options = try c.decodeIfPresent(GameOptions.self, forKey: .options) ?? GameOptions()
     }
 
     /// A Windows game (one that runs through a runner other than Mac).
     public var isWindows: Bool { runner != .native }
+}
+
+/// A game's own settings, kept across scans. Every field has a default, so older libraries open.
+public struct GameOptions: Codable, Sendable, Hashable {
+    public init() {}
 }
 
 /// A list of games the person makes.
@@ -156,6 +164,7 @@ public struct LibraryFile: Codable, Sendable, Equatable {
                 game.lastPlayed = previous.lastPlayed
                 game.customCover = previous.customCover
                 game.added = previous.added
+                game.options = previous.options
             } else {
                 game.added = now
             }

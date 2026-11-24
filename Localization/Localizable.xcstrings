@@ -1,6 +1,26 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ also run in this bottle. These settings change them too.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ s’exécutent aussi dans cette bouteille. Ces réglages les changent aussi."
+          }
+        }
+      }
+    },
+    "%@ also runs in this bottle. These settings change it too.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ s’exécute aussi dans cette bouteille. Ces réglages le changent aussi."
+          }
+        }
+      }
+    },
     "%@ didn't start. %@": {
       "localizations": {
         "fr": {
@@ -341,6 +361,36 @@
         }
       }
     },
+    "Copy Bottle": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier la bouteille"
+          }
+        }
+      }
+    },
+    "Copy the bottle, so its settings change this game alone": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier la bouteille, pour que ses réglages ne changent que ce jeu"
+          }
+        }
+      }
+    },
+    "Copying the bottle…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie de la bouteille…"
+          }
+        }
+      }
+    },
     "Couch Co-op": {
       "localizations": {
         "fr": {
@@ -531,6 +581,26 @@
         }
       }
     },
+    "Give %@ Its Own Bottle…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Donner sa propre bouteille à %@…"
+          }
+        }
+      }
+    },
+    "Give %@ its own bottle?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Donner sa propre bouteille à %@ ?"
+          }
+        }
+      }
+    },
     "Graphics": {
       "localizations": {
         "fr": {
@@ -557,6 +627,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hangar ne peut pas lire la bouteille %@. Ouvrez-la une fois dans CrossOver, puis actualisez."
+          }
+        }
+      }
+    },
+    "Hangar copies the bottle %@ and moves %@ to the copy. The other games stay in the bottle %@ as they are.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar copie la bouteille %1$@ et déplace %2$@ dans la copie. Les autres jeux restent tels quels dans la bouteille %3$@."
+          }
+        }
+      }
+    },
+    "Hangar couldn't copy the bottle. %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar n’a pas pu copier la bouteille. %@"
           }
         }
       }
