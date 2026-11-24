@@ -9,7 +9,20 @@ struct GamePage: View {
 
     var body: some View {
         if let game = model.game(gameID) {
-            page(game)
+            @Bindable var model = model
+            VStack(spacing: 0) {
+                Picker("Page", selection: $model.gamePageTab) {
+                    ForEach(GamePageTab.allCases, id: \.self) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .fixedSize()
+                .padding(.top, Space.sm)
+                switch model.gamePageTab {
+                case .overview: page(game)
+                case .settings: GameSettingsView(game: game)
+                }
+            }
         } else {
             ContentUnavailableView("Select a game to see its details", systemImage: "gamecontroller")
         }

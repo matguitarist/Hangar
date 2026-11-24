@@ -93,6 +93,9 @@ final class AppModel {
     // Browsing
     var selectedGameID: String? { didSet { syncMenu(); if selectedGameID != nil && selectedGameID != oldValue { showsGamePage = true } } }
     var showsGamePage = false
+    var gamePageTab: GamePageTab = .overview
+    /// Bumped when a game's settings change on disk, so the Settings tab reads them again.
+    var settingsGeneration = 0
     var searchText = ""
     var focusSearch = 0
     var sort: GameSort = GameSort(rawValue: UserDefaults.standard.string(forKey: "library.sort") ?? "") ?? .name {

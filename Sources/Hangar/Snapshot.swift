@@ -120,6 +120,7 @@ struct SnapshotPage {
     static func select(_ model: AppModel, _ title: String) {
         model.selectedGameID = model.library.games.first { $0.title.hasPrefix(title) }?.id
         model.showsGamePage = model.selectedGameID != nil
+        model.gamePageTab = .overview
     }
 
     static let all: [SnapshotPage] = [
@@ -131,6 +132,9 @@ struct SnapshotPage {
         },
         SnapshotPage(name: "game-page-windows") { model in
             model.sidebar = .allGames; select(model, "Vernal Edge")
+        },
+        SnapshotPage(name: "game-page-settings") { model in
+            model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
         },
         SnapshotPage(name: "game-page-running") { model in
             model.sidebar = .running; select(model, "Bloodstained")

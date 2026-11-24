@@ -51,6 +51,16 @@
         }
       }
     },
+    "AVX for Rosetta": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AVX pour Rosetta"
+          }
+        }
+      }
+    },
     "Accent color": {
       "localizations": {
         "fr": {
@@ -157,6 +167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apparence"
+          }
+        }
+      }
+    },
+    "Auto": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto"
           }
         }
       }
@@ -411,6 +431,26 @@
         }
       }
     },
+    "Draws the game at the full resolution of a Retina display. Demanding games run slower.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affiche le jeu à la pleine résolution d’un écran Retina. Les jeux exigeants ralentissent."
+          }
+        }
+      }
+    },
+    "Faster syncing between the game's threads. Most games run better with it on.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Synchronisation plus rapide entre les fils d’exécution du jeu. La plupart des jeux tournent mieux avec cette option."
+          }
+        }
+      }
+    },
     "File:": {
       "localizations": {
         "fr": {
@@ -491,6 +531,16 @@
         }
       }
     },
+    "Graphics": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Graphismes"
+          }
+        }
+      }
+    },
     "Hangar": {
       "localizations": {
         "fr": {
@@ -517,6 +567,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hangar cherche dans Steam, les bouteilles CrossOver et les dossiers Applications. Ajoutez un jeu vous-même, ou indiquez à Hangar où se trouve Steam."
+          }
+        }
+      }
+    },
+    "High Resolution Mode": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mode haute résolution"
+          }
+        }
+      }
+    },
+    "How the game's graphics reach Metal. Auto lets CrossOver choose.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La façon dont les graphismes du jeu passent à Metal. Auto laisse CrossOver choisir."
           }
         }
       }
@@ -577,6 +647,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dernière partie"
+          }
+        }
+      }
+    },
+    "Lets D3DMetal games upscale with MetalFX.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permet aux jeux D3DMetal d’augmenter la résolution avec MetalFX."
           }
         }
       }
@@ -661,6 +741,16 @@
         }
       }
     },
+    "MSync": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MSync"
+          }
+        }
+      }
+    },
     "Mac App": {
       "localizations": {
         "fr": {
@@ -677,6 +767,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apps Mac"
+          }
+        }
+      }
+    },
+    "MetalFX": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MetalFX"
           }
         }
       }
@@ -841,6 +941,26 @@
         }
       }
     },
+    "Overview": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu"
+          }
+        }
+      }
+    },
+    "Page": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Page"
+          }
+        }
+      }
+    },
     "Play": {
       "localizations": {
         "fr": {
@@ -887,6 +1007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quitter le jeu (⌘.)"
+          }
+        }
+      }
+    },
+    "Quit the games in this bottle to change its settings.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quittez les jeux de cette bouteille pour changer ses réglages."
           }
         }
       }
@@ -1047,6 +1177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sélectionnez un jeu pour voir ses détails"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
           }
         }
       }
@@ -1231,6 +1371,16 @@
         }
       }
     },
+    "Tells games that Rosetta can run AVX instructions. Some newer games need it.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indique aux jeux que Rosetta peut exécuter les instructions AVX. Certains jeux récents en ont besoin."
+          }
+        }
+      }
+    },
     "The game's files aren't at this location anymore.": {
       "localizations": {
         "fr": {
@@ -1257,6 +1407,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "La nouvelle langue s’applique après un redémarrage."
+          }
+        }
+      }
+    },
+    "These settings change the bottle %@, for every game in it.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ces réglages changent la bouteille %@, pour tous les jeux qu’elle contient."
           }
         }
       }

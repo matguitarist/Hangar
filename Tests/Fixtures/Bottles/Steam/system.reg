@@ -1,0 +1,8 @@
+WINE REGISTRY Version 2
+;; All keys relative to \\Machine
+
+#arch=win64
+
+[Software\\Wine] 1783681125
+#time=1dd105b13c8a2b4
+"Version"="win10"

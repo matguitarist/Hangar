@@ -1,0 +1,16 @@
+WINE REGISTRY Version 2
+;; All keys relative to REGISTRY\\User\\S-1-5-21-0-0-0-1000
+
+#arch=win64
+
+[Control Panel\\Desktop] 1783681125
+#time=1dd105b13c8a2b4
+"FontSmoothing"="2"
+
+[Software\\Wine\\Mac Driver] 1783681283
+#time=1dd105b7219d716
+"AllowSetGamma"=dword:00000000
+
+[Software\\Wine\\Systray] 1783681125
+#time=1dd105b13caa636
+"Hidden"=dword:00000001

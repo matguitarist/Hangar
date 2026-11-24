@@ -171,10 +171,16 @@ As the user, I change a bottle game's graphics backend (Auto, D3DMetal, DXMT, DX
 Screens: game-page-settings
 Depends: S-007
 Acceptance:
-- [unit] Each setting reads and writes the matching key in `cxbottle.conf` [EnvironmentVariables] and leaves the rest of the file byte for byte.
+- [unit] Each setting reads and writes the matching key in `cxbottle.conf` [EnvironmentVariables] and leaves the rest of the file byte for byte. (High Resolution Mode is Wine's `RetinaMode` in the bottle's `user.reg`, written the same way.)
 - [self] Changing a setting writes it, and the game page shows the new value after a reload.
-- [live] A copied bottle launched after the change uses the chosen backend (Metal HUD names it).
-Status: todo
+- [live] A copied bottle launched after the change uses the chosen backend (Metal HUD names it). Not run yet: needs a person at the Mac.
+UX:
+- Flow: select a game → game page › Settings → change Graphics or a switch → written to the bottle at once, the tab reads it back; a game in the bottle running: the section is dimmed with "Quit the games in this bottle to change its settings."
+- Surface: the game page's Settings tab in the inspector (details of the selection), a segmented "Overview | Settings" at its top
+- States: a Mac game: no bottle section; a bottle Hangar can't write: the error goes to the log and the value snaps back
+- Words: "Graphics" / « Graphismes » with Auto, D3DMetal, DXMT, DXVK, Wine; "MSync"; "High Resolution Mode" / « Mode haute résolution »; "MetalFX"; "AVX for Rosetta" / « AVX pour Rosetta »; section "Bottle Steam" with the footer "These settings change the bottle Steam, for every game in it."
+- Access: each switch has a tooltip that says what it does; labels and values read as pairs
+Status: done
 
 ### S-011 Give a game its own bottle
 As the user, when I change settings for a game whose bottle holds other games, Hangar warns me and offers to copy the bottle for this game alone.
