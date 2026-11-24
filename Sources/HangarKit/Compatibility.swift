@@ -137,11 +137,6 @@ public actor CompatibilityCache {
     /// Fetches a page's source, or nil when the wiki has no such page. Throws when offline.
     public typealias Fetch = @Sendable (String) async throws -> String?
 
-    struct Stored: Codable {
-        var fetched: Date
-        var compatibility: Compatibility?
-    }
-
     let folder: URL
     let fetch: Fetch
     let now: @Sendable () -> Date
@@ -175,23 +170,14 @@ public actor CompatibilityCache {
 
     /// The verdicts for a game, by its title. Nil when the wiki has no page for it, or offline with nothing cached.
     public func compatibility(for title: String) async -> Compatibility? {
-        let url = file(title)
-        let cached = (try? Data(contentsOf: url)).flatMap { try? Self.decoder.decode(Stored.self, from: $0) }
-        if let cached, now().timeIntervalSince(cached.fetched) < Self.maxAge { return cached.compatibility }
-        do {
+        await WebCacheFile<Compatibility>(url: file(title), maxAge: Self.maxAge).value(now: now()) {
             var page = AppleGamingWiki.pageName(title)
             var source = try await fetch(page)
             if let s = source, let target = AppleGamingWiki.redirect(s) {
                 page = target
                 source = try await fetch(page)
             }
-            let result = source.flatMap { Compatibility.parse($0, page: page) }
-            try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            try? Self.encoder.encode(Stored(fetched: now(), compatibility: result)).write(to: url, options: .atomic)
-            return result
-        } catch {
-            // Offline: the cache, however old.
-            return cached?.compatibility
+            return source.flatMap { Compatibility.parse($0, page: page) }
         }
     }
 

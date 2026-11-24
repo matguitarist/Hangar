@@ -245,11 +245,6 @@ public actor GameDataCache {
     /// A page's source and its real title, or nil when the wiki has no such page. Throws when offline.
     public typealias Fetch = @Sendable (String) async throws -> (title: String, text: String)?
 
-    struct Stored: Codable {
-        var fetched: Date
-        var data: GameData?
-    }
-
     let folder: URL
     let fetch: Fetch
     let now: @Sendable () -> Date
@@ -280,17 +275,9 @@ public actor GameDataCache {
 
     /// The save paths for a game, by its title. Nil when the wiki has no page, or offline with nothing cached.
     public func data(for title: String) async -> GameData? {
-        let url = file(title)
-        let cached = (try? Data(contentsOf: url)).flatMap { try? CompatibilityCache.decoder.decode(Stored.self, from: $0) }
-        if let cached, now().timeIntervalSince(cached.fetched) < Self.maxAge { return cached.data }
-        do {
+        await WebCacheFile<GameData>(url: file(title), maxAge: Self.maxAge).value(now: now()) {
             let page = AppleGamingWiki.pageName(title)
-            let result = try await fetch(page).map { GameData.parse($0.text, page: $0.title.isEmpty ? page : $0.title) }
-            try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            try? CompatibilityCache.encoder.encode(Stored(fetched: now(), data: result)).write(to: url, options: .atomic)
-            return result
-        } catch {
-            return cached?.data
+            return try await fetch(page).map { GameData.parse($0.text, page: $0.title.isEmpty ? page : $0.title) }
         }
     }
 }

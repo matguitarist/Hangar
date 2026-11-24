@@ -186,11 +186,6 @@ enum PlainText {
 public actor GameDetailsCache {
     public typealias Fetch = @Sendable (URLRequest) async throws -> Data
 
-    struct Stored: Codable {
-        var fetched: Date
-        var details: GameDetails?
-    }
-
     let folder: URL
     let fetch: Fetch
     let now: @Sendable () -> Date
@@ -250,16 +245,7 @@ public actor GameDetailsCache {
 
     private func cached(_ name: String, find: @Sendable () async throws -> GameDetails?) async -> GameDetails? {
         let url = folder.appending(path: name.map { $0 == "/" ? "_" : String($0) }.joined() + ".json")
-        let cached = (try? Data(contentsOf: url)).flatMap { try? CompatibilityCache.decoder.decode(Stored.self, from: $0) }
-        if let cached, now().timeIntervalSince(cached.fetched) < Self.maxAge { return cached.details }
-        do {
-            let result = try await find()
-            try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            try? CompatibilityCache.encoder.encode(Stored(fetched: now(), details: result)).write(to: url, options: .atomic)
-            return result
-        } catch {
-            return cached?.details
-        }
+        return await WebCacheFile<GameDetails>(url: url, maxAge: Self.maxAge).value(now: now(), fetch: find)
     }
 
     /// TheGamesDB's genre, developer and publisher names: three lists, fetched at most once a month,
