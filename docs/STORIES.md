@@ -393,11 +393,11 @@ Acceptance:
 - [self] A sample crash log shows its reason and the fix button.
 UX:
 - Flow: a Windows game quits within a minute → the game page shows "Hollow Knight quit: Missing Visual C++ 2022 runtime" with the fix ("Install it in CrossOver" or "Use DXVK") and "Show Log" → the Wine log opens in the Log viewer
-- Surface: the existing notice section at the top of the game page; the log opens on the Log page (LogKit's viewer)
+- Surface: the existing notice section at the top of the game page; the log opens in its own "Wine Log — Hollow Knight" window (LogKit's viewer), beside the game page
 - States: no known reason "Hangar didn't find why. The Wine log may tell." with "Show Log"; a fix that changes settings takes a snapshot first (S-017)
 - Words: "Show Log" / « Afficher le journal », reasons in plain words, no Wine jargon in the first line
 - Access: the reason is the label's text; buttons have hover help
-Status: todo
+Status: done
 
 
 ### S-031 Game details from the web

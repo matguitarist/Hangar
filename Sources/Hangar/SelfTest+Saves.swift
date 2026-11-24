@@ -63,5 +63,39 @@ extension SelfTest {
                 check("S-023 that backup holds the save that was replaced", kept == "level 5\n", kept ?? "missing")
             }
         }
+
+        // S-024: Moonlit Harbor, a program in the Classics bottle, with sample Wine logs.
+        if let moonlit = find("Moonlit Harbor"), let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] {
+            let logs = URL(fileURLWithPath: fixtures).appending(path: "WineLogs")
+            func crash(with log: String) {
+                try? FileManager.default.createDirectory(at: Store.wineLogsFolder, withIntermediateDirectories: true)
+                try? FileManager.default.removeItem(at: model.wineLogURL(moonlit.id))
+                try? FileManager.default.copyItem(at: logs.appending(path: log), to: model.wineLogURL(moonlit.id))
+                model.readCrash(moonlit.id)
+            }
+            crash(with: "missing-vcrun.log")
+            guard case let .crashed(reason) = model.notices[moonlit.id], let reason else {
+                return check("S-024 a sample crash log shows its reason", false, String(describing: model.notices[moonlit.id]))
+            }
+            check("S-024 a sample crash log shows its reason", reason.kind == .missingRuntime(.visualCpp), reason.title)
+            let fix = model.crashFix(moonlit, reason)
+            check("S-024 and the fix button", fix == .openCrossOver)
+            model.openedURLs = []
+            if let fix { model.apply(fix, to: moonlit.id) }
+            check("S-024 the fix opens CrossOver", model.openedURLs.last?.lastPathComponent == "CrossOver.app")
+            crash(with: "d3d11.log")
+            if case let .crashed(.some(d3d)) = model.notices[moonlit.id], let fix = model.crashFix(moonlit, d3d) {
+                check("S-024 a Direct3D 11 failure offers DXVK", fix == .useGraphics(.dxvk))
+                let before = model.snapshotList(moonlit.id).count
+                model.apply(fix, to: moonlit.id)
+                check("S-024 Use DXVK changes the bottle after a snapshot",
+                      model.bottleSettings(for: moonlit)?.graphics == .dxvk && model.snapshotList(moonlit.id).count == before + 1)
+            } else {
+                check("S-024 a Direct3D 11 failure offers DXVK", false, String(describing: model.notices[moonlit.id]))
+            }
+            crash(with: "clean.log")
+            check("S-024 a log with no known line says so", model.notices[moonlit.id] == .crashed(nil))
+            model.notices[moonlit.id] = nil
+        }
     }
 }

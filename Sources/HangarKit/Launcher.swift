@@ -14,6 +14,8 @@ public struct LaunchPlan: Sendable, Equatable {
     public var appArguments: [String] = []
     /// Where the command runs (a Wine program's own folder).
     public var workingDirectory: URL?
+    /// Where the command's output goes, for a Wine build's messages (S-024). Nil discards it.
+    public var outputFile: URL?
 }
 
 public enum LaunchError: Error, Sendable, Equatable {

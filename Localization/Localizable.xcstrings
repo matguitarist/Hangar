@@ -51,12 +51,32 @@
         }
       }
     },
+    "%@ quit": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ s’est fermé"
+          }
+        }
+      }
+    },
     "%@ quit right away": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ s’est fermé aussitôt"
+          }
+        }
+      }
+    },
+    "%@ quit: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ s’est fermé : %@"
           }
         }
       }
@@ -457,6 +477,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Annuler"
+          }
+        }
+      }
+    },
+    "Change the bottle's graphics; a snapshot is taken first": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changer les graphismes de la bouteille ; un instantané est pris d’abord"
           }
         }
       }
@@ -1051,6 +1081,16 @@
         }
       }
     },
+    "Hangar didn't find why. The Wine log may tell.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar n’a pas trouvé pourquoi. Le journal Wine le dira peut-être."
+          }
+        }
+      }
+    },
     "Hangar looks in Steam, CrossOver bottles and the Applications folders. Add a game yourself, or show Hangar where Steam is.": {
       "localizations": {
         "fr": {
@@ -1111,6 +1151,16 @@
         }
       }
     },
+    "In CrossOver, choose Install Software for the bottle and search for “%@”.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dans CrossOver, choisissez Installer un logiciel pour la bouteille et cherchez « %@ »."
+          }
+        }
+      }
+    },
     "Inbox": {
       "localizations": {
         "fr": {
@@ -1127,6 +1177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Installez une version de Wine ou Game Porting Toolkit pour lancer ce jeu hors de CrossOver."
+          }
+        }
+      }
+    },
+    "Install the runtime from CrossOver's Install Software": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installer le composant depuis Installer un logiciel de CrossOver"
           }
         }
       }
@@ -1401,6 +1461,66 @@
         }
       }
     },
+    "Missing %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ manquant"
+          }
+        }
+      }
+    },
+    "Missing .NET Framework": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".NET Framework manquant"
+          }
+        }
+      }
+    },
+    "Missing DirectX runtime": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Composants DirectX manquants"
+          }
+        }
+      }
+    },
+    "Missing PhysX": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PhysX manquant"
+          }
+        }
+      }
+    },
+    "Missing Visual C++ 2022 runtime": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Composants Visual C++ 2022 manquants"
+          }
+        }
+      }
+    },
+    "Missing XNA Framework": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XNA Framework manquant"
+          }
+        }
+      }
+    },
     "Name": {
       "localizations": {
         "fr": {
@@ -1477,6 +1597,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun instantané pour l’instant"
+          }
+        }
+      }
+    },
+    "No Wine Log Yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun journal Wine pour l’instant"
           }
         }
       }
@@ -1611,6 +1741,16 @@
         }
       }
     },
+    "Open CrossOver": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir CrossOver"
+          }
+        }
+      }
+    },
     "Open Steam": {
       "localizations": {
         "fr": {
@@ -1627,6 +1767,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir la page du magasin"
+          }
+        }
+      }
+    },
+    "Open the Wine log of the last launch": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le journal Wine du dernier lancement"
           }
         }
       }
@@ -1791,6 +1941,16 @@
         }
       }
     },
+    "Quit other apps, or lower the game's settings.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quittez d’autres apps, ou baissez les réglages du jeu."
+          }
+        }
+      }
+    },
     "Quit the game (⌘.)": {
       "localizations": {
         "fr": {
@@ -1877,6 +2037,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Registre : %1$@ › %2$@"
+          }
+        }
+      }
+    },
+    "Reinstall the game, or check its files in Steam.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinstallez le jeu, ou vérifiez ses fichiers dans Steam."
           }
         }
       }
@@ -2281,6 +2451,16 @@
         }
       }
     },
+    "Show Log": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher le journal"
+          }
+        }
+      }
+    },
     "Show Snapshots…": {
       "localizations": {
         "fr": {
@@ -2501,6 +2681,16 @@
         }
       }
     },
+    "Switch the bottle's graphics to %@. Hangar takes a snapshot first.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passez les graphismes de la bouteille à %@. Hangar prend d’abord un instantané."
+          }
+        }
+      }
+    },
     "System (%@)": {
       "localizations": {
         "fr": {
@@ -2527,6 +2717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Testée avec"
+          }
+        }
+      }
+    },
+    "The Mac ran out of memory": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Mac a manqué de mémoire"
           }
         }
       }
@@ -2631,6 +2831,36 @@
         }
       }
     },
+    "This game needs %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce jeu a besoin de %@"
+          }
+        }
+      }
+    },
+    "This game needs D3DMetal": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce jeu a besoin de D3DMetal"
+          }
+        }
+      }
+    },
+    "This game needs DXVK": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce jeu a besoin de DXVK"
+          }
+        }
+      }
+    },
     "Turn off %@": {
       "localizations": {
         "fr": {
@@ -2687,6 +2917,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les mises à jour sont désactivées dans cette version."
+          }
+        }
+      }
+    },
+    "Use %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser %@"
           }
         }
       }
@@ -2771,12 +3011,42 @@
         }
       }
     },
+    "Wine Log": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journal Wine"
+          }
+        }
+      }
+    },
+    "Wine Log — %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journal Wine — %@"
+          }
+        }
+      }
+    },
     "Wine and Game Porting Toolkit": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Wine et Game Porting Toolkit"
+          }
+        }
+      }
+    },
+    "Wine writes here each time a Windows game starts.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wine écrit ici chaque fois qu’un jeu Windows démarre."
           }
         }
       }

@@ -138,7 +138,9 @@ struct GamePage: View {
                 Button("Open Steam") { model.openSteam(bottle: bottle) }
             }
         }
-        if let notice = model.notices[game.id] {
+        if case let .crashed(reason) = model.notices[game.id] {
+            CrashSection(game: game, reason: reason)
+        } else if let notice = model.notices[game.id] {
             Section {
                 switch notice {
                 case let .didntStart(reason):
@@ -149,6 +151,8 @@ struct GamePage: View {
                     Label(String(localized: "Hangar couldn't copy the bottle. \(reason)"), systemImage: "exclamationmark.triangle")
                 case .askWorked:
                     Label(String(localized: "Did \(game.title) run well?"), systemImage: "questionmark.circle")
+                case .crashed:
+                    EmptyView()
                 }
                 if notice == .askWorked {
                     HStack(spacing: Space.sm) {

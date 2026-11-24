@@ -204,7 +204,18 @@ struct SnapshotPage {
                 model.showsBackups = id
             }
         },
+        SnapshotPage(name: "game-page-crash") { model in
+            model.scrollGamePageToEnd = false
+            model.sidebar = .allGames; select(model, "Moonlit Harbor")
+            if let id = model.selectedGameID, let fixtures = ProcessInfo.processInfo.environment["APP_FIXTURES"] {
+                try? FileManager.default.createDirectory(at: Store.wineLogsFolder, withIntermediateDirectories: true)
+                try? FileManager.default.removeItem(at: model.wineLogURL(id))
+                try? FileManager.default.copyItem(at: URL(fileURLWithPath: fixtures).appending(path: "WineLogs/missing-vcrun.log"), to: model.wineLogURL(id))
+                model.readCrash(id)
+            }
+        },
         SnapshotPage(name: "share-recipe") { model in
+            if let id = model.library.games.first(where: { $0.title == "Moonlit Harbor" })?.id { model.notices[id] = nil }
             model.scrollGamePageToEnd = false
             model.runnerUpdates = []
             model.showsGamePage = true

@@ -62,6 +62,8 @@ extension Game {
 enum GameNotice: Equatable {
     case didntStart(String)
     case quitRightAway
+    /// A Windows game quit within a minute: why, from its Wine log, when a known line says (S-024).
+    case crashed(CrashReason?)
     case didntCopy(String)
     /// After a game ran a while: did it work? (labels the snapshot taken at launch)
     case askWorked

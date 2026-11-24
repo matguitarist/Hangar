@@ -12,7 +12,7 @@ extension AppModel {
     func play(_ id: String) {
         guard let game = game(id), running[id] == nil else { return }
         notices[id] = nil
-        let plan: LaunchPlan
+        var plan: LaunchPlan
         do {
             plan = try LaunchPlanner.plan(for: game, roots: roots)
         } catch {
@@ -25,6 +25,13 @@ extension AppModel {
             notices[id] = .didntStart(reason)
             log.post(.error, "\(game.title) didn't start: \(reason)", source: "Launch")
             return
+        }
+        if game.isWindows {
+            // Wine's messages go to the game's own log, read if it quits within a minute (S-024).
+            let wineLog = wineLogURL(id)
+            try? FileManager.default.createDirectory(at: wineLog.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? FileManager.default.removeItem(at: wineLog)
+            plan = plan.loggingWine(to: wineLog)
         }
         if let snapshot = takeSnapshot(id, reason: .launch) { launchSnapshots[id] = snapshot }
         running[id] = LaunchState(launched: Date(), slowStart: game.isWindows || game.source == .steam)
@@ -62,8 +69,14 @@ extension AppModel {
             if let prefix = plan.environment["WINEPREFIX"] {
                 try? FileManager.default.createDirectory(atPath: prefix, withIntermediateDirectories: true)
             }
-            process.standardOutput = FileHandle.nullDevice
-            process.standardError = FileHandle.nullDevice
+            if let file = plan.outputFile, FileManager.default.createFile(atPath: file.path, contents: nil),
+               let handle = try? FileHandle(forWritingTo: file) {
+                process.standardOutput = handle
+                process.standardError = handle
+            } else {
+                process.standardOutput = FileHandle.nullDevice
+                process.standardError = FileHandle.nullDevice
+            }
             do { try process.run() } catch { launched(id, pid: nil, error: error.localizedDescription) }
         }
         startMonitor()
@@ -135,12 +148,17 @@ extension AppModel {
     }
 
     private func finish(_ id: String, played: TimeInterval, quitRightAway: Bool, at now: Date) {
+        let stoppedByUser = running[id]?.stoppedByUser == true
         running[id] = nil
         guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }
         library.games[index].playtime += played
         library.games[index].lastPlayed = now
         let title = library.games[index].title
-        if quitRightAway {
+        if library.games[index].isWindows, played < CrashReadout.window, !stoppedByUser {
+            // A Windows game that quit within a minute: its Wine log may say why (S-024).
+            log.post(.warning, "\(title) quit after \(Int(played)) seconds", source: "Launch")
+            readCrash(id)
+        } else if quitRightAway {
             notices[id] = .quitRightAway
             log.post(.warning, "\(title) quit after \(Int(played)) seconds", source: "Launch")
         } else {

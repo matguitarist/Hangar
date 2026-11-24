@@ -1,0 +1,7 @@
+Log started at Mon Nov 24 13:40:01 2026
+CrossOver 26.3.0 bottle Steam
+1712.004:0024:0028:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\kernel32.dll" at 00006FFFFFE60000: builtin
+1712.031:0024:0028:trace:module:load_dll looking for L"MSVCP140.dll" in L"C:\\Games\\Moonlit Harbor;C:\\windows\\system32"
+1712.032:0024:0028:err:module:import_dll Library MSVCP140.dll (which is needed by L"C:\\Games\\Moonlit Harbor\\MoonlitHarbor.exe") not found
+1712.032:0024:0028:err:module:import_dll Library steam_api64.dll (which is needed by L"C:\\Games\\Moonlit Harbor\\MoonlitHarbor.exe") not found
+1712.033:0024:0028:err:module:loader_init Importing dlls for L"C:\\Games\\Moonlit Harbor\\MoonlitHarbor.exe" failed, status c0000135

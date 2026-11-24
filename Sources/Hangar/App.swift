@@ -38,6 +38,13 @@ struct HangarApp: App {
             }
         }
 
+        WindowGroup("Wine Log", id: "wine-log", for: String.self) { $gameID in
+            WineLogWindow(gameID: gameID)
+                .environment(model)
+                .themed()
+        }
+        .defaultSize(width: 900, height: 560)
+
         Settings {
             SettingsView()
                 .environment(model)
@@ -151,6 +158,11 @@ enum Store {
         if isOverridden { return runFile(iCloud ? "icloud-save-backups" : "save-backups") }
         guard iCloud else { return folder.appending(path: "Save Backups") }
         return URL.libraryDirectory.appending(path: "Mobile Documents/com~apple~CloudDocs/Hangar/Save Backups")
+    }
+
+    /// Each Windows game's Wine log from its last launch: Wine Logs/ next to the library, or <store>-run/wine-logs.
+    static var wineLogsFolder: URL {
+        isOverridden ? runFile("wine-logs") : folder.appending(path: "Wine Logs")
     }
 
     /// Where scans look. A test run never reads this Mac's games: it scans the sample library

@@ -1,0 +1,2 @@
+1900.000:0040:0044:trace:loaddll:build_module Loaded L"C:\\windows\\system32\\kernel32.dll" at 00006FFFFFE60000: builtin
+1900.500:0040:0044:trace:process:NtTerminateProcess handle 0xffffffffffffffff, exit 0
