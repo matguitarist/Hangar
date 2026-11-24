@@ -8,6 +8,7 @@ import HangarKit
 //   APP_STORE=<file> Hangar         a test run: the library in <file>, its log next to it; never reads or launches real games
 //   APP_SNAPSHOT=<dir> Hangar       save a PNG of every sidebar page and Settings tab in light and dark mode, then quit
 //   APP_SEED=1 Hangar               with APP_STORE: sample data for snapshots (tools/snap.sh)
+//   APP_FIXTURES=<dir> Hangar       with APP_STORE: scan the sample library in Tests/Fixtures (copied to /tmp)
 //   Hangar --selftest               run the self-test in a test run and quit with 0 or 1 (tools/selftest.sh)
 //   APP_ACCENT=<id> Hangar          run with another accent from Theme.all (UI/Theme.swift)
 //   APP_GRID=1 Hangar               draw the 8 pt grid and the layout probes over the window
@@ -30,7 +31,7 @@ struct HangarApp: App {
         .commands {
             SidebarCommands()
             ToolbarCommands()
-            CommandGroup(replacing: .newItem) {}
+            HangarCommands(model: model, menu: MenuState.shared)
             CommandGroup(after: .appInfo) {
                 Button("Check for Updates…") { Updater.shared.checkForUpdates() }
                     .disabled(!Updater.shared.isAvailable)
@@ -92,4 +93,21 @@ enum Store {
     }
 
     static let log = LogStore(fileURL: logURL)
+
+    /// Cached Steam art and chosen covers: Covers/ next to the library, or <store>-covers in a test run.
+    static var coversFolder: URL {
+        isOverridden ? URL(fileURLWithPath: url.deletingPathExtension().path + "-covers") : folder.appending(path: "Covers")
+    }
+
+    /// Where scans look. A test run never reads this Mac's games: it scans the sample library
+    /// (APP_FIXTURES, copied to <store>-fixtures in /tmp) or nothing.
+    static func roots(steamFolder: String?) -> LibraryRoots {
+        guard isOverridden else { return .live(steamFolder: steamFolder) }
+        let copy = URL(fileURLWithPath: url.deletingPathExtension().path + "-fixtures")
+        if let source = ProcessInfo.processInfo.environment["APP_FIXTURES"], !source.isEmpty {
+            if FileManager.default.fileExists(atPath: copy.path) { return FixtureLibrary.roots(at: copy) }
+            if let roots = try? FixtureLibrary.install(from: URL(fileURLWithPath: source), to: copy) { return roots }
+        }
+        return FixtureLibrary.roots(at: copy.appending(path: "none"))
+    }
 }

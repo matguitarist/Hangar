@@ -7,7 +7,7 @@ import SwiftUI
 /// writes <page>-light.png and <page>-dark.png for every sidebar page, and
 /// settings-<tab>-light.png and settings-<tab>-dark.png for every Settings tab, then quits.
 /// Each PNG gets a <page>-<mode>-layout.json with the grid probes (tools/check-layout.swift).
-/// APP_SNAPSHOT_PAGES=overview,log limits the pages. Add "settings" to include Settings.
+/// APP_SNAPSHOT_PAGES=library,game-page limits the pages (names in SnapshotPage.all). Add "settings" to include Settings.
 /// Add APP_ACCENT=<id> to see the pages in another accent.
 /// Add APP_SNAPSHOT_MIN=1 to shrink the main window to its smallest size first.
 enum Snapshot {
@@ -38,10 +38,14 @@ enum Snapshot {
             }
             for mode in ["light", "dark"] {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
-                for page in SidebarItem.allCases where only?.contains(page.rawValue) ?? true {
-                    model.sidebar = page
-                    try? await Task.sleep(for: .seconds(0.8))
-                    capture(to: "\(dir)/\(page.rawValue)-\(mode).png")
+                for page in SnapshotPage.all where only?.contains(page.name) ?? true {
+                    page.show(model)
+                    try? await Task.sleep(for: .seconds(page.name == "add-game" ? 1.2 : 0.8))
+                    capture(to: "\(dir)/\(page.name)-\(mode).png")
+                    if model.addRequest != nil {
+                        model.addRequest = nil
+                        try? await Task.sleep(for: .seconds(0.5))
+                    }
                 }
             }
             if only == nil || only?.contains("settings") == true {
@@ -105,4 +109,53 @@ enum Snapshot {
             print("SNAPSHOT \(path) (fallback: no Screen Recording permission, sidebars and glass are blank)")
         }
     }
+}
+
+/// The pages snapshot mode shoots, with the state each one needs. Seed data (APP_SEED=1) fills them.
+struct SnapshotPage {
+    let name: String
+    let show: @MainActor (AppModel) -> Void
+
+    static func select(_ model: AppModel, _ title: String) {
+        model.selectedGameID = model.library.games.first { $0.title.hasPrefix(title) }?.id
+        model.showsGamePage = model.selectedGameID != nil
+    }
+
+    static let all: [SnapshotPage] = [
+        SnapshotPage(name: "library") { model in
+            model.searchText = ""; model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false
+        },
+        SnapshotPage(name: "game-page") { model in
+            model.sidebar = .allGames; select(model, "Starfall Arcade")
+        },
+        SnapshotPage(name: "game-page-windows") { model in
+            model.sidebar = .allGames; select(model, "Vernal Edge")
+        },
+        SnapshotPage(name: "game-page-running") { model in
+            model.sidebar = .running; select(model, "Bloodstained")
+        },
+        SnapshotPage(name: "steam") { model in
+            model.sidebar = .source(.steam); model.selectedGameID = nil; model.showsGamePage = false
+        },
+        SnapshotPage(name: "crossover") { model in
+            model.sidebar = .source(.crossOver); model.selectedGameID = nil; model.showsGamePage = false
+        },
+        SnapshotPage(name: "collection") { model in
+            if let first = model.library.collections.first { model.sidebar = .collection(first.id) }
+        },
+        SnapshotPage(name: "empty-collection") { model in
+            if let last = model.library.collections.last { model.sidebar = .collection(last.id) }
+        },
+        SnapshotPage(name: "no-match") { model in
+            model.sidebar = .allGames; model.searchText = "xyz"
+        },
+        SnapshotPage(name: "add-game") { model in
+            model.searchText = ""
+            let exe = model.roots.bottles.appending(path: "Classics/drive_c/Program Files/Moonlit Harbor/MoonlitHarbor.exe")
+            model.addRequest = AddRequest(file: exe)
+        },
+        SnapshotPage(name: "log") { model in
+            model.sidebar = .log
+        },
+    ]
 }

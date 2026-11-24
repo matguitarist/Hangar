@@ -20,7 +20,7 @@ UX:
 - States: empty "No Games Found" with "Add Game…" and "Choose Steam Folder…"; loading "Looking for games…" in the toolbar only past half a second; error inline "The library on Data isn't connected. Its games come back when the drive is." on the Steam source row; too much: thousands of games scroll smoothly, long titles truncate with the full title in a tooltip
 - Words: "All Games" / « Tous les jeux », "Refresh Library" / « Actualiser la bibliothèque », "Steam" source
 - Access: arrow keys move through the grid, Return launches (S-006), Space shows the game page; VoiceOver reads "Hollow Knight, Steam, played 3 hours"
-Status: todo
+Status: done
 
 ### S-002 Find Windows games in CrossOver bottles
 As the user, I see the Windows games installed in my CrossOver bottles, Steam games inside a bottle included, marked with the bottle they live in.
@@ -36,7 +36,7 @@ UX:
 - States: CrossOver not installed: the source isn't shown; empty bottle: "No games in this bottle" in its page; error inline "Hangar can't read the bottle Steam. Open it once in CrossOver, then refresh."
 - Words: "Bottle" (a CrossOver bottle) / « Bouteille », badge "Windows" / « Windows », tooltip "Runs in CrossOver, bottle Steam" / « S'exécute dans CrossOver, bouteille Steam »
 - Access: the badge is text, not color alone; VoiceOver adds "Windows game, bottle Steam"
-Status: todo
+Status: done
 
 ### S-003 Find Mac apps that are games
 As the user, I see the games in /Applications and ~/Applications: App Store and Arcade games and emulators.
@@ -51,7 +51,7 @@ UX:
 - States: none found: the source isn't shown; an app moved to the Trash disappears at the next scan
 - Words: "Mac Apps" / « Apps Mac »
 - Access: as S-001
-Status: todo
+Status: done
 
 ### S-004 Add a game by hand
 As the user, I drag an .app or a Windows .exe onto the window, or use File › Add Game…, and it joins the library; for an .exe I pick the bottle it runs in.
@@ -67,7 +67,7 @@ UX:
 - States: the drop target highlights while dragging; error inline in the sheet "This file isn't a Windows program." ; already in the library: the existing game is selected, no duplicate; removed games: Settings › Library › "Removed Games" with "Restore"
 - Words: "Add Game…" / « Ajouter un jeu… », sheet title "Add Windows Game" / « Ajouter un jeu Windows », "Bottle" picker, buttons "Add" / « Ajouter » and "Cancel" / « Annuler », context menu "Remove from Library" / « Retirer de la bibliothèque » (the game stays on disk), tooltip on + "Add a game (⌘N)" / « Ajouter un jeu (⌘N) »
 - Access: the picker is first in the sheet, Return adds, Escape cancels; drag and drop has a menu equivalent
-Status: todo
+Status: done
 
 ### S-005 Cover art
 As the user, I see each game's cover art: Steam's art for Steam games, the app icon for other Mac games, a generated cover otherwise; I can pick my own image.
@@ -82,7 +82,7 @@ UX:
 - States: loading: a generated cover (title on a color from the name), never a spinner per cover; offline: cache or generated cover; error: the generated cover stays, nothing to read
 - Words: "Choose Cover…" / « Choisir une couverture… », "Reset Cover" / « Rétablir la couverture »
 - Access: covers are decorative for VoiceOver; the title is always read
-Status: todo
+Status: done
 
 ### S-006 Launch a game and count playtime
 As the user, I double-click a game, or press Return, and it starts through its runner; Hangar shows it as running and adds the time to its playtime.
@@ -101,7 +101,7 @@ UX:
 - States: starting past half a second "Starting…"; error inline on the game page "Hollow Knight didn't start. CrossOver isn't installed." with "Show Details" (the log, later S-024); quits in under 10 seconds: "Hollow Knight quit right away" with "Show Details"
 - Words: "Play" / « Jouer », "Stop" / « Arrêter », dialog "Stop Hollow Knight?" with "Unsaved progress in the game will be lost." and "Stop" / "Cancel", "Running" / « En cours », "Played 3 h 20 min" / « Joué 3 h 20 min »
 - Access: Return and ⌘P launch; VoiceOver announces "Hollow Knight is running"
-Status: todo
+Status: done
 
 ### S-007 The game page
 As the user, I select a game and see its page: cover, source, runner, path, playtime, last played, and buttons to launch, show in Finder and open its store page.
@@ -115,7 +115,7 @@ UX:
 - States: no selection: "Select a game to see its details"; missing files: inline "The game's files aren't at this location anymore." with "Locate…" and "Remove from Library"; long paths truncate in the middle with the full path in a tooltip
 - Words: "Play" / « Jouer », "Show in Finder" / « Afficher dans le Finder », "Open Store Page" / « Ouvrir la page du magasin », labels "Source", "Runner" / « Lanceur », "Playtime" / « Temps de jeu », "Last played" / « Dernière partie »
 - Access: Tab moves through the buttons in order; labels and values read as pairs
-Status: todo
+Status: done
 
 ### S-008 Search, sort and collections
 As the user, I find a game by typing part of its name (words in any order, initials like "bg3"), sort by name, recently played or playtime, and put games in my own collections.
@@ -130,7 +130,7 @@ UX:
 - States: no match "No games match "xyz"" with "Clear Search"; empty collection "Drag games here to add them"; ⌘Z undoes add, remove and delete
 - Words: "Search Games" placeholder / « Rechercher des jeux », "Sort By" › "Name", "Recently Played", "Playtime" / « Trier par » › « Nom », « Joués récemment », « Temps de jeu », "New Collection" / « Nouvelle collection », "Add to Collection" / « Ajouter à la collection », "Delete Collection" / « Supprimer la collection » (games stay in the library)
 - Access: ⌘F focuses search; collections reachable with the keyboard in the sidebar; drag has a menu equivalent
-Status: todo
+Status: done
 
 
 ## M2 Tune Windows games (0.2.0)

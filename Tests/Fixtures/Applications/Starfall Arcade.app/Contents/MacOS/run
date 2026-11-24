@@ -1,0 +1,3 @@
+#!/bin/sh
+# A sample game for the self-test: runs until stopped, at most two minutes.
+sleep 120

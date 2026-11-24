@@ -1,6 +1,46 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ didn't start. %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ n’a pas démarré. %@"
+          }
+        }
+      }
+    },
+    "%@ is running": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ est en cours"
+          }
+        }
+      }
+    },
+    "%@ quit right away": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ s’est fermé aussitôt"
+          }
+        }
+      }
+    },
+    "%@, playing for %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, partie en cours depuis %@"
+          }
+        }
+      }
+    },
     "1 left": {
       "localizations": {
         "fr": {
@@ -21,12 +61,92 @@
         }
       }
     },
+    "Add": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter"
+          }
+        }
+      }
+    },
+    "Add Game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un jeu"
+          }
+        }
+      }
+    },
+    "Add Game…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un jeu…"
+          }
+        }
+      }
+    },
     "Add Task": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ajouter une tâche"
+          }
+        }
+      }
+    },
+    "Add Windows Game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un jeu Windows"
+          }
+        }
+      }
+    },
+    "Add a game (⌘N)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un jeu (⌘N)"
+          }
+        }
+      }
+    },
+    "Add to Collection": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter à la collection"
+          }
+        }
+      }
+    },
+    "Added by You": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutés par vous"
+          }
+        }
+      }
+    },
+    "All Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tous les jeux"
           }
         }
       }
@@ -47,6 +167,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mises à jour automatiques"
+          }
+        }
+      }
+    },
+    "Bottle %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouteille %@"
+          }
+        }
+      }
+    },
+    "Bottle:": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bouteille :"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         }
       }
@@ -81,12 +231,152 @@
         }
       }
     },
-    "Every game on this Mac in one library: Mac games, and Windows games that run through CrossOver and other runners. Hangar finds them, launches them, and keeps their settings and saves safe.": {
+    "Choose Cover": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tous les jeux de ce Mac dans une seule bibliothèque : les jeux Mac, et les jeux Windows qui s’exécutent dans CrossOver et d’autres lanceurs. Hangar les trouve, les lance, et garde leurs réglages et leurs sauvegardes en sécurité."
+            "value": "Choisir une couverture"
+          }
+        }
+      }
+    },
+    "Choose Cover…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir une couverture…"
+          }
+        }
+      }
+    },
+    "Choose Steam Folder": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir le dossier Steam"
+          }
+        }
+      }
+    },
+    "Choose Steam Folder…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir le dossier Steam…"
+          }
+        }
+      }
+    },
+    "Choose…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir…"
+          }
+        }
+      }
+    },
+    "Clear Search": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer la recherche"
+          }
+        }
+      }
+    },
+    "Collection Name": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom de la collection"
+          }
+        }
+      }
+    },
+    "Collections": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collections"
+          }
+        }
+      }
+    },
+    "Couch Co-op": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coop au salon"
+          }
+        }
+      }
+    },
+    "CrossOver has no bottles. Make one in CrossOver first.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CrossOver n’a aucune bouteille. Créez-en une dans CrossOver d’abord."
+          }
+        }
+      }
+    },
+    "CrossOver isn't installed.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CrossOver n’est pas installé."
+          }
+        }
+      }
+    },
+    "CrossOver, bottle %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CrossOver, bouteille %@"
+          }
+        }
+      }
+    },
+    "Delete Collection": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer la collection"
+          }
+        }
+      }
+    },
+    "Drag games here to add them": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glissez des jeux ici pour les ajouter"
+          }
+        }
+      }
+    },
+    "File:": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichier :"
           }
         }
       }
@@ -97,6 +387,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Concentration"
+          }
+        }
+      }
+    },
+    "Game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeu"
+          }
+        }
+      }
+    },
+    "Games you remove stay on disk. Restore one to see it in the library again.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les jeux retirés restent sur le disque. Rétablissez-en un pour le revoir dans la bibliothèque."
           }
         }
       }
@@ -121,12 +431,52 @@
         }
       }
     },
+    "Hangar can't read the bottle %@. Open it once in CrossOver, then refresh.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar ne peut pas lire la bouteille %@. Ouvrez-la une fois dans CrossOver, puis actualisez."
+          }
+        }
+      }
+    },
+    "Hangar looks in Steam, CrossOver bottles and the Applications folders. Add a game yourself, or show Hangar where Steam is.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar cherche dans Steam, les bouteilles CrossOver et les dossiers Applications. Ajoutez un jeu vous-même, ou indiquez à Hangar où se trouve Steam."
+          }
+        }
+      }
+    },
     "Inbox": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Boîte de réception"
+          }
+        }
+      }
+    },
+    "It has no bottle.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il n’a pas de bouteille."
+          }
+        }
+      }
+    },
+    "Its window never opened.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sa fenêtre ne s’est jamais ouverte."
           }
         }
       }
@@ -141,12 +491,72 @@
         }
       }
     },
+    "Last played": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière partie"
+          }
+        }
+      }
+    },
+    "Library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bibliothèque"
+          }
+        }
+      }
+    },
+    "Locate Game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retrouver le jeu"
+          }
+        }
+      }
+    },
+    "Locate…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retrouver…"
+          }
+        }
+      }
+    },
+    "Location": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emplacement"
+          }
+        }
+      }
+    },
     "Log": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Journal"
+          }
+        }
+      }
+    },
+    "Looking for games…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche de jeux…"
           }
         }
       }
@@ -171,6 +581,76 @@
         }
       }
     },
+    "Mac App": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Mac"
+          }
+        }
+      }
+    },
+    "Mac Apps": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps Mac"
+          }
+        }
+      }
+    },
+    "Metroidvanias": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metroidvanias"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom"
+          }
+        }
+      }
+    },
+    "Never": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jamais"
+          }
+        }
+      }
+    },
+    "New Collection": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouvelle collection"
+          }
+        }
+      }
+    },
+    "No Games Found": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu trouvé"
+          }
+        }
+      }
+    },
     "No Log Lines Yet": {
       "localizations": {
         "fr": {
@@ -181,12 +661,102 @@
         }
       }
     },
-    "Overview": {
+    "No game is running": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aperçu"
+            "value": "Aucun jeu en cours"
+          }
+        }
+      }
+    },
+    "No games in this bottle": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu dans cette bouteille"
+          }
+        }
+      }
+    },
+    "No games match “%@”": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu ne correspond à « %@ »"
+          }
+        }
+      }
+    },
+    "No removed games.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun jeu retiré."
+          }
+        }
+      }
+    },
+    "Not played yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore joué"
+          }
+        }
+      }
+    },
+    "Open Steam": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir Steam"
+          }
+        }
+      }
+    },
+    "Open Store Page": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir la page du magasin"
+          }
+        }
+      }
+    },
+    "Play": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouer"
+          }
+        }
+      }
+    },
+    "Playing for %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partie en cours depuis %@"
+          }
+        }
+      }
+    },
+    "Playtime": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temps de jeu"
           }
         }
       }
@@ -201,12 +771,292 @@
         }
       }
     },
+    "Quit the game (⌘.)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitter le jeu (⌘.)"
+          }
+        }
+      }
+    },
+    "Recently Played": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Joués récemment"
+          }
+        }
+      }
+    },
+    "Refresh Library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualiser la bibliothèque"
+          }
+        }
+      }
+    },
+    "Remove from Collection": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer de la collection"
+          }
+        }
+      }
+    },
+    "Remove from Library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer de la bibliothèque"
+          }
+        }
+      }
+    },
+    "Removed Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeux retirés"
+          }
+        }
+      }
+    },
+    "Rename": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renommer"
+          }
+        }
+      }
+    },
+    "Reset Cover": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétablir la couverture"
+          }
+        }
+      }
+    },
     "Restart Now": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Redémarrer maintenant"
+          }
+        }
+      }
+    },
+    "Restore": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétablir"
+          }
+        }
+      }
+    },
+    "Runner": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanceur"
+          }
+        }
+      }
+    },
+    "Running": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En cours"
+          }
+        }
+      }
+    },
+    "Runs in CrossOver, bottle %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’exécute dans CrossOver, bouteille %@"
+          }
+        }
+      }
+    },
+    "Search Games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher des jeux"
+          }
+        }
+      }
+    },
+    "Select a game to see its details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionnez un jeu pour voir ses détails"
+          }
+        }
+      }
+    },
+    "Show Details": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher les détails"
+          }
+        }
+      }
+    },
+    "Show in Finder": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher dans le Finder"
+          }
+        }
+      }
+    },
+    "Sign in to Steam in the bottle %@ to play this game.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez-vous à Steam dans la bouteille %@ pour jouer à ce jeu."
+          }
+        }
+      }
+    },
+    "Sort By": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trier par"
+          }
+        }
+      }
+    },
+    "Sort games": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trier les jeux"
+          }
+        }
+      }
+    },
+    "Source": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source"
+          }
+        }
+      }
+    },
+    "Sources": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sources"
+          }
+        }
+      }
+    },
+    "Start the game (⌘P)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancer le jeu (⌘P)"
+          }
+        }
+      }
+    },
+    "Starting…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démarrage…"
+          }
+        }
+      }
+    },
+    "Steam": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Steam"
+          }
+        }
+      }
+    },
+    "Steam Folder": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier Steam"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter"
+          }
+        }
+      }
+    },
+    "Stop %@?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter %@ ?"
+          }
+        }
+      }
+    },
+    "Stop…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter…"
           }
         }
       }
@@ -221,12 +1071,52 @@
         }
       }
     },
+    "The game's files aren't at this location anymore.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les fichiers du jeu ne sont plus à cet emplacement."
+          }
+        }
+      }
+    },
+    "The library on %@ isn't connected. Its games come back when the drive is.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La bibliothèque sur %@ n’est pas branchée. Ses jeux reviendront avec le disque."
+          }
+        }
+      }
+    },
     "The new language applies after a restart.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "La nouvelle langue s’applique après un redémarrage."
+          }
+        }
+      }
+    },
+    "This file isn't a Windows program.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce fichier n’est pas un programme Windows."
+          }
+        }
+      }
+    },
+    "Unsaved progress in the game will be lost.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La progression non sauvegardée dans le jeu sera perdue."
           }
         }
       }
@@ -267,6 +1157,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce que fait Hangar, comme trouver et lancer des jeux, est écrit ici."
+          }
+        }
+      }
+    },
+    "Windows": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Windows"
+          }
+        }
+      }
+    },
+    "Windows game, bottle %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeu Windows, bouteille %@"
+          }
+        }
+      }
+    },
+    "played %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "joué %@"
           }
         }
       }

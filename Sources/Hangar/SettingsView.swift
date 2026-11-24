@@ -24,6 +24,7 @@ struct SettingsView: View {
         Form {
             switch tab {
             case .general: GeneralSettings()
+            case .library: LibrarySettings()
             case .appearance: AppearanceSettings()
             case .updates: UpdateSettings()
             }
@@ -36,13 +37,14 @@ struct SettingsView: View {
 
 /// The Settings tabs. Snapshot mode walks through every case.
 enum SettingsTab: String, CaseIterable, Identifiable {
-    case general, appearance, updates
+    case general, library, appearance, updates
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
         case .general: String(localized: "General")
+        case .library: String(localized: "Library")
         case .appearance: String(localized: "Appearance")
         case .updates: String(localized: "Updates")
         }
@@ -51,6 +53,7 @@ enum SettingsTab: String, CaseIterable, Identifiable {
     var symbol: String {
         switch self {
         case .general: "gearshape"
+        case .library: "books.vertical"
         case .appearance: "paintpalette"
         case .updates: "arrow.triangle.2.circlepath"
         }
@@ -79,6 +82,41 @@ struct GeneralSettings: View {
                     Button("Restart Now") { AppLanguage.relaunch() }
                 }
             }
+        }
+    }
+}
+
+/// Settings > Library: where Steam is, and the games taken out of the library.
+struct LibrarySettings: View {
+    @Environment(AppModel.self) private var model
+
+    var body: some View {
+        Section("Steam") {
+            LabeledContent("Steam Folder") {
+                HStack {
+                    Text(model.roots.steam.path)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .help(model.roots.steam.path)
+                        .foregroundStyle(.secondary)
+                    Button("Choose…") { GamePanels.chooseSteamFolder(model) }
+                }
+            }
+        }
+        Section {
+            if model.library.removed.isEmpty {
+                Text("No removed games.").foregroundStyle(.secondary)
+            }
+            ForEach(model.library.removed) { game in
+                LabeledContent(game.title) {
+                    Button("Restore") { model.restore(game.id) }
+                }
+            }
+        } header: {
+            Text("Removed Games")
+        } footer: {
+            Text("Games you remove stay on disk. Restore one to see it in the library again.")
+                .foregroundStyle(.secondary)
         }
     }
 }

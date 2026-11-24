@@ -1,0 +1,18 @@
+"libraryfolders"
+{
+	"0"
+	{
+		"path"		"@ROOT@/Steam"
+		"label"		""
+		"apps"
+		{
+			"367520"		"5284750173"
+			"413150"		"711467377"
+		}
+	}
+	"1"
+	{
+		"path"		"/Volumes/HangarFixtureDrive/SteamLibrary"
+		"label"		""
+	}
+}

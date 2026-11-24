@@ -11,4 +11,8 @@ rm -rf ~/Library/Saved\ Application\ State/com.mathieuares.hangar.savedState
 # Seed data only fills an empty store, so start from nothing.
 rm -f $store ${store:r}.log
 rm -rf $shots
-APP_STORE=$store APP_SEED=1 APP_SNAPSHOT=$shots $app
+rm -rf ${store:r}-fixtures
+# APP_LANGUAGE=fr tools/snap.sh shoots the French pages.
+lang=()
+lang=(-AppleLanguages "(${APP_LANGUAGE:-en})")
+APP_STORE=$store APP_SEED=1 APP_FIXTURES=${0:A:h:h}/Tests/Fixtures APP_SNAPSHOT=$shots $app $lang
