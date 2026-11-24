@@ -147,6 +147,17 @@ extension SelfTest {
             check("S-018 the same versions aren't noticed twice", RunnerVersions.load(Store.runnerVersionsURL)[crossOver.path] == version)
             model.runnerUpdates = []
         }
+        // S-019: share Kynseed's setup.
+        if let kynseed = find("Kynseed") {
+            model.openedURLs = []
+            model.shareRecipe(kynseed.id)
+            let url = model.openedURLs.last
+            let body = url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false)?.queryItems?.first { $0.name == "body" }?.value } ?? ""
+            check("S-019 Share opens the issue page with the JSON in the body",
+                  url?.absoluteString.hasPrefix("https://github.com/matguitarist/Hangar/issues/new") == true
+                  && model.copiedText.map(body.contains) == true && body.contains("\"title\" : \"Kynseed\""), String(body.prefix(200)))
+            check("S-019 the shared recipe names no path on this Mac", !body.contains(NSHomeDirectory()) && !body.contains("/tmp/") && !body.contains("Bottles"))
+        }
         // S-016: apply the sample recipe to Moonlit Harbor (bottle Classics), then Undo.
         if let harbor = find("Moonlit Harbor"), let name = harbor.bottle {
             let bottle = model.bottleURL(name)

@@ -41,7 +41,7 @@ enum Snapshot {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
                 for page in SnapshotPage.all where only?.contains(page.name) ?? true {
                     page.show(model)
-                    try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview"].contains(page.name) ? 1.2 : 0.8))
+                    try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview", "share-recipe"].contains(page.name) ? 1.2 : 0.8))
                     capture(to: "\(dir)/\(page.name)-\(mode).png")
                     if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil {
                         model.addRequest = nil
@@ -173,7 +173,15 @@ struct SnapshotPage {
             }
             model.runnerUpdates = [RunnerUpdateNotice(update: RunnerUpdate(name: "CrossOver", path: "/Applications/CrossOver.app", old: "26.2", new: "26.3"), snapshots: snapshots)]
         },
+        SnapshotPage(name: "share-recipe") { model in
+            model.runnerUpdates = []
+            model.showsGamePage = true
+            model.sidebar = .allGames; select(model, "Kynseed")
+            model.gamePageTab = .settings
+            model.sharingRecipe = model.selectedGameID
+        },
         SnapshotPage(name: "game-page-recipe") { model in
+            model.sharingRecipe = nil
             model.runnerUpdates = []
             model.showsGamePage = true
             model.sidebar = .allGames; select(model, "Moonlit Harbor")

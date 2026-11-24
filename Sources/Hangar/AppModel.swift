@@ -107,6 +107,11 @@ final class AppModel {
     @ObservationIgnored lazy var recipes: RecipeManifest = loadRecipes()
     /// Runners that updated, with the games that last worked on the old version.
     var runnerUpdates: [RunnerUpdateNotice] = []
+    /// The game whose setup is about to be shared (the confirmation is open).
+    var sharingRecipe: String?
+    /// In a test run, links and copies are recorded here instead of opening the browser or touching the clipboard.
+    @ObservationIgnored var openedURLs: [URL] = []
+    @ObservationIgnored var copiedText: String?
     /// The game whose recipe preview is open.
     var previewingRecipe: String?
     /// The snapshot taken before a recipe was applied, by game id: Undo restores it.

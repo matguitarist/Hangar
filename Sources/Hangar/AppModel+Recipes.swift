@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 import HangarKit
 
 /// Recipes: the known-good setup for a game, previewed, applied after a snapshot, and undone.
@@ -52,6 +52,33 @@ extension AppModel {
             log.post(.error, "Can't apply the recipe \(recipe.id) to \(game.title): \(error.localizedDescription)", source: "Recipes")
         }
         settingsGeneration += 1
+    }
+
+    /// The game's setup as a recipe: settings only, never paths or the user name.
+    func sharedRecipe(_ id: String) -> Recipe? {
+        guard let game = game(id) else { return nil }
+        return RecipeShare.recipe(for: game, settings: bottleSettings(for: game), runner: runnerVersion(game))
+    }
+
+    /// Copies the recipe and opens a new issue on Hangar's GitHub with it. Nothing is sent until the person submits it.
+    func shareRecipe(_ id: String) {
+        sharingRecipe = nil
+        guard let recipe = sharedRecipe(id) else { return }
+        copy(RecipeShare.json(recipe))
+        open(RecipeShare.issueURL(recipe))
+        log.post(.info, "Opened a new recipe issue for \(recipe.title) on GitHub", source: "Recipes")
+    }
+
+    func copy(_ text: String) {
+        if Store.isOverridden { copiedText = text; return }
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(text, forType: .string)
+    }
+
+    /// Opens a web page, or in a test run only notes it.
+    func open(_ url: URL) {
+        if Store.isOverridden { openedURLs.append(url); return }
+        NSWorkspace.shared.open(url)
     }
 
     /// Puts back every file the recipe changed, and the game's options.

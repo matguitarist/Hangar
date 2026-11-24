@@ -315,7 +315,13 @@ Depends: S-016
 Acceptance:
 - [unit] The exported recipe holds only settings, never paths with my user name.
 - [self] Share opens the issue page with the JSON in the body.
-Status: todo
+UX:
+- Flow: game page › Settings › "Share This Setup…" → confirmation "Share the setup of Kynseed?" → "Copy and Open GitHub" copies the recipe JSON and opens a new issue on matguitarist/Hangar titled "Recipe: Kynseed" with the JSON in its body → the person checks it and submits it there, or closes the tab
+- Surface: a button at the end of the Settings tab; a confirmation dialog, since it opens the browser and the page goes public once submitted
+- States: a Mac game: no button (recipes are for bottles); a path or the user name in a variable or an argument: left out of the recipe
+- Words: "Share This Setup…" / « Partager cette configuration… », "Copy and Open GitHub" / « Copier et ouvrir GitHub »; footer "never your files or your user name"
+- Access: Return confirms, Escape cancels
+Status: done
 
 ### S-020 Links for each game
 As the user, I open a game's pages on AppleGamingWiki, PCGamingWiki, CodeWeavers, ProtonDB and its store from its page.

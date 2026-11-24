@@ -33,6 +33,14 @@ struct GameSettingsView: View {
             } footer: {
                 Text("Saved before every change and every launch.").foregroundStyle(.secondary)
             }
+            if game.runner == .crossOver, game.bottle != nil {
+                Section {
+                    Button("Share This Setup…") { model.sharingRecipe = game.id }
+                        .help(String(localized: "Send these settings as a recipe, so others can play this game too"))
+                } footer: {
+                    Text("Sends the settings as a recipe on Hangar's GitHub, never your files or your user name.").foregroundStyle(.secondary)
+                }
+            }
         }
         .formStyle(.grouped)
         .id(model.settingsGeneration)
@@ -42,6 +50,13 @@ struct GameSettingsView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Hangar copies the bottle \(game.bottle ?? "") and moves \(game.title) to the copy. The other games stay in the bottle \(game.bottle ?? "") as they are.")
+        }
+        .confirmationDialog(String(localized: "Share the setup of \(game.title)?"),
+                            isPresented: Binding(get: { model.sharingRecipe == game.id }, set: { if !$0 { model.sharingRecipe = nil } })) {
+            Button("Copy and Open GitHub") { model.shareRecipe(game.id) }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Hangar copies the recipe and opens a new issue on GitHub with it. Nothing is sent until you submit the issue there.")
         }
     }
 }

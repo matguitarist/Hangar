@@ -571,6 +571,16 @@
         }
       }
     },
+    "Copy and Open GitHub": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier et ouvrir GitHub"
+          }
+        }
+      }
+    },
     "Copy the bottle, so its settings change this game alone": {
       "localizations": {
         "fr": {
@@ -917,6 +927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hangar copie la bouteille %1$@ et déplace %2$@ dans la copie. Les autres jeux restent tels quels dans la bouteille %3$@."
+          }
+        }
+      }
+    },
+    "Hangar copies the recipe and opens a new issue on GitHub with it. Nothing is sent until you submit the issue there.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hangar copie la recette et ouvre un nouveau ticket sur GitHub avec celle-ci. Rien n’est envoyé tant que vous n’avez pas soumis le ticket."
           }
         }
       }
@@ -1891,6 +1911,26 @@
         }
       }
     },
+    "Send these settings as a recipe, so others can play this game too": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer ces réglages comme recette, pour que d’autres puissent aussi jouer à ce jeu"
+          }
+        }
+      }
+    },
+    "Sends the settings as a recipe on Hangar's GitHub, never your files or your user name.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoie les réglages comme recette sur le GitHub de Hangar, jamais vos fichiers ni votre nom d’utilisateur."
+          }
+        }
+      }
+    },
     "Set the variable %@ to %@": {
       "localizations": {
         "fr": {
@@ -1907,6 +1947,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réglages"
+          }
+        }
+      }
+    },
+    "Share This Setup…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager cette configuration…"
+          }
+        }
+      }
+    },
+    "Share the setup of %@?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager la configuration de %@ ?"
           }
         }
       }
