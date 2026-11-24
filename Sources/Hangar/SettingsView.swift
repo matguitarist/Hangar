@@ -139,6 +139,17 @@ struct LibrarySettings: View {
                 .foregroundStyle(.secondary)
         }
         Section {
+            LabeledContent("Library File") {
+                HStack {
+                    Button("Export Library…") { GamePanels.exportLibrary(model) }
+                    Button("Import Library…") { GamePanels.importLibrary(model) }
+                }
+            }
+        } footer: {
+            Text("Playtime, collections, the covers you chose and game settings, for another Mac or after a reinstall.")
+                .foregroundStyle(.secondary)
+        }
+        Section {
             if model.library.removed.isEmpty {
                 Text("No removed games.").foregroundStyle(.secondary)
             }

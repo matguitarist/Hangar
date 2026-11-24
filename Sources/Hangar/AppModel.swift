@@ -160,6 +160,9 @@ final class AppModel {
     var storageItems: [StorageItem]?
     /// What needs the person (S-042), for the Health page and its sidebar badge.
     var healthIssues: [HealthIssue] = []
+    /// After an import (S-046): its message, and the library before it for Undo.
+    var importMessage: String?
+    var lastImportUndo: LibraryFile?
     var checkingHealth = false
     var measuringStorage = false
     /// Game controllers (S-029).

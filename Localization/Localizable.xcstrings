@@ -4940,6 +4940,106 @@
           }
         }
       }
+    },
+    "Export Library…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporter la bibliothèque…"
+          }
+        }
+      }
+    },
+    "Import Library…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer une bibliothèque…"
+          }
+        }
+      }
+    },
+    "Imported %lld games and %lld collections.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld jeux et %2$lld collections importés."
+          }
+        }
+      }
+    },
+    "%@ isn't a Hangar library.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ n’est pas une bibliothèque Hangar."
+          }
+        }
+      }
+    },
+    "Import Library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer une bibliothèque"
+          }
+        }
+      }
+    },
+    "Export Library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporter la bibliothèque"
+          }
+        }
+      }
+    },
+    "Hangar Library": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bibliothèque Hangar"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
+          }
+        }
+      }
+    },
+    "Library File": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichier de bibliothèque"
+          }
+        }
+      }
+    },
+    "Playtime, collections, the covers you chose and game settings, for another Mac or after a reinstall.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temps de jeu, collections, pochettes choisies et réglages des jeux, pour un autre Mac ou après une réinstallation."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

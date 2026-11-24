@@ -12,6 +12,29 @@ extension SelfTest {
         await driftChecks(model)
         await healthChecks(model)
         filterChecks(model)
+        exportChecks(model)
+    }
+
+    /// S-046: export, then import into an empty library, gives back the collections and playtime.
+    static func exportChecks(_ model: AppModel) {
+        let original = model.library
+        let file = URL(fileURLWithPath: NSTemporaryDirectory()).appending(path: "Hangar-selftest-\(UUID().uuidString).hangarlibrary")
+        model.exportLibrary(to: file)
+        check("S-046 Export writes the file", FileManager.default.fileExists(atPath: file.path))
+        model.library = LibraryFile()
+        let summary = model.importLibrary(from: file)
+        let played = original.games.filter { $0.playtime > 0 }
+        check("S-046 import into an empty library gives back the collections",
+              Set(model.library.collections.map(\.name)) == Set(original.collections.map(\.name)) && summary?.collections == original.collections.count,
+              model.library.collections.map(\.name).joined(separator: ", "))
+        // An empty library has no games yet: they wait in Removed Games until a scan finds them.
+        check("S-046 import gives back the playtime",
+              !played.isEmpty && played.allSatisfy { game in (model.library.games + model.library.removed).first { $0.id == game.id }?.playtime == game.playtime })
+        check("S-046 the import says what it did", model.importMessage?.contains("\(original.games.count + original.removed.count)") == true, model.importMessage ?? "none")
+        model.undoImport()
+        check("S-046 Undo puts the library back", model.library.games.isEmpty && model.importMessage == nil)
+        model.library = original
+        try? FileManager.default.removeItem(at: file)
     }
 
     /// S-044: the S-006 launch of Starfall Arcade added a session as long as its playtime.

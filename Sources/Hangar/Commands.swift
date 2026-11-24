@@ -36,6 +36,9 @@ struct HangarCommands: Commands {
                 .keyboardShortcut("n")
             Button("New Collection") { model.newCollection() }
                 .keyboardShortcut("n", modifiers: [.command, .shift])
+            Divider()
+            Button("Export Library…") { GamePanels.exportLibrary(model) }
+            Button("Import Library…") { GamePanels.importLibrary(model) }
         }
         // Game › Play takes Command-P: Hangar has nothing to print.
         CommandGroup(replacing: .printItem) {}

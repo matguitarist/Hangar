@@ -724,7 +724,7 @@ UX:
 - Surface: File menu; Settings › Library has both buttons too
 - Words: "Export Library…" / « Exporter la bibliothèque… », "Import Library…" / « Importer une bibliothèque… », "Imported \(n) games and \(c) collections." / « \(n) jeux et \(c) collections importés. »
 - Access: menu commands, standard panels
-Status: todo
+Status: done
 
 ## Later
 

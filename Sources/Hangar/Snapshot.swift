@@ -397,7 +397,13 @@ struct SnapshotPage {
                 }
             }
         },
+        SnapshotPage(name: "library-import") { model in
+            model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false
+            model.lastImportUndo = model.library
+            model.importMessage = String(localized: "Imported \(model.library.games.count) games and \(model.library.collections.count) collections.")
+        },
         SnapshotPage(name: "library-filter") { model in
+            model.importMessage = nil; model.lastImportUndo = nil
             model.scrollGamePageToEnd = false
             model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false; model.runnerUpdates = []
             model.filter = .neverPlayed
