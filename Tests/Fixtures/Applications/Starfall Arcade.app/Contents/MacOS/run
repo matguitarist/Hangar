@@ -1,3 +1,6 @@
 #!/bin/sh
 # A sample game for the self-test: runs until stopped, at most two minutes.
+# It writes its environment and arguments next to itself, so the self-test can see what a launch passed on.
+env > "${0%/*}/launched-env.txt"
+printf '%s\n' "$@" > "${0%/*}/launched-args.txt"
 sleep 120

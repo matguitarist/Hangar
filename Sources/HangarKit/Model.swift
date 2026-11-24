@@ -92,7 +92,26 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
 
 /// A game's own settings, kept across scans. Every field has a default, so older libraries open.
 public struct GameOptions: Codable, Sendable, Hashable {
-    public init() {}
+    /// Metal's performance HUD over the game (MTL_HUD_ENABLED=1).
+    public var metalHUD = false
+
+    public init(metalHUD: Bool = false) {
+        self.metalHUD = metalHUD
+    }
+
+    enum CodingKeys: String, CodingKey { case metalHUD }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        metalHUD = try c.decodeIfPresent(Bool.self, forKey: .metalHUD) ?? false
+    }
+
+    /// The environment variables a launch adds.
+    public var environment: [String: String] {
+        var env: [String: String] = [:]
+        if metalHUD { env["MTL_HUD_ENABLED"] = "1" }
+        return env
+    }
 }
 
 /// A list of games the person makes.

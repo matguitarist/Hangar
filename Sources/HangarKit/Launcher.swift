@@ -8,6 +8,8 @@ public struct LaunchPlan: Sendable, Equatable {
     public var arguments: [String]
     /// Words found in the game's process path or arguments.
     public var processHints: [String]
+    /// Variables added to the launch's environment (the game's options).
+    public var environment: [String: String] = [:]
 }
 
 public enum LaunchError: Error, Sendable, Equatable {
@@ -22,10 +24,20 @@ public enum LaunchPlanner {
     static let open = URL(fileURLWithPath: "/usr/bin/open")
 
     public static func plan(for game: Game, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
+        var plan = try basePlan(for: game, roots: roots)
+        plan.environment = game.options.environment
+        return plan
+    }
+
+    static func basePlan(for game: Game, roots: LibraryRoots) throws(LaunchError) -> LaunchPlan {
         switch game.runner {
         case .native:
             // A Steam game on the Mac starts through Steam, so Steam's overlay and cloud saves work.
             if game.source == .steam, let id = game.steamID {
+                // Steam can't pass an environment on; with one, Hangar opens the game's app itself.
+                if !game.options.environment.isEmpty, let app = macApp(in: URL(fileURLWithPath: game.path)) {
+                    return LaunchPlan(executable: open, arguments: [app.path], processHints: game.processHints)
+                }
                 return LaunchPlan(executable: open, arguments: ["steam://rungameid/\(id)"], processHints: game.processHints)
             }
             guard FileManager.default.fileExists(atPath: game.path) else { throw .filesMissing }
@@ -48,6 +60,12 @@ public enum LaunchPlanner {
         case .wine, .gamePortingToolkit, .macRunner:
             throw .runnerMissing
         }
+    }
+
+    /// The game's .app in a Steam game's folder (Hollow Knight/hollow_knight.app).
+    public static func macApp(in folder: URL) -> URL? {
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path)) ?? []
+        return names.sorted().first { $0.hasSuffix(".app") }.map { folder.appending(path: $0) }
     }
 
     /// Opens the bottle's Steam, to sign in.

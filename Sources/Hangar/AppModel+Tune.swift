@@ -69,6 +69,12 @@ extension AppModel {
         settingsGeneration += 1
     }
 
+    /// Changes a game's own options (Settings tab): kept in the library, used at the next launch.
+    func setOptions(_ id: String, _ change: (inout GameOptions) -> Void) {
+        guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }
+        change(&library.games[index].options)
+    }
+
     /// Writes a bottle's settings, for a game's Settings tab.
     func changeBottleSettings(_ id: String, to settings: BottleSettings) {
         guard let game = game(id), let bottle = game.bottle, !bottleIsBusy(bottle) else { return }

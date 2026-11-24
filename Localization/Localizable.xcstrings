@@ -861,6 +861,16 @@
         }
       }
     },
+    "Metal Performance HUD": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD de performances Metal"
+          }
+        }
+      }
+    },
     "MetalFX": {
       "localizations": {
         "fr": {
@@ -1301,12 +1311,42 @@
         }
       }
     },
+    "Show frame rate, GPU time and memory over the game": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher la fréquence d’images, le temps GPU et la mémoire par-dessus le jeu"
+          }
+        }
+      }
+    },
     "Show in Finder": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Afficher dans le Finder"
+          }
+        }
+      }
+    },
+    "Shows the next time the game starts.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’affiche au prochain lancement du jeu."
+          }
+        }
+      }
+    },
+    "Shows the next time the game starts. Steam can't pass the HUD on, so Hangar opens the game itself, without Steam's overlay.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’affiche au prochain lancement du jeu. Steam ne peut pas transmettre le HUD : Hangar ouvre donc le jeu lui-même, sans l’overlay de Steam."
           }
         }
       }

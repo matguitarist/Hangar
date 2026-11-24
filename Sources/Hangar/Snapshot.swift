@@ -136,6 +136,9 @@ struct SnapshotPage {
         SnapshotPage(name: "game-page-settings") { model in
             model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
         },
+        SnapshotPage(name: "game-page-settings-mac") { model in
+            model.sidebar = .allGames; select(model, "Hollow Knight"); model.gamePageTab = .settings
+        },
         SnapshotPage(name: "game-page-settings-shared") { model in
             // A bottle with other games in it, none of them running.
             model.running = [:]

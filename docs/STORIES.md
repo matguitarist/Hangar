@@ -203,8 +203,14 @@ Screens: game-page-settings
 Depends: S-006
 Acceptance:
 - [unit] Launch adds `MTL_HUD_ENABLED=1` to the game's environment when it's on.
-- [manual] The HUD shows in a native Metal game and in a D3DMetal game.
-Status: todo
+- [manual] The HUD shows in a native Metal game and in a D3DMetal game. Not run yet: needs a person at the Mac.
+UX:
+- Flow: game page › Settings → "Metal Performance HUD" on → the next Play adds MTL_HUD_ENABLED=1 → the HUD shows in the game's top corner; off again the same way
+- Surface: a switch on the Settings tab (changes one value on screen), kept with the game in the library
+- States: a Steam game on the Mac: the footer says Hangar opens the game itself, since Steam can't pass the HUD on
+- Words: "Metal Performance HUD" / « HUD de performances Metal », tooltip "Show frame rate, GPU time and memory over the game", footer "Shows the next time the game starts."
+- Access: a standard switch with its label
+Status: done
 
 ### S-013 Launch options
 As the user, I set a game's exe, launch arguments and extra environment variables.

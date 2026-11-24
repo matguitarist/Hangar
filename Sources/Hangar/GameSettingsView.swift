@@ -11,6 +11,13 @@ struct GameSettingsView: View {
             if let settings = model.bottleSettings(for: game), let bottle = game.bottle {
                 BottleSettingsSection(game: game, bottle: bottle, settings: settings)
             }
+            Section {
+                Toggle("Metal Performance HUD", isOn: Binding(get: { game.options.metalHUD },
+                                                               set: { on in model.setOptions(game.id) { $0.metalHUD = on } }))
+                    .help(String(localized: "Show frame rate, GPU time and memory over the game"))
+            } footer: {
+                Text(hudFooter).foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
         .id(model.settingsGeneration)
@@ -21,6 +28,15 @@ struct GameSettingsView: View {
         } message: {
             Text("Hangar copies the bottle \(game.bottle ?? "") and moves \(game.title) to the copy. The other games stay in the bottle \(game.bottle ?? "") as they are.")
         }
+    }
+}
+
+extension GameSettingsView {
+    var hudFooter: String {
+        if game.source == .steam, game.runner == .native {
+            return String(localized: "Shows the next time the game starts. Steam can't pass the HUD on, so Hangar opens the game itself, without Steam's overlay.")
+        }
+        return String(localized: "Shows the next time the game starts.")
     }
 }
 

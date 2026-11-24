@@ -4,6 +4,28 @@ import SwiftUI
 
 /// M2 (Tune Windows games) and M3 (Recipes) checks, on the sample library.
 extension SelfTest {
+    /// Plays the sample game Starfall Arcade until it runs, then stops it. Returns the environment and
+    /// arguments its script wrote next to itself (macOS doesn't show another process's environment).
+    static func launched(_ model: AppModel, _ id: String) async -> (environment: [String: String], arguments: [String]) {
+        guard let game = model.game(id) else { return ([:], []) }
+        let folder = URL(fileURLWithPath: game.path).appending(path: "Contents/MacOS")
+        let envFile = folder.appending(path: "launched-env.txt"), argsFile = folder.appending(path: "launched-args.txt")
+        try? FileManager.default.removeItem(at: envFile)
+        try? FileManager.default.removeItem(at: argsFile)
+        model.play(id)
+        for _ in 0..<40 where model.running[id]?.phase != .running || !FileManager.default.fileExists(atPath: argsFile.path) {
+            try? await Task.sleep(for: .milliseconds(250))
+        }
+        model.stop(id)
+        for _ in 0..<40 where model.running[id] != nil { try? await Task.sleep(for: .milliseconds(250)) }
+        var env: [String: String] = [:]
+        for line in ((try? String(contentsOf: envFile, encoding: .utf8)) ?? "").split(separator: "\n") {
+            if let eq = line.firstIndex(of: "=") { env[String(line[..<eq])] = String(line[line.index(after: eq)...]) }
+        }
+        let args = ((try? String(contentsOf: argsFile, encoding: .utf8)) ?? "").split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
+        return (env, args.last == "" ? Array(args.dropLast()) : args)
+    }
+
     static func tuneChecks(_ model: AppModel) async {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }
         func find(_ title: String) -> Game? { model.library.games.first { $0.title == title } }
@@ -26,6 +48,16 @@ extension SelfTest {
             check("S-010 cxbottle.conf holds the new backend", conf.contains("\"CX_GRAPHICS_BACKEND\" = \"dxmt\""))
         } else {
             check("S-010 Vernal Edge has bottle settings", false)
+        }
+
+        // S-012: the sample game Starfall Arcade, started with the HUD on.
+        if let id = find("Starfall Arcade")?.id {
+            model.setOptions(id) { $0.metalHUD = true }
+            let env = await launched(model, id).environment
+            check("S-012 the HUD setting is kept", model.game(id)?.options.metalHUD == true)
+            check("S-012 a launch with the HUD on sets MTL_HUD_ENABLED=1 in the game's process", env["MTL_HUD_ENABLED"] == "1",
+                  env["MTL_HUD_ENABLED"] ?? "missing among \(env.count): \(env.keys.sorted().prefix(8).joined(separator: ","))")
+            model.setOptions(id) { $0.metalHUD = false }
         }
 
         // S-011

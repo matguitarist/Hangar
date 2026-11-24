@@ -28,11 +28,15 @@ extension AppModel {
         }
         running[id] = LaunchState(launched: Date(), slowStart: game.isWindows || game.source == .steam)
         log.post(.info, "Starting \(game.title): \(plan.executable.lastPathComponent) \(plan.arguments.joined(separator: " "))", source: "Launch")
-        if plan.executable.path == "/usr/bin/open", game.path.hasSuffix(".app"), plan.arguments == [game.path] {
+        if !plan.environment.isEmpty {
+            log.post(.info, "With \(plan.environment.keys.sorted().joined(separator: ", "))", source: "Launch")
+        }
+        if plan.executable.path == "/usr/bin/open", plan.arguments.count == 1, let app = plan.arguments.first, app.hasSuffix(".app") {
             // A Mac app: open it through Launch Services, which gives its process id at once.
             let configuration = NSWorkspace.OpenConfiguration()
             configuration.createsNewApplicationInstance = false
-            NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: game.path), configuration: configuration) { app, error in
+            configuration.environment = plan.environment
+            NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: app), configuration: configuration) { app, error in
                 let pid = app?.processIdentifier
                 let message = error?.localizedDescription
                 Task { @MainActor in self.launched(id, pid: pid, error: message) }
@@ -41,6 +45,7 @@ extension AppModel {
             let process = Process()
             process.executableURL = plan.executable
             process.arguments = plan.arguments
+            process.environment = ProcessInfo.processInfo.environment.merging(plan.environment) { $1 }
             process.standardOutput = FileHandle.nullDevice
             process.standardError = FileHandle.nullDevice
             do { try process.run() } catch { launched(id, pid: nil, error: error.localizedDescription) }

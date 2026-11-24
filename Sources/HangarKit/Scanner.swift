@@ -69,6 +69,12 @@ public struct ScanResult: Sendable {
 }
 
 public enum LibraryScanner {
+    /// The games of a scan, on the caller's thread (tests).
+    public static func scanNow(_ roots: LibraryRoots) -> [Game] {
+        SteamScanner.scan(steamRoot: roots.steam).games + CrossOverScanner.scan(bottles: roots.bottles).games
+            + MacAppScanner.scan(folders: roots.appFolders, excluding: roots.ownBundleID)
+    }
+
     /// Scans every source. Runs off the main actor: it reads many small files.
     @concurrent
     public static func scan(_ roots: LibraryRoots) async -> ScanResult {
