@@ -653,7 +653,7 @@ UX:
 - Surface: inside the runner update banner on All Games
 - Words: "CrossOver changed the settings of the bottle \(bottle):" / « CrossOver a modifié les réglages de la bouteille \(bottle) : », "Put Back My Settings" / « Rétablir mes réglages »
 - Access: each change is text
-Status: todo
+Status: done
 
 ### S-042 Library health
 As the user, I see in one place what needs me: games whose files moved, bottles Hangar can't read, Steam signed out in a bottle, recipes older than the runner, and games without a save backup.

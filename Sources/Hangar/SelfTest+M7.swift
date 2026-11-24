@@ -7,6 +7,36 @@ extension SelfTest {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }
         await frameCapChecks(model)
         await storageChecks(model)
+        await driftChecks(model)
+    }
+
+    /// S-040: an update that changed a bottle shows in the banner, and Put Back restores it after a snapshot.
+    static func driftChecks(_ model: AppModel) async {
+        guard let game = model.library.games.first(where: { $0.title == "Moonlit Harbor" }),
+              let crossOver = model.runners.first(where: { $0.kind == .crossOver }), let version = crossOver.version,
+              let bottle = game.bottle else { return check("S-040 the sample bottle game is there", false) }
+        model.running = [:]
+        let mine = BottleSettings(graphics: .d3dMetal, msync: true)
+        model.changeBottleSettings(game.id, to: mine)
+        _ = model.takeSnapshot(game.id, reason: .launch)
+        // CrossOver updates and resets the bottle.
+        _ = try? BottleSettings(graphics: .auto, msync: false).write(bottle: model.bottleURL(bottle))
+        try? JSONEncoder().encode([crossOver.path: "26.1"]).write(to: Store.runnerVersionsURL)
+        model.checkRunnerUpdates()
+        let notice = model.runnerUpdates.first { $0.update.path == crossOver.path }
+        let drift = notice?.drifts.first { $0.bottle == bottle }
+        check("S-040 a bottle changed under Hangar shows in the update banner",
+              drift.map { $0.was.graphics == .d3dMetal && $0.now.graphics == .auto && $0.changes.count == 2 } == true, String(describing: drift?.changes) + " \(version)")
+        if let drift, let notice {
+            let before = model.snapshotList(game.id).count
+            model.putBack(drift, in: notice.id)
+            check("S-040 Put Back restores the snapshot's settings", model.bottleSettings(for: game) == mine, String(describing: model.bottleSettings(for: game)))
+            check("S-040 Put Back takes a snapshot first", model.snapshotList(game.id).count == before + 1 && model.snapshotList(game.id).first?.reason == .settings)
+            model.undoPutBack(drift, in: notice.id)
+            check("S-040 Undo puts the update's settings back", model.bottleSettings(for: game)?.graphics == .auto)
+            model.changeBottleSettings(game.id, to: mine)
+        }
+        model.runnerUpdates = []
     }
 
     /// S-039: sizes add up, and old snapshots go while the newest and the labeled ones stay.

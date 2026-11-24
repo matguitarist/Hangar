@@ -39,7 +39,7 @@ struct FrameCapPicker: View {
 
     static func label(_ cap: Int?) -> String {
         switch cap {
-        case nil: String(localized: "Off")
+        case nil: String(localized: "No Limit")
         case 0: String(localized: "Display (\(NSScreen.main?.maximumFramesPerSecond ?? 60) Hz)")
         case let .some(fps): String(localized: "\(fps) fps")
         }

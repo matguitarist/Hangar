@@ -220,13 +220,24 @@ struct SnapshotPage {
         },
         SnapshotPage(name: "library-runner-update") { model in
             model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false
+            model.running = [:]
             let ids = ["Vernal Edge", "Kynseed"].compactMap { title in model.library.games.first { $0.title == title }?.id }
             let snapshots: [SettingsSnapshot] = ids.compactMap { id in
-                guard let game = model.game(id), let s = try? model.snapshots.take(game, bottle: nil, reason: .launch, runner: "CrossOver 26.2") else { return nil }
+                guard let game = model.game(id),
+                      let s = try? model.snapshots.take(game, bottle: game.bottle.map(model.bottleURL), reason: .launch, runner: "CrossOver 26.2") else { return nil }
                 try? model.snapshots.markWorked(s, on: Date().addingTimeInterval(-9 * 86400))
                 return model.snapshots.list(id).first { $0.id == s.id }
             }
-            model.runnerUpdates = [RunnerUpdateNotice(update: RunnerUpdate(name: "CrossOver", path: "/Applications/CrossOver.app", old: "26.2", new: "26.3"), snapshots: snapshots)]
+            var drifts: [BottleDrift] = []
+            if let snapshot = snapshots.first(where: { model.snapshots.bottleSettings(in: $0) != nil }), let bottle = snapshot.bottle {
+                let was = model.snapshots.bottleSettings(in: snapshot) ?? BottleSettings()
+                var now = was
+                now.graphics = was.graphics == .auto ? .d3dMetal : .auto
+                now.msync.toggle()
+                drifts = [BottleDrift(bottle: bottle, snapshot: snapshot, was: was, now: now)]
+            }
+            model.runnerUpdates = [RunnerUpdateNotice(update: RunnerUpdate(name: "CrossOver", path: "/Applications/CrossOver.app", old: "26.2", new: "26.3"),
+                                                      snapshots: snapshots, drifts: drifts)]
         },
         SnapshotPage(name: "game-page-links") { model in
             model.runnerUpdates = []

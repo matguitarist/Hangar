@@ -4236,7 +4236,7 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aucune"
+            "value": "Désactivé"
           }
         }
       }
@@ -4487,6 +4487,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "Type"
+          }
+        }
+      }
+    },
+    "Your settings for the bottle %@ are back.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos réglages de la bouteille %@ sont rétablis."
+          }
+        }
+      }
+    },
+    "Put Back My Settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétablir mes réglages"
+          }
+        }
+      }
+    },
+    "Go back to the settings from %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revenir aux réglages du %@"
+          }
+        }
+      }
+    },
+    "No Limit": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune limite"
+          }
+        }
+      }
+    },
+    "%@ changed the settings of the bottle %@:": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ a modifié les réglages de la bouteille %2$@ :"
+          }
+        }
+      }
+    },
+    "%@: %@ → %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ : %2$@ → %3$@"
           }
         }
       }
