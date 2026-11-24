@@ -46,6 +46,8 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
     /// Seconds played from Hangar.
     public var playtime: TimeInterval = 0
     public var lastPlayed: Date?
+    /// Each time it was played from Hangar, oldest first (S-044).
+    public var sessions: [PlaySession] = []
     /// An image the person chose, or nil for the automatic cover.
     public var customCover: String?
     public var added: Date = Date(timeIntervalSince1970: 0)
@@ -70,7 +72,7 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case id, title, source, runner, steamID, path, exe, startsShortcut, bottle, processHints
-        case playtime, lastPlayed, customCover, added, options, heroic
+        case playtime, lastPlayed, customCover, added, options, heroic, sessions
     }
 
     public init(from decoder: Decoder) throws {
@@ -91,6 +93,7 @@ public struct Game: Codable, Sendable, Identifiable, Hashable {
         added = try c.decodeIfPresent(Date.self, forKey: .added) ?? Date(timeIntervalSince1970: 0)
         options = try c.decodeIfPresent(GameOptions.self, forKey: .options) ?? GameOptions()
         heroic = try c.decodeIfPresent(HeroicGame.self, forKey: .heroic)
+        sessions = try c.decodeIfPresent([PlaySession].self, forKey: .sessions) ?? []
     }
 
     /// A Windows game (one that runs through a runner other than Mac).
@@ -261,6 +264,7 @@ public struct LibraryFile: Codable, Sendable, Equatable {
             if let previous = old[game.id] {
                 game.playtime = previous.playtime
                 game.lastPlayed = previous.lastPlayed
+                game.sessions = previous.sessions
                 game.customCover = previous.customCover
                 game.added = previous.added
                 game.options = previous.options
@@ -301,6 +305,7 @@ public struct LibraryFile: Codable, Sendable, Equatable {
         guard let old = games.first(where: { $0.id == oldID }), let index = games.firstIndex(where: { $0.id == newID }) else { return }
         games[index].playtime = old.playtime
         games[index].lastPlayed = old.lastPlayed
+        games[index].sessions = old.sessions
         games[index].customCover = old.customCover
         games[index].options = old.options
         games[index].added = old.added

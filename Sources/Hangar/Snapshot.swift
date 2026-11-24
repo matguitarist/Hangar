@@ -370,7 +370,25 @@ struct SnapshotPage {
             model.sidebar = .runners
             model.runners = []
         },
+        SnapshotPage(name: "game-page-playtime") { model in
+            model.filter = nil
+            model.sidebar = .allGames; select(model, "Kynseed"); model.gamePageTab = .overview; model.showsGamePage = true
+            if let id = model.selectedGameID, let index = model.library.games.firstIndex(where: { $0.id == id }) {
+                // Twelve weeks of evenings, more on weekends.
+                let now = Date()
+                var sessions: [PlaySession] = []
+                for day in stride(from: 83, through: 0, by: -1) where day % 3 != 1 {
+                    let start = now.addingTimeInterval(-Double(day) * 86400 - 3 * 3600)
+                    sessions.append(PlaySession(start: start, length: Double(1800 + (day * 977) % 5400)))
+                }
+                model.library.games[index].sessions = sessions
+                model.library.games[index].playtime = sessions.map(\.length).reduce(0, +)
+                model.library.games[index].lastPlayed = sessions.last.map { $0.start.addingTimeInterval($0.length) }
+            }
+            model.scrollGamePageToEnd = true
+        },
         SnapshotPage(name: "library-filter") { model in
+            model.scrollGamePageToEnd = false
             model.sidebar = .allGames; model.selectedGameID = nil; model.showsGamePage = false; model.runnerUpdates = []
             model.filter = .neverPlayed
         },

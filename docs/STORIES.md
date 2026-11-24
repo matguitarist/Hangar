@@ -696,7 +696,7 @@ UX:
 - Surface: a section of the Overview, shown after the first session
 - Words: "Playtime" / « Temps de jeu », "Hours per week" / « Heures par semaine », "Sessions" / « Sessions »
 - Access: the chart has an audio graph and a summary "3 h this week, 12 h in 12 weeks"
-Status: todo
+Status: done
 
 ### S-045 How the last launch went
 As the user, I see on each tile and game page whether the last launch worked, crashed or didn't start, and how many times I launched it.

@@ -164,6 +164,10 @@ extension AppModel {
         guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }
         library.games[index].playtime += played
         library.games[index].lastPlayed = now
+        if played > 0 {
+            library.games[index].sessions = PlayHistory.adding(PlaySession(start: now.addingTimeInterval(-played), length: played),
+                                                               to: library.games[index].sessions)
+        }
         refreshCouchRows()
         Task { await loadAchievements(id, force: true) }
         // From the sofa, Hangar comes back when the game quits (S-029).

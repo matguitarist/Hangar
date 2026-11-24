@@ -5,11 +5,23 @@ extension SelfTest {
     /// M7: look after the library.
     static func m7Checks(_ model: AppModel) async {
         guard ProcessInfo.processInfo.environment["APP_FIXTURES"] != nil else { return }
+        sessionChecks(model)
         await frameCapChecks(model)
         await storageChecks(model)
         await driftChecks(model)
         await healthChecks(model)
         filterChecks(model)
+    }
+
+    /// S-044: the S-006 launch of Starfall Arcade added a session as long as its playtime.
+    static func sessionChecks(_ model: AppModel) {
+        guard let game = model.library.games.first(where: { $0.title == "Starfall Arcade" }) else { return check("S-044 Starfall Arcade is there", false) }
+        let total = game.sessions.map(\.length).reduce(0, +)
+        check("S-044 a launch adds a session", !game.sessions.isEmpty && abs(total - game.playtime) < 1
+                  && game.sessions.last.map { Date().timeIntervalSince($0.start) < 900 } == true,
+              "\(game.sessions.count) sessions, playtime \(game.playtime)")
+        check("S-044 the session is saved with the game",
+              LibraryFile.load(from: Store.url).games.first { $0.id == game.id }?.sessions.isEmpty == false || { model.saveNow(); return LibraryFile.load(from: Store.url).games.first { $0.id == game.id }?.sessions.isEmpty == false }())
     }
 
     /// S-043: Never Played shows only games without playtime, and combines with search.

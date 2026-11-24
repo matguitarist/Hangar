@@ -66,6 +66,7 @@ struct GamePage: View {
                 LabeledContent("Playtime", value: playtime(game))
                 LabeledContent("Last played", value: game.lastPlayed.map { $0.formatted(.relative(presentation: .named)) } ?? String(localized: "Never"))
             }
+            PlaytimeSection(game: game)
             AchievementsSection(game: game)
             SavesSection(game: game)
             LinksSection(game: game)
