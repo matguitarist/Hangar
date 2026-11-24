@@ -524,7 +524,7 @@ Acceptance:
 - [manual] `tools/icon_review.sh` shows the icon in every look, readable at 16 pt.
 UX:
 - Look: a hangar arch over a gamepad, on the accent; one glyph, no words
-Status: todo
+Status: done
 
 ### S-036 Games installed by Heroic
 As the user, I see the Epic, GOG and side-loaded games I installed with Heroic in the library, under a "Heroic" source, and launch them through Heroic.

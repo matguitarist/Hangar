@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <mask id="holes" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="#ffffff"/>
+      <rect x="318" y="557" width="120" height="40" rx="12" fill="#000000"/>
+      <rect x="358" y="517" width="40" height="120" rx="12" fill="#000000"/>
+      <circle cx="640" cy="548" r="28" fill="#000000"/>
+      <circle cx="706" cy="606" r="28" fill="#000000"/>
+    </mask>
+  </defs>
+  <g fill="#ffffff" mask="url(#holes)">
+    <rect x="236" y="460" width="552" height="220" rx="110"/>
+    <circle cx="326" cy="680" r="116"/>
+    <circle cx="698" cy="680" r="116"/>
+  </g>
+</svg>
