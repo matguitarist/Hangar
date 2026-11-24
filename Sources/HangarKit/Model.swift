@@ -278,6 +278,24 @@ public struct LibraryFile: Codable, Sendable, Equatable {
         removed.append(games.remove(at: index))
     }
 
+    /// After a game's bottle was copied for it (S-011): the copy's entry takes over what the person
+    /// did with the game (playtime, cover, options, collections); the old entry and the other games
+    /// found in the copy leave the library (Settings › Removed Games).
+    public mutating func moveGame(from oldID: String, to newID: String) {
+        guard let old = games.first(where: { $0.id == oldID }), let index = games.firstIndex(where: { $0.id == newID }) else { return }
+        games[index].playtime = old.playtime
+        games[index].lastPlayed = old.lastPlayed
+        games[index].customCover = old.customCover
+        games[index].options = old.options
+        games[index].added = old.added
+        for c in collections.indices {
+            collections[c].gameIDs = collections[c].gameIDs.map { $0 == oldID ? newID : $0 }
+        }
+        let bottle = games[index].bottle
+        for other in games where other.bottle == bottle && other.id != newID { remove(id: other.id) }
+        remove(id: oldID)
+    }
+
     /// Brings a removed game back.
     public mutating func restore(id: String) {
         guard let index = removed.firstIndex(where: { $0.id == id }) else { return }

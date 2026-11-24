@@ -67,6 +67,21 @@ private func lines(_ text: String, without keys: [String]) -> [Substring] {
     #expect(games.contains { $0.title == "Vernal Edge" })
 }
 
+@Test func aMovedGameKeepsWhatThePersonDidAndTheCopysOtherGamesLeave() {
+    var old = Game(id: "bottle:Steam:steam:1", title: "Vernal Edge", source: .crossOver, runner: .crossOver, bottle: "Steam")
+    old.playtime = 600
+    old.options.metalHUD = true
+    let mate = Game(id: "bottle:Steam:steam:2", title: "Kynseed", source: .crossOver, runner: .crossOver, bottle: "Steam")
+    let new = Game(id: "bottle:Copy:steam:1", title: "Vernal Edge", source: .crossOver, runner: .crossOver, bottle: "Copy")
+    let mateCopy = Game(id: "bottle:Copy:steam:2", title: "Kynseed", source: .crossOver, runner: .crossOver, bottle: "Copy")
+    var file = LibraryFile(games: [old, mate, new, mateCopy], collections: [GameCollection(name: "Fav", gameIDs: [old.id, mate.id])])
+    file.moveGame(from: old.id, to: new.id)
+    #expect(file.games.map(\.id) == [mate.id, new.id])
+    #expect(file.games[1].playtime == 600 && file.games[1].options.metalHUD)
+    #expect(file.collections[0].gameIDs == [new.id, mate.id])
+    #expect(Set(file.removed.map(\.id)) == [old.id, mateCopy.id])
+}
+
 @Test func confFileAddsANewSectionAtTheEnd() {
     var conf = ConfFile(text: "[Bottle]\n\"A\" = \"1\"\n")
     conf.set("X", "2", in: "EnvironmentVariables")

@@ -51,20 +51,11 @@ extension AppModel {
         log.post(.info, "Copied the bottle \(bottle) to \(name) for \(game.title)", source: "Settings")
         await refresh()
         let newID = id.replacingOccurrences(of: "bottle:\(bottle):", with: "bottle:\(name):")
-        guard let index = library.games.firstIndex(where: { $0.id == newID }) else {
+        guard library.games.contains(where: { $0.id == newID }) else {
             log.post(.error, "\(game.title) wasn't found in the copied bottle \(name)", source: "Settings")
             return
         }
-        // The game keeps what the person did with it.
-        library.games[index].playtime = game.playtime
-        library.games[index].lastPlayed = game.lastPlayed
-        library.games[index].customCover = game.customCover
-        library.games[index].options = game.options
-        for c in library.collections.indices where library.collections[c].gameIDs.contains(id) {
-            library.collections[c].gameIDs = library.collections[c].gameIDs.map { $0 == id ? newID : $0 }
-        }
-        for other in library.games where other.bottle == name && other.id != newID { library.remove(id: other.id) }
-        library.remove(id: id)
+        library.moveGame(from: id, to: newID)
         selectedGameID = newID
         settingsGeneration += 1
     }
