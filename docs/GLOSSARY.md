@@ -28,3 +28,5 @@ One name for each thing, in every button, menu, title, tooltip and error.
 | Running | A game that is open now | Playing, active | En cours |
 | Remove from Library | Take a game out of Hangar; its files stay on disk | Delete, Uninstall | Retirer de la bibliothèque |
 | Couch mode | The full-screen view used with a controller | Big Picture, TV mode | mode salon |
+| Battery settings | A game's other settings used when the Mac is on battery at launch (the On Battery section) | battery profile, power plan, eco mode | réglages sur batterie |
+| Low Power Mode | macOS's own power-saving mode; Hangar only suggests it | power saving, eco mode | mode Économie d’énergie |

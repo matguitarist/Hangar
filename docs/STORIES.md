@@ -460,7 +460,15 @@ Depends: S-010
 Acceptance:
 - [unit] The power source picks the profile at launch.
 - [manual] On battery, the game launches with the battery profile.
-Status: todo
+- [self] On battery the plan uses the battery settings, the display is lowered and put back, and Low Power Mode is suggested when it's off.
+UX:
+- Flow: game page › Settings › On Battery → "Use other settings on battery" → Metal Performance HUD, Lower the display resolution, Suggest Low Power Mode (on by default) → Play while unplugged → the game starts with them; the display goes to the next "looks like" size down and back when the game quits; with Low Power Mode off, the Overview shows "Low Power Mode is off…" with Open Battery Settings and Not Now
+- Surface: a section of the Settings tab (only on a Mac with a battery); a notice on the Overview, like "Did it run well?"
+- States: off (one toggle, footer says what it's for); on (three toggles); no lower display mode: the resolution stays, nothing to say; Low Power Mode already on: no reminder
+- Words: "On Battery" / « Sur batterie », "Use other settings on battery" / « Utiliser d’autres réglages sur batterie », "Lower the display resolution" / « Baisser la résolution de l’écran », "Suggest Low Power Mode" / « Suggérer le mode Économie d’énergie », "Open Battery Settings" / « Ouvrir les réglages Batterie »
+- Honest: Hangar can't turn on Low Power Mode (that needs an administrator), so it suggests it; the resolution change is for Hangar's lifetime only, so macOS puts it back even if Hangar quits
+- Access: every toggle has hover help; the notice is text with a symbol and two buttons
+Status: done
 
 ### S-026 Quick launch from the menu bar
 As the user, I click Hangar's menu bar icon and launch one of my recent games, or see what's running.

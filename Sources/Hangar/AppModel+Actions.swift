@@ -13,8 +13,9 @@ extension AppModel {
         guard let game = game(id), running[id] == nil else { return }
         notices[id] = nil
         var plan: LaunchPlan
+        let battery: BatteryProfile?
         do {
-            plan = try LaunchPlanner.plan(for: game, roots: roots)
+            (plan, battery) = try launchPlan(for: game)
         } catch {
             let reason = switch error {
             case .crossOverMissing: String(localized: "CrossOver isn't installed.")
@@ -35,6 +36,7 @@ extension AppModel {
         }
         if let snapshot = takeSnapshot(id, reason: .launch) { launchSnapshots[id] = snapshot }
         running[id] = LaunchState(launched: Date(), slowStart: game.isWindows || game.source == .steam)
+        if let battery { applyBatteryProfile(game, battery) }
         log.post(.info, "Starting \(game.title): \(plan.executable.lastPathComponent) \(plan.arguments.joined(separator: " "))", source: "Launch")
         if !plan.environment.isEmpty {
             log.post(.info, "With \(plan.environment.keys.sorted().joined(separator: ", "))", source: "Launch")
@@ -150,6 +152,8 @@ extension AppModel {
     private func finish(_ id: String, played: TimeInterval, quitRightAway: Bool, at now: Date) {
         let stoppedByUser = running[id]?.stoppedByUser == true
         running[id] = nil
+        restoreDisplay(after: id)
+        if notices[id] == .lowPowerModeOff { notices[id] = nil }
         guard let index = library.games.firstIndex(where: { $0.id == id }) else { return }
         library.games[index].playtime += played
         library.games[index].lastPlayed = now

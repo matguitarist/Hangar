@@ -67,6 +67,8 @@ enum GameNotice: Equatable {
     case didntCopy(String)
     /// After a game ran a while: did it work? (labels the snapshot taken at launch)
     case askWorked
+    /// Launched on battery with Low Power Mode off, and the profile suggests it (S-025).
+    case lowPowerModeOff
 }
 
 /// A file dropped or chosen that needs the "Add Windows Game" sheet.
@@ -163,6 +165,9 @@ final class AppModel {
     let detailsCache: GameDetailsCache
     /// What each game is about (S-031), by game id: nil while loading, .some(nil) when nothing was found.
     var details: [String: GameDetails?] = [:]
+    /// Games playing with the display lowered by their battery profile (S-025), and the mode to put back.
+    var loweredDisplay: Set<String> = []
+    @ObservationIgnored var displayRestore: (id: String, mode: CGDisplayMode)?
     /// The game on the Mac App Store, when AppleGamingWiki doesn't say it runs natively (S-033).
     var appStoreApps: [String: MacAppStore.App?] = [:]
     /// View › Fetch All Details: its progress, shown above the library until dismissed (S-032).

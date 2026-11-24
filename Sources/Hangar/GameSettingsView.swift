@@ -21,6 +21,9 @@ struct GameSettingsView: View {
             } footer: {
                 Text(hudFooter).foregroundStyle(.secondary)
             }
+            if Power.hasBattery {
+                BatterySection(game: game)
+            }
             LaunchOptionsSection(game: game)
             Section {
                 let list = model.snapshotList(game.id)
@@ -71,6 +74,39 @@ extension GameSettingsView {
 }
 
 /// CrossOver in the game's bottle, or a Wine build or Game Porting Toolkit in a prefix of its own.
+/// On Battery (S-025): other settings when the Mac is unplugged at launch.
+private struct BatterySection: View {
+    @Environment(AppModel.self) private var model
+    let game: Game
+
+    var body: some View {
+        Section {
+            Toggle("Use other settings on battery", isOn: Binding(get: { game.options.battery != nil },
+                                                                  set: { model.useBatteryProfile(game.id, $0) }))
+            if game.options.battery != nil {
+                Toggle("Metal Performance HUD", isOn: binding(\.metalHUD))
+                    .help(String(localized: "Show the HUD on battery, whatever the setting above"))
+                Toggle("Lower the display resolution", isOn: binding(\.lowerResolution))
+                    .help(String(localized: "Play at the next resolution down, back to normal when the game quits"))
+                Toggle("Suggest Low Power Mode", isOn: binding(\.suggestLowPowerMode))
+                    .help(String(localized: "When it's off at launch, show a reminder with a link to Battery settings"))
+            }
+        } header: {
+            Text("On Battery")
+        } footer: {
+            Text(game.options.battery == nil
+                 ? String(localized: "Play longer unplugged: these settings apply when the Mac is on battery at launch.")
+                 : String(localized: "Used when the Mac is on battery at launch. Hangar can't turn on Low Power Mode itself, so it reminds you."))
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func binding(_ key: WritableKeyPath<BatteryProfile, Bool>) -> Binding<Bool> {
+        Binding(get: { game.options.battery?[keyPath: key] ?? false },
+                set: { on in model.setOptions(game.id) { $0.battery?[keyPath: key] = on } })
+    }
+}
+
 private struct RunnerSection: View {
     @Environment(AppModel.self) private var model
     let game: Game

@@ -137,7 +137,16 @@ struct SnapshotPage {
         SnapshotPage(name: "game-page-compatibility") { model in
             model.sidebar = .allGames; select(model, "Hollow Knight")
         },
+        SnapshotPage(name: "game-page-battery") { model in
+            model.sidebar = .allGames; select(model, "Pocket Racer"); model.gamePageTab = .settings
+            if let id = model.selectedGameID { model.useBatteryProfile(id, true) }
+        },
+        SnapshotPage(name: "game-page-low-power") { model in
+            model.gamePageTab = .overview
+            if let id = model.selectedGameID { model.useBatteryProfile(id, false); model.notices[id] = .lowPowerModeOff }
+        },
         SnapshotPage(name: "game-page-mac-version") { model in
+            if let id = model.library.games.first(where: { $0.title == "Pocket Racer" })?.id { model.notices[id] = nil }
             model.sidebar = .allGames; select(model, "Starfall Arcade")
         },
         SnapshotPage(name: "game-page-windows") { model in

@@ -1541,6 +1541,26 @@
         }
       }
     },
+    "Low Power Mode is off. Turn it on to play longer on battery.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le mode Économie d’énergie est désactivé. Activez-le pour jouer plus longtemps sur batterie."
+          }
+        }
+      }
+    },
+    "Lower the display resolution": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baisser la résolution de l’écran"
+          }
+        }
+      }
+    },
     "MSync": {
       "localizations": {
         "fr": {
@@ -1891,6 +1911,16 @@
         }
       }
     },
+    "On Battery": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur batterie"
+          }
+        }
+      }
+    },
     "On the Mac App Store.": {
       "localizations": {
         "fr": {
@@ -1907,6 +1937,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sur le Web"
+          }
+        }
+      }
+    },
+    "Open Battery Settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir les réglages Batterie"
           }
         }
       }
@@ -2047,6 +2087,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jouer"
+          }
+        }
+      }
+    },
+    "Play at the next resolution down, back to normal when the game quits": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouer à la résolution inférieure, rétablie quand le jeu se ferme"
+          }
+        }
+      }
+    },
+    "Play longer unplugged: these settings apply when the Mac is on battery at launch.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jouez plus longtemps sans fil : ces réglages s’appliquent quand le Mac est sur batterie au lancement."
           }
         }
       }
@@ -2711,6 +2771,16 @@
         }
       }
     },
+    "Show the HUD on battery, whatever the setting above": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher le HUD sur batterie, quel que soit le réglage plus haut"
+          }
+        }
+      }
+    },
     "Shows the next time the game starts.": {
       "localizations": {
         "fr": {
@@ -2951,6 +3021,16 @@
         }
       }
     },
+    "Suggest Low Power Mode": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggérer le mode Économie d’énergie"
+          }
+        }
+      }
+    },
     "Switch the bottle's graphics to %@. Hangar takes a snapshot first.": {
       "localizations": {
         "fr": {
@@ -3161,6 +3241,16 @@
         }
       }
     },
+    "Turn on Low Power Mode in System Settings › Battery": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer le mode Économie d’énergie dans Réglages Système › Batterie"
+          }
+        }
+      }
+    },
     "Undo": {
       "localizations": {
         "fr": {
@@ -3207,6 +3297,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Utiliser %@"
+          }
+        }
+      }
+    },
+    "Use other settings on battery": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser d’autres réglages sur batterie"
+          }
+        }
+      }
+    },
+    "Used when the Mac is on battery at launch. Hangar can't turn on Low Power Mode itself, so it reminds you.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisés quand le Mac est sur batterie au lancement. Hangar ne peut pas activer lui-même le mode Économie d’énergie, il vous le rappelle donc."
           }
         }
       }
@@ -3267,6 +3377,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce qui lance vos jeux Windows. Hangar les trouve dans les dossiers Applications et dans Homebrew."
+          }
+        }
+      }
+    },
+    "When it's off at launch, show a reminder with a link to Battery settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S’il est désactivé au lancement, afficher un rappel avec un lien vers les réglages Batterie"
           }
         }
       }

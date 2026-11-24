@@ -38,6 +38,7 @@ enum SelfTest {
             await libraryChecks(model)
             await tuneChecks(model)
             await savesChecks(model)
+            await lifeOnAMacChecks(model)
 
             print(failures == 0 ? "SELFTEST PASS \(count) checks" : "SELFTEST FAIL \(failures) of \(count) checks")
             finish(code: failures == 0 ? 0 : 1)

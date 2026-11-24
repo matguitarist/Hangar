@@ -154,6 +154,8 @@ struct GamePage: View {
                     Label(String(localized: "Hangar couldn't copy the bottle. \(reason)"), systemImage: "exclamationmark.triangle")
                 case .askWorked:
                     Label(String(localized: "Did \(game.title) run well?"), systemImage: "questionmark.circle")
+                case .lowPowerModeOff:
+                    Label(String(localized: "Low Power Mode is off. Turn it on to play longer on battery."), systemImage: "battery.50percent")
                 case .crashed:
                     EmptyView()
                 }
@@ -161,6 +163,12 @@ struct GamePage: View {
                     HStack(spacing: Space.sm) {
                         Button("It Worked") { model.markWorked(game.id) }
                             .help(String(localized: "Label the settings it started with, to come back to them later"))
+                        Button("Not Now") { model.notices[game.id] = nil }
+                    }
+                } else if notice == .lowPowerModeOff {
+                    HStack(spacing: Space.sm) {
+                        Button("Open Battery Settings") { model.openBatterySettings() }
+                            .help(String(localized: "Turn on Low Power Mode in System Settings › Battery"))
                         Button("Not Now") { model.notices[game.id] = nil }
                     }
                 } else {
