@@ -623,7 +623,7 @@ UX:
 - States: graphics not DXVK: picker disabled, footer "Only DXVK games can be capped. Set Graphics to DXVK to use it."; a Mac game: no section
 - Words: "Frame Rate" / « Fréquence d’images », "Limit" / « Limite », "Off" / « Aucune », "Display (\(hz) Hz)" / « Écran (\(hz) Hz) »
 - Access: the picker has hover help
-Status: todo
+Status: done
 
 ### S-039 Storage
 As the user, I see how much space each game, bottle, prefix, snapshot set and save backup set takes, largest first, and free space from there.

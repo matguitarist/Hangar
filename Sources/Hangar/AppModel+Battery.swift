@@ -1,3 +1,4 @@
+import AppKit
 import CoreGraphics
 import Foundation
 import HangarKit
@@ -9,7 +10,21 @@ extension AppModel {
         let power = Power.source
         var launching = game
         launching.options = game.options.forLaunch(on: power)
-        return (try LaunchPlanner.plan(for: launching, roots: roots), game.options.batteryProfile(on: power))
+        var plan = try LaunchPlanner.plan(for: launching, roots: roots)
+        // A frame cap reaches DXVK games only (S-038).
+        plan.environment.merge(frameCapEnvironment(game, cap: launching.options.frameCap)) { $1 }
+        return (plan, game.options.batteryProfile(on: power))
+    }
+
+    /// DXVK_FRAME_RATE for a capped DXVK game, else nothing.
+    func frameCapEnvironment(_ game: Game, cap: Int?) -> [String: String] {
+        FrameCap.environment(cap: cap, backend: frameCapBackend(game), displayRate: NSScreen.main?.maximumFramesPerSecond ?? 60)
+    }
+
+    /// The graphics backend a frame cap depends on: the bottle's, for a CrossOver game run in its bottle.
+    func frameCapBackend(_ game: Game) -> GraphicsBackend? {
+        guard game.runner == .crossOver, game.options.runner == nil else { return nil }
+        return bottleSettings(for: game)?.graphics
     }
 
     /// What the profile does besides the launch's own settings: the display, and Low Power Mode.

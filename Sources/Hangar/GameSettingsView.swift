@@ -49,6 +49,9 @@ extension GameSettingsView {
         } footer: {
             Text(hudFooter).foregroundStyle(.secondary)
         }
+        if game.runner == .crossOver, game.bottle != nil {
+            FrameRateSection(game: game)
+        }
         if Power.hasBattery {
             BatterySection(game: game)
         }
@@ -99,6 +102,12 @@ private struct BatterySection: View {
                     .help(String(localized: "Play at the next resolution down, back to normal when the game quits"))
                 Toggle("Suggest Low Power Mode", isOn: binding(\.suggestLowPowerMode))
                     .help(String(localized: "When it's off at launch, show a reminder with a link to Battery settings"))
+                if model.frameCapBackend(game) == .dxvk {
+                    FrameCapPicker(title: String(localized: "Limit the frame rate to"),
+                                   selection: Binding(get: { game.options.battery?.frameCap },
+                                                      set: { cap in model.setOptions(game.id) { $0.battery?.frameCap = cap } }))
+                        .help(String(localized: "On battery, in place of the game's own limit"))
+                }
             }
         } header: {
             Text("On Battery")

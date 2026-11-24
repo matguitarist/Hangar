@@ -45,6 +45,7 @@ enum SelfTest {
             await couchChecks(model)
             await controllerChecks(model)
             await achievementChecks(model)
+            await m7Checks(model)
 
             print(failures == 0 ? "SELFTEST PASS \(count) checks" : "SELFTEST FAIL \(failures) of \(count) checks")
             finish(code: failures == 0 ? 0 : 1)

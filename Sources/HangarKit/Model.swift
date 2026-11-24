@@ -115,6 +115,8 @@ public struct GameOptions: Codable, Sendable, Hashable {
     public var runner: String?
     /// Other settings on battery (S-025); nil uses the same settings everywhere.
     public var battery: BatteryProfile?
+    /// A frame rate limit for DXVK games (S-038): nil none, 0 the display's rate.
+    public var frameCap: Int?
 
     public init(metalHUD: Bool = false, arguments: String = "", variables: [EnvironmentVariable] = [], exe: String? = nil) {
         self.metalHUD = metalHUD
@@ -123,7 +125,7 @@ public struct GameOptions: Codable, Sendable, Hashable {
         self.exe = exe
     }
 
-    enum CodingKeys: String, CodingKey { case metalHUD, arguments, variables, exe, runner, battery }
+    enum CodingKeys: String, CodingKey { case metalHUD, arguments, variables, exe, runner, battery, frameCap }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -133,6 +135,7 @@ public struct GameOptions: Codable, Sendable, Hashable {
         exe = try c.decodeIfPresent(String.self, forKey: .exe)
         runner = try c.decodeIfPresent(String.self, forKey: .runner)
         battery = try c.decodeIfPresent(BatteryProfile.self, forKey: .battery)
+        frameCap = try c.decodeIfPresent(Int.self, forKey: .frameCap)
     }
 
     /// The environment variables a launch adds.

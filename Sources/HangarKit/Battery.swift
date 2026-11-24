@@ -8,6 +8,8 @@ public struct BatteryProfile: Codable, Sendable, Hashable {
     public var lowerResolution = true
     /// Suggest Low Power Mode at launch when it's off (an app can't turn it on).
     public var suggestLowPowerMode = true
+    /// A frame rate limit on battery (S-038), in place of the game's own; nil keeps the game's.
+    public var frameCap: Int?
 
     public init(metalHUD: Bool = false, lowerResolution: Bool = true, suggestLowPowerMode: Bool = true) {
         self.metalHUD = metalHUD
@@ -15,13 +17,14 @@ public struct BatteryProfile: Codable, Sendable, Hashable {
         self.suggestLowPowerMode = suggestLowPowerMode
     }
 
-    enum CodingKeys: String, CodingKey { case metalHUD, lowerResolution, suggestLowPowerMode }
+    enum CodingKeys: String, CodingKey { case metalHUD, lowerResolution, suggestLowPowerMode, frameCap }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         metalHUD = try c.decodeIfPresent(Bool.self, forKey: .metalHUD) ?? false
         lowerResolution = try c.decodeIfPresent(Bool.self, forKey: .lowerResolution) ?? true
         suggestLowPowerMode = try c.decodeIfPresent(Bool.self, forKey: .suggestLowPowerMode) ?? true
+        frameCap = try c.decodeIfPresent(Int.self, forKey: .frameCap)
     }
 }
 
@@ -41,6 +44,7 @@ extension GameOptions {
         guard let profile = batteryProfile(on: power) else { return self }
         var options = self
         options.metalHUD = profile.metalHUD
+        if let cap = profile.frameCap { options.frameCap = cap }
         return options
     }
 }

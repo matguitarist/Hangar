@@ -188,6 +188,15 @@ struct SnapshotPage {
             model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
             if let id = model.selectedGameID { model.setOptions(id) { $0.runner = nil } }
         },
+        SnapshotPage(name: "game-page-frame-rate") { model in
+            model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
+            model.running = [:]
+            if let id = model.selectedGameID, let game = model.game(id), var settings = model.bottleSettings(for: game) {
+                model.setOptions(id) { $0.runner = nil; $0.frameCap = 40 }
+                settings.graphics = .dxvk
+                model.changeBottleSettings(id, to: settings)
+            }
+        },
         SnapshotPage(name: "game-page-settings-wine") { model in
             model.sidebar = .allGames; select(model, "Moonlit Harbor"); model.gamePageTab = .settings
             if let id = model.selectedGameID, let wine = model.runners.first(where: { $0.kind == .wine }) {

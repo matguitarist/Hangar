@@ -4180,6 +4180,106 @@
           }
         }
       }
+    },
+    "Limit": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limite"
+          }
+        }
+      }
+    },
+    "Frame Rate": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fréquence d’images"
+          }
+        }
+      }
+    },
+    "Keep the game at or under this frame rate": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garder le jeu à cette fréquence d’images ou moins"
+          }
+        }
+      }
+    },
+    "Fewer frames keep the Mac cooler and quieter, and the battery lasts longer.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moins d’images gardent le Mac plus frais et plus silencieux, et la batterie dure plus longtemps."
+          }
+        }
+      }
+    },
+    "Only DXVK games can be capped. Set Graphics to DXVK to use it.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seuls les jeux DXVK peuvent être limités. Réglez Graphismes sur DXVK pour l’utiliser."
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune"
+          }
+        }
+      }
+    },
+    "Display (%lld Hz)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Écran (%lld Hz)"
+          }
+        }
+      }
+    },
+    "%lld fps": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld i/s"
+          }
+        }
+      }
+    },
+    "Limit the frame rate to": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limiter la fréquence d’images à"
+          }
+        }
+      }
+    },
+    "On battery, in place of the game's own limit": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur batterie, à la place de la limite du jeu"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
