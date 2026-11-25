@@ -34,10 +34,11 @@ struct HangarApp: App {
             SidebarCommands()
             ToolbarCommands()
             HangarCommands(model: model, menu: MenuState.shared)
-            CommandGroup(after: .appInfo) {
-                Button("Check for Updates…") { Updater.shared.checkForUpdates() }
-                    .disabled(!Updater.shared.isAvailable)
-            }
+            // The pages that are always in the sidebar, in its order (Running shows only while a game runs).
+            PageCommands(pages: [.allGames, .runners, .health, .storage, .log], title: model.pageTitle) { model.sidebar = $0 }
+            StandardCommands(app: "Hangar", repository: "matguitarist/Hangar",
+                             updates: AppUpdates(isAvailable: Updater.shared.isAvailable) { Updater.shared.checkForUpdates() },
+                             log: .page { model.sidebar = .log })
         }
 
         WindowGroup("Wine Log", id: "wine-log", for: String.self) { $gameID in

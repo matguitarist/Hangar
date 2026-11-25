@@ -18,6 +18,9 @@ extension SelfTest {
             model.log.flushFile()
             let text = (try? String(contentsOf: Store.logURL, encoding: .utf8)) ?? ""
             check("the log line reaches the log file", text.contains("Self-test line"))
+            let issue = RepositoryLinks(repository: "matguitarist/Hangar").newIssue(app: "Hangar").absoluteString
+            check("Help › Report a Problem opens a new GitHub issue with the version and macOS filled in",
+                  issue.hasPrefix("https://github.com/matguitarist/Hangar/issues/new?body=") && issue.contains("macOS"), issue)
             await libraryChecks(model)
             await tuneChecks(model)
             await savesChecks(model)

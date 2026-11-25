@@ -11,6 +11,16 @@
         }
       }
     },
+    "%@ Help": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aide %@"
+          }
+        }
+      }
+    },
     "%@ also run in this bottle. These settings change them too.": {
       "localizations": {
         "fr": {
@@ -47,6 +57,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ est en cours"
+          }
+        }
+      }
+    },
+    "%@ on GitHub": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sur GitHub"
           }
         }
       }
@@ -207,6 +227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "À propos"
+          }
+        }
+      }
+    },
+    "About %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À propos de %@"
           }
         }
       }
@@ -2561,6 +2591,16 @@
         }
       }
     },
+    "Report a Problem…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signaler un problème…"
+          }
+        }
+      }
+    },
     "Request a key on the TheGamesDB forums": {
       "localizations": {
         "fr": {
@@ -3607,6 +3647,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce qui lance vos jeux Windows. Hangar les trouve dans les dossiers Applications et dans Homebrew."
+          }
+        }
+      }
+    },
+    "What’s New in %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveautés de %@"
           }
         }
       }
