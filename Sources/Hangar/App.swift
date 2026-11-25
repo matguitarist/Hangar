@@ -1,4 +1,5 @@
 import AppKit
+import FileKit
 import LogKit
 import SwiftUI
 import HangarKit
@@ -79,6 +80,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// The self-test's result becomes the exit code, after a normal quit.
     func applicationWillTerminate(_ notification: Notification) {
+        IntentModel.model?.saveBeforeQuit()
         Store.log.flushFile()
         if SelfTest.requested { exit(SelfTest.exitCode) }
     }
@@ -106,6 +108,12 @@ enum Store {
         }
         return folder.appending(path: "library.json")
     }
+
+    /// library.json, or the test store.
+    static var libraryFile: JSONFile<LibraryFile> { LibraryFile.file(at: url) }
+
+    /// The library as saved on disk now (the self-test reads it back).
+    static var savedLibrary: LibraryFile { (try? libraryFile.load()) ?? LibraryFile() }
 
     /// The log: LogKit's default file, or <store>.log next to a test store.
     static var logURL: URL {

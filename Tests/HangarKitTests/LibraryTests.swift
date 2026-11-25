@@ -1,3 +1,4 @@
+import FileKit
 import Foundation
 import Testing
 @testable import HangarKit
@@ -260,4 +261,21 @@ let storeAssets = #"{"response":{"store_items":[{"assets":{"asset_url_format":"s
     var steam = LaunchState(launched: t0, slowStart: true)
     #expect(LaunchTracker.step(&steam, hints: ["x"], processes: [], now: t0.addingTimeInterval(31)) == nil)
     #expect(LaunchTracker.step(&steam, hints: ["x"], processes: [], now: t0.addingTimeInterval(121)) == .didntStart)
+}
+
+@Test func theLibraryFileKeepsItsFormatAndSetsADamagedFileAside() throws {
+    let folder = FileManager.default.temporaryDirectory.appending(path: "HangarTests-library-\(UUID().uuidString)")
+    let file = LibraryFile.file(at: folder.appending(path: "library.json"))
+    var game = Game(id: "app:/x", title: "X", source: .macApp, path: "/Applications/X.app")
+    game.added = Date(timeIntervalSince1970: 1_700_000_000)
+    try file.save(LibraryFile(games: [game], steamFolder: "/Volumes/Games/Steam"))
+    let text = try String(contentsOf: file.url, encoding: .utf8)
+    #expect(text.contains("\"2023-11-14T22:13:20Z\""))
+    #expect(try file.load() == LibraryFile(games: [game], steamFolder: "/Volumes/Games/Steam"))
+
+    try Data("{ not json".utf8).write(to: file.url)
+    #expect(throws: JSONFile<LibraryFile>.Damaged.self) { try file.load(setAsideDamaged: true) }
+    #expect(!file.exists)
+    let kept = try FileManager.default.contentsOfDirectory(atPath: folder.path)
+    #expect(kept.contains { $0.hasPrefix("library (damaged ") })
 }

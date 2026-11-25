@@ -1,4 +1,5 @@
 import AppKit
+import FileKit
 import Foundation
 import HangarKit
 import LogKit
@@ -236,7 +237,10 @@ final class AppModel {
         }
     }
     @ObservationIgnored weak var undoManager: UndoManager?
-    @ObservationIgnored private var saveTask: Task<Void, Never>?
+    /// Saves library.json 300 ms after the last change, off the main thread.
+    @ObservationIgnored private let saver = DebouncedSaver(Store.libraryFile, delay: .milliseconds(300)) { error in
+        Store.log.post(.error, "Can't save the library: \(error.localizedDescription)", source: "Library")
+    }
     @ObservationIgnored var monitor: Task<Void, Never>?
 
     /// The app's own language. Changing it takes effect after a restart.
@@ -257,7 +261,7 @@ final class AppModel {
         covers = CoverCache(folder: Store.coversFolder, gridKey: Keychain.read("steamgriddb"))
         detailsCache = GameDetailsCache(folder: Store.detailsFolder, key: Keychain.read("thegamesdb"), fetch: Store.detailsFetch,
                                         steamSpacing: Store.isOverridden ? 0 : 1.5)
-        let saved = LibraryFile.load(from: Store.url)
+        let saved = Self.loadLibrary()
         roots = Store.roots(steamFolder: saved.steamFolder)
         library = saved
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
@@ -382,17 +386,32 @@ final class AppModel {
 
     // MARK: Saving
 
-    private func scheduleSave() {
-        saveTask?.cancel()
-        saveTask = Task {
-            try? await Task.sleep(for: .milliseconds(300))
-            guard !Task.isCancelled else { return }
-            saveNow()
+    /// The saved library. A file that can't be read is set aside next to it (library (damaged <date>).json), so the
+    /// next save can't erase what the person had, and the library starts empty.
+    private static func loadLibrary() -> LibraryFile {
+        do {
+            return try Store.libraryFile.load(setAsideDamaged: true) ?? LibraryFile()
+        } catch let damaged as JSONFile<LibraryFile>.Damaged {
+            Store.log.post(.error, "The library couldn't be read (\(damaged.reason)); kept as \(damaged.keptAt?.lastPathComponent ?? "-")", source: "Library")
+        } catch {
+            Store.log.post(.error, "Can't read the library: \(error.localizedDescription)", source: "Library")
         }
+        return LibraryFile()
     }
 
-    func saveNow() {
-        do { try library.save(to: Store.url) } catch { log.post(.error, "Can't save the library: \(error.localizedDescription)", source: "Library") }
+    private func scheduleSave() {
+        saver.schedule(library)
+    }
+
+    /// Saves a change still waiting, and returns once it is on disk (the self-test, before it reads the file).
+    func saveNow() async {
+        await saver.flush()
+    }
+
+    /// At quit: a change still waiting is saved now, on this thread.
+    func saveBeforeQuit() {
+        guard let last = saver.takePending() else { return }
+        do { try Store.libraryFile.save(last) } catch { log.post(.error, "Can't save the library: \(error.localizedDescription)", source: "Library") }
     }
 
     // MARK: Menus

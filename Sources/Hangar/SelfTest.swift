@@ -175,8 +175,8 @@ enum SelfTest {
         model.sort = .playtime
         check("S-008 sorting by playtime puts the most played first", model.games(for: .allGames).first?.title == "Starfall Arcade")
         model.sort = .name
-        model.saveNow()
-        check("S-008 collections are saved", LibraryFile.load(from: Store.url).collections.map(\.name).contains("Favorites"))
+        await model.saveNow()
+        check("S-008 collections are saved", Store.savedLibrary.collections.map(\.name).contains("Favorites"))
     }
 
     static func check(_ name: String, _ ok: Bool, _ detail: String = "") {

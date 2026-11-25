@@ -69,8 +69,8 @@ extension SelfTest {
             let seen = await launched(model, id)
             check("S-013 a variable set here reaches the launched process", seen.environment["HANGAR_SELFTEST"] == "a b=c", seen.environment["HANGAR_SELFTEST"] ?? "missing")
             check("S-013 arguments reach the game as typed", seen.arguments == ["-windowed", "-name", "Big Map"], seen.arguments.joined(separator: "|"))
-            model.saveNow()
-            check("S-013 launch options are saved with the library", LibraryFile.load(from: Store.url).games.first { $0.id == id }?.options.variables.first?.name == "HANGAR_SELFTEST")
+            await model.saveNow()
+            check("S-013 launch options are saved with the library", Store.savedLibrary.games.first { $0.id == id }?.options.variables.first?.name == "HANGAR_SELFTEST")
             model.setOptions(id) { $0 = GameOptions() }
         }
 

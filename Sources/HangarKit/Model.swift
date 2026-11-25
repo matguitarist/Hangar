@@ -1,3 +1,4 @@
+import FileKit
 import Foundation
 
 /// Where Hangar found a game.
@@ -254,19 +255,9 @@ public struct LibraryFile: Codable, Sendable, Equatable {
         steamFolder = try c.decodeIfPresent(String.self, forKey: .steamFolder)
     }
 
-    public static func load(from url: URL) -> LibraryFile {
-        guard let data = try? Data(contentsOf: url) else { return LibraryFile() }
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return (try? decoder.decode(LibraryFile.self, from: data)) ?? LibraryFile()
-    }
-
-    public func save(to url: URL) throws {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        encoder.dateEncodingStrategy = .iso8601
-        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try encoder.encode(self).write(to: url, options: .atomic)
+    /// library.json as Hangar has always written it: ISO 8601 dates, indented, sorted keys.
+    public static func file(at url: URL) -> JSONFile<LibraryFile> {
+        JSONFile(url, dates: .iso8601, pretty: true)
     }
 
     /// Folds a scan into the library: new games join, found games get fresh paths but keep

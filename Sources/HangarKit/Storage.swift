@@ -1,3 +1,4 @@
+import FileKit
 import Foundation
 
 /// Something on disk the Storage page lists (S-039): a game's folder, a bottle, a prefix, or Hangar's own copies.
@@ -74,19 +75,10 @@ public enum StorageScanner {
         return items.sorted { ($0.bytes, $1.name) > ($1.bytes, $0.name) }
     }
 
-    /// The bytes a folder or file takes on disk (allocated, so sparse and compressed files count as they are).
-    public static func size(of url: URL) -> Int64 {
-        let keys: Set<URLResourceKey> = [.totalFileAllocatedSizeKey, .fileAllocatedSizeKey, .isDirectoryKey, .isSymbolicLinkKey]
-        guard let values = try? url.resourceValues(forKeys: keys) else { return 0 }
-        if values.isSymbolicLink == true { return 0 }
-        guard values.isDirectory == true else { return Int64(values.totalFileAllocatedSize ?? values.fileAllocatedSize ?? 0) }
-        var total: Int64 = 0
-        let files = FileManager.default.enumerator(at: url, includingPropertiesForKeys: Array(keys), options: [], errorHandler: { _, _ in true })
-        while let file = files?.nextObject() as? URL {
-            guard let v = try? file.resourceValues(forKeys: keys), v.isDirectory != true, v.isSymbolicLink != true else { continue }
-            total += Int64(v.totalFileAllocatedSize ?? v.fileAllocatedSize ?? 0)
-        }
-        return total
+    /// The bytes a folder or file takes on disk (allocated, so sparse and compressed files count as they are,
+    /// and a file with several hard links counts once). 0 when it can't be read.
+    static func size(of url: URL) -> Int64 {
+        (try? FolderSize.summary(of: url))?.allocated ?? 0
     }
 
     /// Totals by kind, for the bar at the top.
