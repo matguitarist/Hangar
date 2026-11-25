@@ -9,9 +9,9 @@ let package = Package(
         // The Log page's viewer, shared by my Mac apps.
         .package(url: "https://github.com/matguitarist/LogKit", from: "0.6.0"),
         // Folder sizes, the library file and its saves, and the Keychain, shared by my apps.
-        .package(url: "https://github.com/matguitarist/FileKit", from: "0.1.0"),
+        .package(url: "https://github.com/matguitarist/FileKit", from: "0.2.0"),
         // The self-test's and snapshots' plumbing, shared by my Mac apps.
-        .package(url: "https://github.com/matguitarist/AppTestKit", from: "0.1.0"),
+        .package(url: "https://github.com/matguitarist/AppTestKit", from: "0.2.0"),
     ],
     targets: [
         // Rules and data logic with no SwiftUI, so tests run without the app.

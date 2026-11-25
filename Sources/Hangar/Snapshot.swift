@@ -17,24 +17,18 @@ enum Snapshot {
         guard let run = SnapshotRun.requested(layout: { GridProbes.shared.write(to: $0.path, window: $1) }) else { return }
         Task {
             await run.start()
-            let pages = SnapshotPage.all.filter { run.wants($0.name) }
             let sheets: Set<String> = ["add-game", "snapshots", "recipe-preview", "share-recipe", "backups"]
-            if !pages.isEmpty {
-                await run.forEachAppearance { look in
-                    for page in pages {
-                        if !page.name.hasPrefix("couch") { model.leaveCouchMode() }
-                        page.show(model)
-                        await run.pause(sheets.contains(page.name) ? .seconds(1.2) : nil)
-                        await run.capture(page.name, look)
-                        if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil || model.showsBackups != nil {
-                            model.addRequest = nil
-                            model.showsSnapshots = nil
-                            model.showsBackups = nil
-                            model.previewingRecipe = nil
-                            await run.pause(.seconds(0.5))
-                        }
-                    }
+            await run.shootPages(SnapshotPage.all.map(\.name), settle: { sheets.contains($0) ? .seconds(1.2) : nil }) { name in
+                // A sheet the page before opened closes first, so it is gone from this shot.
+                if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil || model.showsBackups != nil {
+                    model.addRequest = nil
+                    model.showsSnapshots = nil
+                    model.showsBackups = nil
+                    model.previewingRecipe = nil
+                    await run.pause(.seconds(0.5))
                 }
+                if !name.hasPrefix("couch") { model.leaveCouchMode() }
+                SnapshotPage.all.first { $0.name == name }?.show(model)
             }
             if run.wants("menu-bar") {
                 // The menu bar panel, drawn in a panel of its own: the real one opens only from a click.

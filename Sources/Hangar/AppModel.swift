@@ -386,13 +386,15 @@ final class AppModel {
 
     // MARK: Saving
 
-    /// The saved library. A file that can't be read is set aside next to it (library (damaged <date>).json), so the
-    /// next save can't erase what the person had, and the library starts empty.
+    /// The saved library. A file that isn't a library, or can't be read at all (no permission, a folder in its
+    /// place), is set aside next to it (library (damaged <date>).json), so the next save can't erase what the person
+    /// had, and the library starts empty.
     private static func loadLibrary() -> LibraryFile {
         do {
             return try Store.libraryFile.load(setAsideDamaged: true) ?? LibraryFile()
         } catch let damaged as JSONFile<LibraryFile>.Damaged {
-            Store.log.post(.error, "The library couldn't be read (\(damaged.reason)); kept as \(damaged.keptAt?.lastPathComponent ?? "-")", source: "Library")
+            let what = damaged.cause == .unreadable ? "couldn't be opened" : "couldn't be read"
+            Store.log.post(.error, "The library \(what) (\(damaged.reason)); kept as \(damaged.keptAt?.lastPathComponent ?? "-")", source: "Library")
         } catch {
             Store.log.post(.error, "Can't read the library: \(error.localizedDescription)", source: "Library")
         }
@@ -408,10 +410,10 @@ final class AppModel {
         await saver.flush()
     }
 
-    /// At quit: a change still waiting is saved now, on this thread.
+    /// At quit: a change still waiting is saved now, on this thread, after any save already running, so an older
+    /// save can't land after it.
     func saveBeforeQuit() {
-        guard let last = saver.takePending() else { return }
-        do { try Store.libraryFile.save(last) } catch { log.post(.error, "Can't save the library: \(error.localizedDescription)", source: "Library") }
+        do { try saver.finish() } catch { log.post(.error, "Can't save the library: \(error.localizedDescription)", source: "Library") }
     }
 
     // MARK: Menus
