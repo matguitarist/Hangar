@@ -27,6 +27,20 @@ import Testing
     #expect(try LaunchPlanner.plan(for: knight, roots: roots).arguments.first?.hasSuffix("Hollow Knight/hollow_knight.app") == true)
 }
 
+/// Launch options on a Steam game whose app sits deeper, or whose folder is the app, still open the app.
+@Test func aSteamGameWithOptionsFindsAnAppBelowItsFolder() throws {
+    let roots = try fixtureRoots()
+    var knight = try #require(LibraryScanner.scanNow(roots).first { $0.title == "Hollow Knight" })
+    let folder = URL(fileURLWithPath: knight.path)
+    try FileManager.default.removeItem(at: folder)
+    try FileManager.default.createDirectory(at: folder.appending(path: "Build/Hollow Knight.app/Contents/MacOS"), withIntermediateDirectories: true)
+    knight.options.metalHUD = true
+    #expect(try LaunchPlanner.plan(for: knight, roots: roots).arguments.first?.hasSuffix("Build/Hollow Knight.app") == true)
+    try FileManager.default.removeItem(at: folder)
+    try FileManager.default.createDirectory(at: folder.appending(path: "Contents/MacOS"), withIntermediateDirectories: true)
+    #expect(try LaunchPlanner.plan(for: knight, roots: roots).arguments.first == folder.path)
+}
+
 @Test func olderOptionsStillOpen() throws {
     let options = try JSONDecoder().decode(GameOptions.self, from: Data("{}".utf8))
     #expect(options == GameOptions())

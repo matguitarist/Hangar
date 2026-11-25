@@ -1,4 +1,5 @@
 import Foundation
+import SteamKit
 
 /// A page about a game on the web.
 public struct GameLink: Sendable, Equatable, Identifiable {
@@ -35,7 +36,7 @@ public enum GameLinks {
     }
 
     public static func store(steamID: String?) -> URL? {
-        steamID.flatMap { id in id.allSatisfy(\.isNumber) ? URL(string: "https://store.steampowered.com/app/\(id)/") : nil }
+        steamID.flatMap(SteamLink.webStorePage(appID:))
     }
 
     /// Every page for a game. `wikiPage` is its AppleGamingWiki page when Hangar found one.

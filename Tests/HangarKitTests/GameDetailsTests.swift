@@ -24,6 +24,9 @@ private func temporaryFolder() -> URL {
 @Test func steamIsAskedInTheAppsLanguage() {
     #expect(SteamDetails.language(for: "fr") == "french")
     #expect(SteamDetails.language(for: "en") == "english")
+    // Regional codes reach the store's own names.
+    #expect(SteamDetails.language(for: "fr-CA") == "french")
+    #expect(SteamDetails.language(for: "pt-BR") == "brazilian")
     #expect(SteamDetails.url(appID: "367520", language: "french").query()?.contains("l=french") == true)
 }
 

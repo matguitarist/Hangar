@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import SteamKit
 
 /// How to start a game: a command, and how to find the game's own process afterwards
 /// (the command itself exits at once, or stays as a launcher).
@@ -59,7 +60,7 @@ public enum LaunchPlanner {
                    let app = macApp(in: URL(fileURLWithPath: game.path)) {
                     return LaunchPlan(executable: open, arguments: [app.path], processHints: game.processHints)
                 }
-                return LaunchPlan(executable: open, arguments: ["steam://rungameid/\(id)"], processHints: game.processHints)
+                return LaunchPlan(executable: open, arguments: [SteamLink.run(appID: id).absoluteString], processHints: game.processHints)
             }
             guard FileManager.default.fileExists(atPath: game.path) else { throw .filesMissing }
             return LaunchPlan(executable: open, arguments: [game.path], processHints: game.processHints)
@@ -122,10 +123,10 @@ public enum LaunchPlanner {
         exe.replacingOccurrences(of: "\\", with: "/").split(separator: "/").last.map(String.init) ?? exe
     }
 
-    /// The game's .app in a Steam game's folder (Hollow Knight/hollow_knight.app).
+    /// The game's .app in a Steam game's folder (Hollow Knight/hollow_knight.app), the folder itself when
+    /// it is the app (Stardew Valley), or one a few folders down.
     public static func macApp(in folder: URL) -> URL? {
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path)) ?? []
-        return names.sorted().first { $0.hasSuffix(".app") }.map { folder.appending(path: $0) }
+        SteamApp.macApp(in: folder)
     }
 
     /// Opens the bottle's Steam, to sign in.

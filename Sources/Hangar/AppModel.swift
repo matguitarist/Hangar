@@ -3,6 +3,7 @@ import FileKit
 import Foundation
 import HangarKit
 import LogKit
+import SteamKit
 import LogKitUI
 import Observation
 import SwiftUI
@@ -292,7 +293,7 @@ final class AppModel {
         checkRunnerUpdates()
         signedOutBottles = Set(result.bottles.filter { name in
             let steam = CrossOverScanner.steamFolder(bottle: roots.bottles.appending(path: name))
-            return FileManager.default.fileExists(atPath: steam.path) && !SteamScanner.isSignedIn(steamRoot: steam)
+            return FileManager.default.fileExists(atPath: steam.path) && !Steam(root: steam).isSignedIn
         })
         for note in result.notes {
             switch note {

@@ -1,4 +1,5 @@
 import Foundation
+import SteamKit
 
 /// Cover art, fetched once and kept in a cover folder. Offline, the cache answers; with no
 /// cache either, the caller draws a generated cover. Sources, ported from Attic:
@@ -93,43 +94,19 @@ public actor CoverCache {
     }
 }
 
-/// The Steam store's library art, from Attic's SteamStore.
+/// The Steam store's library art, through SteamKit's SteamStore.
 public enum SteamArt {
     /// The portrait cover's URL: the store's asset list, else the old fixed file name.
     public static func coverURL(appID: String, fetch: CoverCache.Fetch) async -> URL? {
-        if let data = try? await fetch(URLRequest(url: assetsURL(appID: appID), timeoutInterval: 15)),
-           let cover = assets(from: data).cover {
+        if let data = try? await fetch(URLRequest(url: SteamStore.assetsURL(appID: appID), timeoutInterval: 15)),
+           let cover = SteamStore.assets(from: data).cover {
             return cover
         }
         // Older games keep their art under fixed names; check it exists before using it.
-        let classic = URL(string: "https://shared.steamstatic.com/store_item_assets/steam/apps/\(appID)/library_600x900_2x.jpg")!
+        let classic = SteamStore.classicCoverURL(appID: appID)
         var head = URLRequest(url: classic, timeoutInterval: 15)
         head.httpMethod = "HEAD"
         return (try? await fetch(head)) != nil ? classic : nil
-    }
-
-    static func assetsURL(appID: String) -> URL {
-        let request = #"{"ids":[{"appid":\#(appID)}],"context":{"language":"english","country_code":"US"},"data_request":{"include_assets":true}}"#
-        var components = URLComponents(string: "https://api.steampowered.com/IStoreBrowseService/GetItems/v1")!
-        components.queryItems = [URLQueryItem(name: "input_json", value: request)]
-        return components.url!
-    }
-
-    /// GetItems' asset file names, put into its URL format.
-    static func assets(from data: Data) -> (cover: URL?, hero: URL?) {
-        guard let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let item = ((root["response"] as? [String: Any])?["store_items"] as? [[String: Any]])?.first,
-              let assets = item["assets"] as? [String: Any],
-              let format = assets["asset_url_format"] as? String else { return (nil, nil) }
-        func url(_ keys: String...) -> URL? {
-            for key in keys {
-                guard let name = assets[key] as? String, !name.isEmpty else { continue }
-                return URL(string: "https://shared.akamai.steamstatic.com/store_item_assets/"
-                    + format.replacingOccurrences(of: "${FILENAME}", with: name))
-            }
-            return nil
-        }
-        return (url("library_capsule_2x", "library_capsule"), url("library_hero_2x", "library_hero"))
     }
 }
 

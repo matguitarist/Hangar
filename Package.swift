@@ -12,20 +12,24 @@ let package = Package(
         .package(url: "https://github.com/matguitarist/FileKit", from: "0.2.0"),
         // The self-test's and snapshots' plumbing, shared by my Mac apps.
         .package(url: "https://github.com/matguitarist/AppTestKit", from: "0.2.0"),
+        // Steam's libraries, games, sign-in and store details, shared by my apps.
+        .package(url: "https://github.com/matguitarist/SteamKit", from: "0.1.0"),
     ],
     targets: [
         // Rules and data logic with no SwiftUI, so tests run without the app.
-        .target(name: "HangarKit", dependencies: [.product(name: "LogKit", package: "LogKit"), .product(name: "FileKit", package: "FileKit")]),
+        .target(name: "HangarKit", dependencies: [.product(name: "LogKit", package: "LogKit"), .product(name: "FileKit", package: "FileKit"),
+                                                 .product(name: "SteamKit", package: "SteamKit")]),
         .executableTarget(
             name: "Hangar",
             dependencies: ["HangarKit", .product(name: "Sparkle", package: "Sparkle"),
                            .product(name: "LogKitUI", package: "LogKit"), .product(name: "FileKit", package: "FileKit"),
-                           .product(name: "AppTestKit", package: "AppTestKit")],
+                           .product(name: "AppTestKit", package: "AppTestKit"), .product(name: "SteamKit", package: "SteamKit")],
             // App code runs on the main thread unless you say otherwise.
             swiftSettings: [.defaultIsolation(MainActor.self)],
             // Sparkle.framework sits in Contents/Frameworks (build.sh copies it).
             linkerSettings: [.unsafeFlags(["-Xlinker", "-rpath", "-Xlinker", "@executable_path/../Frameworks"])]
         ),
-        .testTarget(name: "HangarKitTests", dependencies: ["HangarKit", .product(name: "LogKit", package: "LogKit"), .product(name: "FileKit", package: "FileKit")]),
+        .testTarget(name: "HangarKitTests", dependencies: ["HangarKit", .product(name: "LogKit", package: "LogKit"), .product(name: "FileKit", package: "FileKit"),
+                                                          .product(name: "SteamKit", package: "SteamKit")]),
     ]
 )

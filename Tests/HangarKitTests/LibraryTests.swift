@@ -1,5 +1,6 @@
 import FileKit
 import Foundation
+import SteamKit
 import Testing
 @testable import HangarKit
 
@@ -21,10 +22,25 @@ func fixtureRoots(_ name: String = #function) throws -> LibraryRoots {
     #expect(knight.path.hasSuffix("/Steam/steamapps/common/Hollow Knight"))
 }
 
-@Test func keyValuesReadsNestedBlocksAndEscapes() {
-    let vdf = KeyValues.parse(#""a" { "path" "C:\\Games" "apps" { "1" "2" } } // comment"#)
-    #expect(vdf["a"]?["path"]?.string == #"C:\Games"#)
-    #expect(vdf["A"]?["apps"]?["1"]?.string == "2")
+/// A manifest left in two libraries (a game moved between drives) gives one game, from the first library.
+@Test func aGameInTwoLibrariesIsListedOnce() throws {
+    let roots = try fixtureRoots()
+    let drive = roots.steam.deletingLastPathComponent().appending(path: "Drive/SteamLibrary")
+    let fixture = try SteamFixture(root: roots.steam)
+    try fixture.addLibrary(drive)
+    try fixture.install(appID: "367520", name: "Hollow Knight", in: drive)
+    let games = SteamScanner.scan(steamRoot: roots.steam).games.filter { $0.steamID == "367520" }
+    #expect(games.count == 1)
+    #expect(games.first?.path.hasSuffix("/Steam/steamapps/common/Hollow Knight") == true)
+}
+
+/// A manifest without a name still shows the game, under its folder's name.
+@Test func aSteamGameWithoutANameShowsItsFolderName() throws {
+    let roots = try fixtureRoots()
+    try #"""
+    "AppState" { "appid" "504230" "StateFlags" "4" "installdir" "Celeste" }
+    """#.write(to: roots.steam.appending(path: "steamapps/appmanifest_504230.acf"), atomically: true, encoding: .utf8)
+    #expect(SteamScanner.scan(steamRoot: roots.steam).games.first { $0.steamID == "504230" }?.title == "Celeste")
 }
 
 @Test func gamesOnAnUnpluggedDriveStayInTheLibrary() {
@@ -167,7 +183,7 @@ let storeAssets = #"{"response":{"store_items":[{"assets":{"asset_url_format":"s
     #expect(await cache.cover(title: "Moonlit Harbor") == folder.appending(path: "grid-moonlit-harbor.jpg"))
     let grid = await web.requests.first { $0.url!.absoluteString.contains("grids/game") }
     #expect(grid?.value(forHTTPHeaderField: "Authorization") == "Bearer secret")
-    #expect(SteamArt.assets(from: Data(storeAssets.utf8)).cover?.absoluteString
+    #expect(SteamStore.assets(from: Data(storeAssets.utf8)).cover?.absoluteString
             == "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1546710/ab12/library_capsule_2x.jpg?t=1")
 }
 
@@ -206,9 +222,9 @@ let storeAssets = #"{"response":{"store_items":[{"assets":{"asset_url_format":"s
 @Test func readsWhetherTheBottlesSteamIsSignedIn() throws {
     let roots = try fixtureRoots()
     let steam = CrossOverScanner.steamFolder(bottle: roots.bottles.appending(path: "Steam"))
-    #expect(SteamScanner.isSignedIn(steamRoot: steam))
+    #expect(Steam(root: steam).isSignedIn)
     try FileManager.default.removeItem(at: steam.appending(path: "config/loginusers.vdf"))
-    #expect(!SteamScanner.isSignedIn(steamRoot: steam))
+    #expect(!Steam(root: steam).isSignedIn)
 }
 
 // S-008

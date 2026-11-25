@@ -1,4 +1,5 @@
 import Foundation
+import SteamKit
 
 /// What a game is about (S-031): a description, who made it, when, and its genres,
 /// from the Steam store for a Steam game and from TheGamesDB for the others.
@@ -36,34 +37,29 @@ public struct GameDetails: Codable, Sendable, Equatable {
     public var isEmpty: Bool { summary.isEmpty && developers.isEmpty && publishers.isEmpty && genres.isEmpty }
 }
 
-/// The Steam store's appdetails: no key, in the app's language.
+/// The Steam store's appdetails: no key, in the app's language. SteamKit asks and reads; Hangar keeps
+/// the store's text as plain words.
 public enum SteamDetails {
     public static func url(appID: String, language: String) -> URL {
-        var c = URLComponents(string: "https://store.steampowered.com/api/appdetails")!
-        c.queryItems = [URLQueryItem(name: "appids", value: appID), URLQueryItem(name: "l", value: language)]
-        return c.url!
+        SteamStore.detailsURL(appID: appID, language: language)
     }
 
-    /// Steam's name for a language ("french"), from a language code ("fr").
+    /// Steam's name for a language ("french"), from a language code ("fr", "fr-CA").
     public static func language(for code: String) -> String {
-        ["fr": "french", "de": "german", "es": "spanish", "it": "italian", "ja": "japanese", "pt": "portuguese",
-         "nl": "dutch", "pl": "polish", "ru": "russian", "ko": "koreana", "zh": "schinese"][code] ?? "english"
+        SteamStore.language(for: code)
     }
 
     public static func parse(_ data: Data, appID: String) -> GameDetails? {
-        guard let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let entry = root[appID] as? [String: Any], entry["success"] as? Bool == true,
-              let game = entry["data"] as? [String: Any] else { return nil }
-        let release = game["release_date"] as? [String: Any]
+        guard let store = SteamStore.details(from: data, appID: appID) else { return nil }
         let details = GameDetails(
             source: .steam,
-            summary: PlainText.from(html: game["short_description"] as? String ?? ""),
-            developers: (game["developers"] as? [String] ?? []).map(PlainText.decodeEntities),
-            publishers: (game["publishers"] as? [String] ?? []).filter { !$0.isEmpty }.map(PlainText.decodeEntities),
-            releaseText: (release?["date"] as? String).flatMap { $0.isEmpty ? nil : $0 },
-            genres: (game["genres"] as? [[String: Any]] ?? []).compactMap { $0["description"] as? String },
+            summary: PlainText.from(html: store.shortDescription ?? ""),
+            developers: store.developers.map(PlainText.decodeEntities),
+            publishers: store.publishers.map(PlainText.decodeEntities),
+            releaseText: store.releaseText,
+            genres: store.genres,
             url: GameLinks.store(steamID: appID),
-            hasMacVersion: (game["platforms"] as? [String: Any])?["mac"] as? Bool)
+            hasMacVersion: store.hasMacVersion)
         return details.isEmpty ? nil : details
     }
 }

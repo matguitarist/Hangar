@@ -1,4 +1,5 @@
 import Foundation
+import SteamKit
 
 /// Where a scan looks. The app uses live(); tests and the self-test use fixture folders.
 public struct LibraryRoots: Sendable {
@@ -115,81 +116,28 @@ public enum LibraryScanner {
 // MARK: - Steam
 
 public enum SteamScanner {
-    /// Steam's own tools that sit in steamapps like games.
-    static let tools: Set<String> = ["228980", "1070560", "1391110", "1628350", "1493710", "961940", "1826330", "2180100"]
-
-    /// Mac Steam: every library folder in libraryfolders.vdf, then each appmanifest_<id>.acf.
+    /// Mac Steam: every library in libraryfolders.vdf, then each fully installed game in it, each once.
+    /// Steam's own tools (redistributables, Proton, runtimes) stay out; a library on a drive that
+    /// isn't connected becomes a note, so its games stay in the library.
     public static func scan(steamRoot: URL) -> ScanResult {
         var result = ScanResult()
-        for folder in libraryFolders(steamRoot: steamRoot, mapPath: { URL(fileURLWithPath: $0) }) {
-            let steamapps = folder.appending(path: "steamapps")
-            guard FileManager.default.fileExists(atPath: steamapps.path) else {
-                result.notes.append(.libraryMissing(path: folder.path))
+        var seen = Set<String>()
+        for library in Steam(root: steamRoot).libraries() {
+            guard library.isReachable else {
+                result.notes.append(.libraryMissing(path: library.folder.path))
                 continue
             }
-            for app in manifests(in: steamapps) {
-                let dir = steamapps.appending(path: "common").appending(path: app.installDir)
+            for app in games(in: library) where seen.insert(app.id).inserted {
                 result.games.append(Game(id: "steam:\(app.id)", title: app.name, source: .steam, runner: .native,
-                                         steamID: app.id, path: dir.path, processHints: [dir.path + "/"]))
+                                         steamID: app.id, path: app.folder.path, processHints: [app.folder.path + "/"]))
             }
         }
         return result
     }
 
-    /// The library folders listed by libraryfolders.vdf, or Steam's own folder when the file is missing.
-    static func libraryFolders(steamRoot: URL, mapPath: (String) -> URL?) -> [URL] {
-        let file = steamRoot.appending(path: "steamapps/libraryfolders.vdf")
-        guard let vdf = KeyValues.read(file) else {
-            return FileManager.default.fileExists(atPath: steamRoot.appending(path: "steamapps").path) ? [steamRoot] : []
-        }
-        var folders: [URL] = []
-        for (_, entry) in (vdf["libraryfolders"] ?? vdf).pairs {
-            guard let path = entry["path"]?.string, let url = mapPath(path) else { continue }
-            if !folders.contains(where: { $0.standardizedFileURL == url.standardizedFileURL }) { folders.append(url) }
-        }
-        return folders.isEmpty ? [steamRoot] : folders
-    }
-
-    public struct Manifest: Sendable, Equatable {
-        public var id: String
-        public var name: String
-        public var installDir: String
-    }
-
-    /// Installed games in one steamapps folder, Steam's own tools left out.
-    public static func manifests(in steamapps: URL) -> [Manifest] {
-        let files = (try? FileManager.default.contentsOfDirectory(atPath: steamapps.path)) ?? []
-        return files.filter { $0.hasPrefix("appmanifest_") && $0.hasSuffix(".acf") }.sorted().compactMap { name in
-            guard let state = KeyValues.read(steamapps.appending(path: name))?["AppState"],
-                  let id = state["appid"]?.string, let title = state["name"]?.string,
-                  let dir = state["installdir"]?.string, !tools.contains(id),
-                  !title.hasPrefix("Steamworks"), !title.hasPrefix("Proton"), !title.hasPrefix("Steam Linux Runtime")
-            else { return nil }
-            // StateFlags 4 is "fully installed"; a game still downloading for the first time isn't playable.
-            if let flags = state["StateFlags"]?.string.flatMap(Int.init), flags & 4 == 0 { return nil }
-            return Manifest(id: id, name: title, installDir: dir)
-        }
-    }
-
-    /// True when a Steam folder remembers a signed-in account (config/loginusers.vdf) and its last
-    /// session didn't end signed out (logs/connection_log.txt). A game launched with -applaunch
-    /// waits forever for a sign-in that -silent hides, so Hangar asks first (S-037).
-    public static func isSignedIn(steamRoot: URL) -> Bool {
-        guard let users = KeyValues.read(steamRoot.appending(path: "config/loginusers.vdf"))?["users"],
-              users.pairs.contains(where: { $0.1["RememberPassword"]?.string == "1" }) else { return false }
-        let log = try? String(contentsOf: steamRoot.appending(path: "logs/connection_log.txt"), encoding: .utf8)
-        return !(log.map(lastSessionSignedOut) ?? false)
-    }
-
-    /// The connection log's last account is [U:1:0]: Steam ended its last session with nobody signed in.
-    /// A session replaced or disconnected keeps its account, and signs in again by itself.
-    public static func lastSessionSignedOut(_ log: String) -> Bool {
-        for line in log.split(whereSeparator: \.isNewline).reversed() {
-            guard let start = line.range(of: "[U:1:") else { continue }
-            let rest = line[start.upperBound...]
-            return rest.prefix { $0 != "]" } == "0"
-        }
-        return false
+    /// The fully installed games in one library, Steam's own tools left out.
+    static func games(in library: SteamLibrary) -> [SteamApp] {
+        library.manifests().filter { $0.isFullyInstalled && !$0.isSteamTool }
     }
 }
 
@@ -250,12 +198,11 @@ public enum CrossOverScanner {
         let root = steamFolder(bottle: bottle)
         guard FileManager.default.fileExists(atPath: root.path) else { return [] }
         var games: [Game] = []
-        for folder in SteamScanner.libraryFolders(steamRoot: root, mapPath: { macPath($0, bottle: bottle) }) {
-            let steamapps = folder.appending(path: "steamapps")
-            for app in SteamScanner.manifests(in: steamapps) {
-                let dir = steamapps.appending(path: "common").appending(path: app.installDir)
+        var seen = Set<String>()
+        for library in Steam(root: root, mapPath: { macPath($0, bottle: bottle) }).libraries() where library.isReachable {
+            for app in SteamScanner.games(in: library) where seen.insert(app.id).inserted {
                 games.append(Game(id: "bottle:\(name):steam:\(app.id)", title: app.name, source: .crossOver, runner: .crossOver,
-                                  steamID: app.id, path: dir.path, exe: steamWindowsFolder + "/steam.exe", bottle: name,
+                                  steamID: app.id, path: app.folder.path, exe: steamWindowsFolder + "/steam.exe", bottle: name,
                                   processHints: ["steamapps\\common\\\(app.installDir)\\", "steamapps/common/\(app.installDir)/"]))
             }
         }
