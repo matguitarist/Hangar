@@ -1,3 +1,4 @@
+import AppTestKit
 import Foundation
 import HangarKit
 
@@ -122,7 +123,8 @@ extension SelfTest {
             }
             crash(with: "missing-vcrun.log")
             guard case let .crashed(reason) = model.notices[moonlit.id], let reason else {
-                return check("S-024 a sample crash log shows its reason", false, String(describing: model.notices[moonlit.id]))
+                check("S-024 a sample crash log shows its reason", false, String(describing: model.notices[moonlit.id]))
+                return
             }
             check("S-024 a sample crash log shows its reason", reason.kind == .missingRuntime(.visualCpp), reason.title)
             let fix = model.crashFix(moonlit, reason)

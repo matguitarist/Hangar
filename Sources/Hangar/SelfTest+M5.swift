@@ -1,3 +1,4 @@
+import AppTestKit
 import Foundation
 import HangarKit
 
@@ -107,7 +108,8 @@ extension SelfTest {
         let found = (try? await query.entities(matching: "bg3"))?.map(\.title) ?? []
         check("S-027 a game is found by name with the library's search", found == ["Baldur's Gate 3"], found.joined(separator: ","))
         guard let starfall = try? await query.entities(matching: "starfall").first else {
-            return check("S-027 the sample game is found", false)
+            check("S-027 the sample game is found", false)
+            return
         }
         let byID = (try? await query.entities(for: [starfall.id]))?.first?.title
         check("S-027 a game is found again by its id", byID == "Starfall Arcade", byID ?? "none")

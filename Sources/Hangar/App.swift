@@ -1,4 +1,5 @@
 import AppKit
+import AppTestKit
 import FileKit
 import LogKit
 import SwiftUI
@@ -82,7 +83,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         IntentModel.model?.saveBeforeQuit()
         Store.log.flushFile()
-        if SelfTest.requested { exit(SelfTest.exitCode) }
+        SelfTest.exitIfRequested()
     }
 }
 
@@ -90,9 +91,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 /// With APP_STORE set (only to a file in /tmp), the app is a test run and never touches real games.
 enum Store {
     /// True when APP_STORE points somewhere else (tests, snapshots, self-test).
-    static var isOverridden: Bool {
-        !(ProcessInfo.processInfo.environment["APP_STORE"] ?? "").isEmpty
-    }
+    static var isOverridden: Bool { TestRun.isTestRun() }
 
     static var folder: URL {
         let dir = URL.applicationSupportDirectory.appending(path: "Hangar", directoryHint: .isDirectory)
@@ -101,12 +100,8 @@ enum Store {
     }
 
     static var url: URL {
-        if let path = ProcessInfo.processInfo.environment["APP_STORE"], !path.isEmpty {
-            // A test store must live in /tmp, so a test can never write over the real library.
-            precondition(path.hasPrefix("/tmp/") || path.hasPrefix("/private/tmp/"), "APP_STORE must be a file in /tmp")
-            return URL(fileURLWithPath: path)
-        }
-        return folder.appending(path: "library.json")
+        // A test store must live in /tmp (exits with 1 otherwise), so a test can never write over the real library.
+        TestRun.store() ?? folder.appending(path: "library.json")
     }
 
     /// library.json, or the test store.

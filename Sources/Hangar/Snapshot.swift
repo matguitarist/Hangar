@@ -1,6 +1,6 @@
 import AppKit
+import AppTestKit
 import HangarKit
-import IOKit.pwr_mgt
 import SwiftUI
 
 /// Screenshot mode for agents.
@@ -13,47 +13,30 @@ import SwiftUI
 /// Add APP_SNAPSHOT_MIN=1 to shrink the main window to its smallest size first.
 enum Snapshot {
     static func runIfRequested(model: AppModel, openSettings: OpenSettingsAction, openWindow: OpenWindowAction) {
-        let env = ProcessInfo.processInfo.environment
-        guard let dir = env["APP_SNAPSHOT"], !dir.isEmpty else { return }
-        // Snapshots never run against the real library.
-        guard Store.isOverridden else {
-            print("SNAPSHOT refused: set APP_STORE to a file in /tmp")
-            NSApp.terminate(nil)
-            return
-        }
-        let only = env["APP_SNAPSHOT_PAGES"].map { Set($0.split(separator: ",").map(String.init)) }
+        // Refuses and quits without APP_STORE in /tmp: snapshots never run against the real library.
+        guard let run = SnapshotRun.requested(layout: { GridProbes.shared.write(to: $0.path, window: $1) }) else { return }
         Task {
-            // A sleeping display gives screencapture nothing. Declaring user
-            // activity wakes it; the assertion keeps it on until the run quits.
-            var activity: IOPMAssertionID = 0
-            IOPMAssertionDeclareUserActivity("Snapshots" as CFString, kIOPMUserActiveLocal, &activity)
-            var awake: IOPMAssertionID = 0
-            IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString,
-                                        IOPMAssertionLevel(kIOPMAssertionLevelOn), "Snapshots" as CFString, &awake)
-            try? FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true)
-            try? await Task.sleep(for: .seconds(1.5))
-            if env["APP_SNAPSHOT_MIN"] != nil, let main = NSApp.windows.first(where: { $0.canBecomeMain && !$0.isSheet }) {
-                // The window clamps to its content's minimum size.
-                main.setContentSize(NSSize(width: 1, height: 1))
-                try? await Task.sleep(for: .seconds(0.5))
-            }
-            for mode in ["light", "dark"] {
-                NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
-                for page in SnapshotPage.all where only?.contains(page.name) ?? true {
-                    if !page.name.hasPrefix("couch") { model.leaveCouchMode() }
-                    page.show(model)
-                    try? await Task.sleep(for: .seconds(["add-game", "snapshots", "recipe-preview", "share-recipe", "backups"].contains(page.name) ? 1.2 : 0.8))
-                    capture(to: "\(dir)/\(page.name)-\(mode).png")
-                    if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil || model.showsBackups != nil {
-                        model.addRequest = nil
-                        model.showsSnapshots = nil
-                        model.showsBackups = nil
-                        model.previewingRecipe = nil
-                        try? await Task.sleep(for: .seconds(0.5))
+            await run.start()
+            let pages = SnapshotPage.all.filter { run.wants($0.name) }
+            let sheets: Set<String> = ["add-game", "snapshots", "recipe-preview", "share-recipe", "backups"]
+            if !pages.isEmpty {
+                await run.forEachAppearance { look in
+                    for page in pages {
+                        if !page.name.hasPrefix("couch") { model.leaveCouchMode() }
+                        page.show(model)
+                        await run.pause(sheets.contains(page.name) ? .seconds(1.2) : nil)
+                        await run.capture(page.name, look)
+                        if model.addRequest != nil || model.showsSnapshots != nil || model.previewingRecipe != nil || model.showsBackups != nil {
+                            model.addRequest = nil
+                            model.showsSnapshots = nil
+                            model.showsBackups = nil
+                            model.previewingRecipe = nil
+                            await run.pause(.seconds(0.5))
+                        }
                     }
                 }
             }
-            if only == nil || only?.contains("menu-bar") == true {
+            if run.wants("menu-bar") {
                 // The menu bar panel, drawn in a panel of its own: the real one opens only from a click.
                 let host = NSHostingView(rootView: QuickLaunchView(close: {})
                     .environment(model).themed()
@@ -65,74 +48,17 @@ enum Snapshot {
                 panel.contentView = host
                 panel.setContentSize(host.fittingSize)
                 panel.center()
-                for mode in ["light", "dark"] {
-                    NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
+                await run.forEachAppearance { look in
                     panel.orderFront(nil)
-                    try? await Task.sleep(for: .seconds(1))
-                    capture(to: "\(dir)/menu-bar-\(mode).png", window: panel)
+                    await run.pause(.seconds(1))
+                    await run.capture("menu-bar", look, window: panel)
                 }
                 panel.close()
             }
-            if only == nil || only?.contains("settings") == true {
-                let main = NSApp.windows.first { $0.canBecomeMain && !$0.isSheet }
-                openSettings()
-                try? await Task.sleep(for: .seconds(1))
-                for mode in ["light", "dark"] {
-                    NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
-                    for tab in SettingsTab.allCases {
-                        model.settingsTab = tab
-                        try? await Task.sleep(for: .seconds(0.8))
-                        // Titled and not a panel: the menu bar icon has a window of its own too.
-                        let settings = NSApp.windows.first { $0.isVisible && $0 !== main && !$0.isSheet && $0.styleMask.contains(.titled) && !($0 is NSPanel) }
-                        capture(to: "\(dir)/settings-\(tab.rawValue)-\(mode).png", window: settings)
-                    }
-                }
-            }
-            print("SNAPSHOT done \(dir)")
-            // An open sheet refuses terminate, and the run would wait forever.
-            for window in NSApp.windows { if let sheet = window.attachedSheet { window.endSheet(sheet) } }
-            NSApp.terminate(nil)
-        }
-    }
-
-    /// Captures the real window with screencapture, so glass, sidebars, and
-    /// materials look exactly as on screen. That needs Screen Recording
-    /// permission for the app that started this one (your terminal, or Claude).
-    /// Without it, falls back to drawing the view hierarchy, which leaves
-    /// sidebars and glass blank.
-    private static func capture(to path: String, window: NSWindow? = nil) {
-        // Another app can hide this one while snapshots run (computer use hides
-        // apps it does not control). Hidden windows cannot be captured.
-        if NSApp.isHidden { NSApp.unhideWithoutActivation() }
-        guard let window = window ?? NSApp.windows.first(where: { $0.canBecomeMain && !$0.isSheet }) else {
-            print("SNAPSHOT no window")
-            return
-        }
-        // Active, like a window someone is using: real accent colors and focus rings.
-        NSApp.activate()
-        window.makeKeyAndOrderFront(nil)
-        let size = window.contentView?.bounds.size ?? .zero
-        GridProbes.shared.write(to: path.replacingOccurrences(of: ".png", with: "-layout.json"), window: size)
-        try? FileManager.default.removeItem(atPath: path)
-        // The first capture of a run sometimes misses the window. Try three times.
-        for _ in 1...3 {
-            let shot = Process()
-            shot.executableURL = URL(fileURLWithPath: "/usr/sbin/screencapture")
-            shot.arguments = ["-x", "-o", "-l", String(window.windowNumber), path]
-            try? shot.run()
-            shot.waitUntilExit()
-            if FileManager.default.fileExists(atPath: path) {
-                print("SNAPSHOT \(path)")
-                return
-            }
-            Thread.sleep(forTimeInterval: 0.5)
-        }
-        guard let view = window.contentView?.superview ?? window.contentView,
-              let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
-        view.cacheDisplay(in: view.bounds, to: rep)
-        if let data = rep.representation(using: .png, properties: [:]) {
-            try? data.write(to: URL(fileURLWithPath: path))
-            print("SNAPSHOT \(path) (fallback: no Screen Recording permission, sidebars and glass are blank)")
+            // The Settings window is the front titled window that isn't the main one or a panel (the menu bar icon has one).
+            await run.shootSettings(tabs: SettingsTab.allCases.map(\.rawValue), open: { openSettings() },
+                                    select: { model.settingsTab = SettingsTab(rawValue: $0) ?? .general })
+            run.finish()
         }
     }
 }

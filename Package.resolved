@@ -1,6 +1,15 @@
 {
-  "originHash" : "51839cf325b2a8daa0e2005c030b0814d7fbbfb74f3f93837ecaa492064dd6a8",
+  "originHash" : "c8dc01a536908e470129821aca8f5eac9bb411e2f2407036cfbc4cb4032bcdac",
   "pins" : [
+    {
+      "identity" : "apptestkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/matguitarist/AppTestKit",
+      "state" : {
+        "revision" : "bf79df61ff605278d72ea59cfd5bf40b4decbc06",
+        "version" : "0.1.0"
+      }
+    },
     {
       "identity" : "filekit",
       "kind" : "remoteSourceControl",

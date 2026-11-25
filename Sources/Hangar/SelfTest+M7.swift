@@ -1,3 +1,4 @@
+import AppTestKit
 import Foundation
 import HangarKit
 
@@ -39,7 +40,7 @@ extension SelfTest {
 
     /// S-044: the S-006 launch of Starfall Arcade added a session as long as its playtime.
     static func sessionChecks(_ model: AppModel) async {
-        guard let game = model.library.games.first(where: { $0.title == "Starfall Arcade" }) else { return check("S-044 Starfall Arcade is there", false) }
+        guard let game = model.library.games.first(where: { $0.title == "Starfall Arcade" }) else { check("S-044 Starfall Arcade is there", false); return }
         let total = game.sessions.map(\.length).reduce(0, +)
         check("S-044 a launch adds a session", !game.sessions.isEmpty && abs(total - game.playtime) < 1
                   && game.sessions.last.map { Date().timeIntervalSince($0.start) < 900 } == true,
@@ -94,7 +95,7 @@ extension SelfTest {
     static func driftChecks(_ model: AppModel) async {
         guard let game = model.library.games.first(where: { $0.title == "Moonlit Harbor" }),
               let crossOver = model.runners.first(where: { $0.kind == .crossOver }), let version = crossOver.version,
-              let bottle = game.bottle else { return check("S-040 the sample bottle game is there", false) }
+              let bottle = game.bottle else { check("S-040 the sample bottle game is there", false); return }
         model.running = [:]
         let mine = BottleSettings(graphics: .d3dMetal, msync: true)
         model.changeBottleSettings(game.id, to: mine)
@@ -152,7 +153,8 @@ extension SelfTest {
     /// S-038: a cap launches DXVK games with DXVK_FRAME_RATE, and nothing else.
     static func frameCapChecks(_ model: AppModel) async {
         guard let game = model.library.games.first(where: { $0.title == "Moonlit Harbor" }), var settings = model.bottleSettings(for: game) else {
-            return check("S-038 the sample bottle game is there", false)
+            check("S-038 the sample bottle game is there", false)
+            return
         }
         model.running = [:]
         model.setOptions(game.id) { $0.frameCap = 40; $0.runner = nil }

@@ -1,4 +1,5 @@
 import AppKit
+import AppTestKit
 import HangarKit
 import LogKitUI
 import SwiftUI
@@ -83,7 +84,7 @@ struct ContentView: View {
 /// Seed mode for snapshots: playtime, a collection and a running game on top of the sample library.
 enum SeedData {
     static func addIfRequested(model: AppModel) {
-        guard ProcessInfo.processInfo.environment["APP_SEED"] == "1", Store.isOverridden else { return }
+        guard TestRun.isSeeded() else { return }
         let now = Date()
         func set(_ title: String, hours: Double, daysAgo: Double) {
             guard let index = model.library.games.firstIndex(where: { $0.title == title }) else { return }
