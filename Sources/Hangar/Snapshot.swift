@@ -49,6 +49,8 @@ enum Snapshot {
                 }
                 panel.close()
             }
+            await run.shoot("whats-new", window: { WindowShot.mainWindow()?.attachedSheet },
+                           show: { WhatsNewState.shared.shown = .sample }, hide: { WhatsNewState.shared.shown = nil })
             // The Settings window is the front titled window that isn't the main one or a panel (the menu bar icon has one).
             await run.shootSettings(tabs: SettingsTab.allCases.map(\.rawValue), open: { openSettings() },
                                     select: { model.settingsTab = SettingsTab(rawValue: $0) ?? .general })

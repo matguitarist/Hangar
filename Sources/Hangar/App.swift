@@ -24,6 +24,7 @@ struct HangarApp: App {
         Window("Hangar", id: "main") {
             ContentView()
                 .environment(model)
+                .whatsNew(app: "Hangar", repository: "matguitarist/Hangar")
                 .themed()
                 .overlay { if GridOverlay.enabled { GridOverlay() } }
                 .frame(minWidth: 760, minHeight: 480)
